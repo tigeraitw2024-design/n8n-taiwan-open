@@ -243,7 +243,7 @@
 
   // ⬇️ 部署 Apps Script Web App 後，把 URL 貼到這裡
   //    格式：https://script.google.com/macros/s/xxxxxxxxxx/exec
-  const GOOGLE_SCRIPT_URL = 'REPLACE_WITH_YOUR_APPS_SCRIPT_URL';
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxfKUjF05Im6Lsum9-wbfQupUXCHP6cC3lBNoMqFz2lbbUDVZ6-DQovEOuP7r5YXlgZzQ/exec';
 
   const teacherFormModal = document.getElementById('teacherFormModal');
   const studentFormModal = document.getElementById('studentFormModal');
