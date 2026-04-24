@@ -79,6 +79,9 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; border: none; background: none; }
 ul { list-style: none; }
 
+/* Force hidden attribute to work over display: grid/flex */
+[hidden] { display: none !important; }
+
 /* ---------- Icon Base (Lucide) ---------- */
 svg.lucide,
 [data-lucide] {
