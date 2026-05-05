@@ -2109,15 +2109,15 @@ body.modal-open {
 /* ---------- Judges ---------- */
 .judges-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
 }
 
 .judge-card {
   background: var(--white);
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-xl);
-  padding: 28px 24px;
+  padding: 28px 20px;
   text-align: center;
   transition: all var(--t-normal);
 }
@@ -2785,7 +2785,7 @@ body.modal-open {
   .feature-grid,
   .theme-grid { grid-template-columns: repeat(2, 1fr); }
 
-  .judges-grid { grid-template-columns: repeat(2, 1fr); }
+  .judges-grid { grid-template-columns: repeat(3, 1fr); }
 
   .community-main {
     grid-template-columns: 1fr;
