@@ -238,6 +238,39 @@
 
 
   // ====================================================
+  //  Judges Carousel (橫向卷軸 + 箭頭控制)
+  // ====================================================
+  (function () {
+    const carousel = document.getElementById('judgesCarousel');
+    if (!carousel) return;
+    const wrap = carousel.parentElement;
+    const prevBtn = wrap.querySelector('.judges-arrow-prev');
+    const nextBtn = wrap.querySelector('.judges-arrow-next');
+    const card = carousel.querySelector('.judge-card');
+    if (!card) return;
+    const cardWidth = card.offsetWidth + 20; // card + gap
+
+    function updateArrows() {
+      const max = carousel.scrollWidth - carousel.clientWidth - 5;
+      prevBtn.disabled = carousel.scrollLeft <= 0;
+      nextBtn.disabled = carousel.scrollLeft >= max;
+    }
+
+    prevBtn.addEventListener('click', function () {
+      carousel.scrollBy({ left: -cardWidth * 2, behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', function () {
+      carousel.scrollBy({ left: cardWidth * 2, behavior: 'smooth' });
+    });
+
+    carousel.addEventListener('scroll', updateArrows, { passive: true });
+    window.addEventListener('resize', updateArrows);
+    updateArrows();
+  })();
+
+
+  // ====================================================
   //  REGISTRATION FORMS (Teacher + Student)
   // ====================================================
 
