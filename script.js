@@ -5,6 +5,60 @@
 (function () {
   'use strict';
 
+  // ---------- Floating gift widget — tease + click to toggle + auto close ----------
+  const giftFloat = document.getElementById('giftFloat');
+  const giftFloatButton = document.getElementById('giftFloatButton');
+  const giftFloatClose = document.getElementById('giftFloatClose');
+
+  if (giftFloat) {
+    // Auto-tease: open card 2s after load, hide after 4s (mainly for desktop hover users it's redundant, helps mobile)
+    setTimeout(function () {
+      giftFloat.classList.add('gift-float-open');
+      if (giftFloatButton) giftFloatButton.setAttribute('aria-expanded', 'true');
+      setTimeout(function () {
+        giftFloat.classList.remove('gift-float-open');
+        if (giftFloatButton) giftFloatButton.setAttribute('aria-expanded', 'false');
+      }, 4500);
+    }, 2000);
+  }
+
+  // Click the big circle → toggle card open (touch / no-hover friendly)
+  if (giftFloatButton && giftFloat) {
+    giftFloatButton.addEventListener('click', function (e) {
+      e.preventDefault();
+      const opened = giftFloat.classList.toggle('gift-float-open');
+      giftFloatButton.setAttribute('aria-expanded', String(opened));
+    });
+  }
+
+  // X button: dismiss the whole widget for the session
+  if (giftFloatClose && giftFloat) {
+    giftFloatClose.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      giftFloat.classList.add('gift-float-hidden');
+    });
+  }
+
+  // When the gift CTA buttons (老師/學生) are clicked → close the gift card
+  // The buttons themselves carry data-form-trigger which is handled below
+  // and will open the form modal automatically.
+  document.querySelectorAll('[data-gift-cta]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (giftFloat) giftFloat.classList.remove('gift-float-open');
+    });
+  });
+
+  // Click outside the widget closes the open card (touch UX)
+  document.addEventListener('click', function (e) {
+    if (!giftFloat) return;
+    if (!giftFloat.classList.contains('gift-float-open')) return;
+    if (giftFloat.contains(e.target)) return;
+    giftFloat.classList.remove('gift-float-open');
+    if (giftFloatButton) giftFloatButton.setAttribute('aria-expanded', 'false');
+  });
+
+
   // ---------- Nav scroll effect ----------
   const nav = document.getElementById('nav');
   let lastScroll = 0;

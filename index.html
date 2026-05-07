@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>n8n Taiwan Open Hackathon 2026｜全台大專院校 AI 自動化黑客松</title>
-  <meta name="description" content="由 n8n 台灣首位官方 Ambassador 領軍。用拖拉節點的方式，打造你的 AI 工作流。2026/07/05 全台聯合總決賽。">
+  <title>n8n Taiwan Open Hackathon 2026｜全台大專院校 × 高中職 AI 自動化黑客松</title>
+  <meta name="description" content="由 n8n 台灣首位官方 Ambassador 領軍。全台大專院校與高中職學生皆可參加。用拖拉節點打造 AI 工作流。登記前哨站即送 n8n 教育學習包，2026/07/05 全台聯合總決賽。">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -18,6 +18,43 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+  <!-- ============ FLOATING GIFT (Skill Pack promo) ============ -->
+  <div class="gift-float" id="giftFloat">
+    <button type="button" class="gift-float-button" id="giftFloatButton" aria-label="登記就送 n8n 教育學習包" aria-expanded="false">
+      <span class="gift-float-pulse" aria-hidden="true"></span>
+      <span class="gift-float-pulse gift-float-pulse-2" aria-hidden="true"></span>
+      <i data-lucide="gift" aria-hidden="true"></i>
+      <span class="gift-float-badge" aria-hidden="true">禮</span>
+    </button>
+
+    <div class="gift-float-card" role="dialog" aria-label="教育學習包贈禮說明">
+      <button type="button" class="gift-float-card-close" id="giftFloatClose" aria-label="關閉">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="gift-float-card-kicker">🎁 限時贈禮</div>
+      <strong class="gift-float-card-title">登記即送<br>n8n 教育學習包</strong>
+      <p class="gift-float-card-desc">完成登記後，<strong>學習包連結會直接寄到您的 Email</strong>。老師、學生都能領取，請選擇身份立即登記：</p>
+      <div class="gift-float-card-actions">
+        <button type="button" class="gift-float-card-cta gift-float-card-cta-teacher" data-form-trigger="teacher" data-gift-cta>
+          <span class="gift-float-card-cta-icon"><i data-lucide="briefcase"></i></span>
+          <span class="gift-float-card-cta-text">
+            <strong>我是老師</strong>
+            <span>登記前哨站</span>
+          </span>
+          <i data-lucide="arrow-right" class="gift-float-card-cta-arrow"></i>
+        </button>
+        <button type="button" class="gift-float-card-cta gift-float-card-cta-student" data-form-trigger="student" data-gift-cta>
+          <span class="gift-float-card-cta-icon"><i data-lucide="graduation-cap"></i></span>
+          <span class="gift-float-card-cta-text">
+            <strong>我是學生</strong>
+            <span>登記工作坊</span>
+          </span>
+          <i data-lucide="arrow-right" class="gift-float-card-cta-arrow"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- ============ NAV ============ -->
   <nav class="nav" id="nav">
@@ -70,7 +107,7 @@
 
         <p class="hero-tagline">用拖拉，串起你的 AI 創造力</p>
         <p class="hero-desc">
-          全台首創 n8n 國際原廠認證暨 AI 自動化黑客松。由 n8n 台灣首位官方 Ambassador 領軍，邀請全台大專院校學生，一同用視覺化工作流，把想法變成能運作的 AI 應用。
+          全台首創 n8n 國際原廠認證暨 AI 自動化黑客松。由 n8n 台灣首位官方 Ambassador 領軍，邀請<strong>全台大專院校與高中職學生</strong>，一同用視覺化工作流，把想法變成能運作的 AI 應用。
         </p>
 
         <div class="hero-cta">
@@ -81,7 +118,7 @@
         <div class="hero-info">
           <span class="info-item"><i data-lucide="calendar-days"></i> 決賽 2026 / 07 / 05</span>
           <span class="info-item"><i data-lucide="map-pin"></i> 台北（地點陸續公布）</span>
-          <span class="info-item"><i data-lucide="graduation-cap"></i> 限大專院校在學生</span>
+          <span class="info-item"><i data-lucide="graduation-cap"></i> 大專院校 / 高中職在學生皆可</span>
         </div>
       </div>
 
@@ -335,7 +372,7 @@
             <li>n8n Level 1 線上學習包</li>
             <li>實機演練環境（虎智提供）</li>
             <li>全程 Q&A 與 Morris 親自指導</li>
-            <li>n8n Taiwan User Group 社群問答支援（13,000+ 成員）</li>
+            <li>n8n Taiwan User Group 社群問答支援（18,000+ 成員）</li>
           </ul>
         </section>
         <section>
@@ -417,7 +454,7 @@
           <ul class="funnel-list">
             <li><i data-lucide="clock"></i> 時長：30 分鐘說明 + 15 分鐘 Q&A</li>
             <li><i data-lucide="map-pin"></i> 地點：線上會議（Google Meet）</li>
-            <li><i data-lucide="users"></i> 對象：大專院校授課老師、系主任</li>
+            <li><i data-lucide="users"></i> 對象：大專院校 / 高中職授課老師、系主任、學群主任</li>
             <li><i data-lucide="calendar"></i> 日期：2026 / 05 / 30（線上單場）</li>
           </ul>
           <div class="funnel-desc">
@@ -438,7 +475,7 @@
           <p class="funnel-sub">一天學會 n8n 並取得國際認證</p>
           <ul class="funnel-list">
             <li><i data-lucide="clock"></i> 時長：一整天（6 小時）</li>
-            <li><i data-lucide="map-pin"></i> 地點：合作科大校園</li>
+            <li><i data-lucide="map-pin"></i> 地點：合作大專院校 / 高中職校園</li>
             <li><i data-lucide="key-round"></i> 報名：需老師提供「校園推薦碼」</li>
             <li><i data-lucide="calendar"></i> 場次：中 6/12 · 南 6/19 · 北 6/26</li>
           </ul>
@@ -609,7 +646,7 @@
 
       <div class="stats-grid">
         <div class="stat-block">
-          <div class="stat-number" data-target="13247">0</div>
+          <div class="stat-number" data-target="18248">0</div>
           <div class="stat-label">社群成員</div>
           <div class="stat-caption">n8n Taiwan User Group</div>
         </div>
@@ -908,7 +945,7 @@
         </div>
         <div class="faq-item">
           <button class="faq-question">誰有資格參加決賽？<i data-lucide="plus" class="faq-icon"></i></button>
-          <div class="faq-answer"><p>僅限通過 n8n Level 1 國際認證的大專院校在學生。認證在三區「工作坊講座」中現場考取。</p></div>
+          <div class="faq-answer"><p>僅限通過 n8n Level 1 國際認證的<strong>大專院校或高中職</strong>在學生。認證在三區「工作坊講座」中現場考取。</p></div>
         </div>
         <div class="faq-item">
           <button class="faq-question">組隊規則是什麼？<i data-lucide="plus" class="faq-icon"></i></button>
@@ -978,6 +1015,10 @@
       </div>
 
       <p class="final-cta-note">三階段全程免費 · 名額有限報名即刻開始</p>
+      <p class="final-cta-gift">
+        <i data-lucide="gift"></i>
+        登記前哨站即送 <strong>n8n 教育學習包</strong>，學習包連結會直接寄到您的 Email
+      </p>
     </div>
   </section>
 
@@ -1143,10 +1184,11 @@
         <div class="form-success-icon">
           <i data-lucide="check-circle-2"></i>
         </div>
-        <h3 class="form-success-title">報名成功！</h3>
+        <h3 class="form-success-title">報名成功！教育學習包已寄出 🎁</h3>
         <p class="form-success-desc">
-          我們已將確認信（含您的<strong>校園推薦碼</strong>）寄送到您的信箱。<br>
-          前哨站說明會連結將於前 3 天另行通知。
+          我們已將確認信（含您的<strong>校園推薦碼</strong>）與 <strong>n8n 教育學習包連結</strong>寄送到您的信箱。<br>
+          前哨站說明會連結將於前 3 天另行通知。<br>
+          <span class="form-success-link">學習包：<a href="https://github.com/MorrisLu-Taipei/TigerAI-n8n-Skill-Pack" target="_blank" rel="noopener">TigerAI-n8n-Skill-Pack</a></span>
         </p>
         <button type="button" class="btn btn-primary btn-lg form-close">知道了</button>
       </div>
@@ -1223,6 +1265,14 @@
             <label for="sf-grade">年級 <span class="req">*</span></label>
             <select id="sf-grade" name="grade">
               <option value="">請選擇</option>
+              <optgroup label="高中職">
+                <option value="高一">高一</option>
+                <option value="高二">高二</option>
+                <option value="高三">高三</option>
+                <option value="高職一年級">高職一年級</option>
+                <option value="高職二年級">高職二年級</option>
+                <option value="高職三年級">高職三年級</option>
+              </optgroup>
               <optgroup label="大學部">
                 <option value="大一">大一</option>
                 <option value="大二">大二</option>
@@ -1320,10 +1370,11 @@
         <div class="form-success-icon">
           <i data-lucide="check-circle-2"></i>
         </div>
-        <h3 class="form-success-title">登記成功！</h3>
+        <h3 class="form-success-title">登記成功！教育學習包已寄出 🎁</h3>
         <p class="form-success-desc">
-          我們已將確認信寄送到您的信箱。<br>
-          請留意信箱（含垃圾信件匣）接收後續通知。
+          我們已將確認信與 <strong>n8n 教育學習包連結</strong>寄送到您的信箱。<br>
+          請留意信箱（含垃圾信件匣）接收後續通知。<br>
+          <span class="form-success-link">學習包：<a href="https://github.com/MorrisLu-Taipei/TigerAI-n8n-Skill-Pack" target="_blank" rel="noopener">TigerAI-n8n-Skill-Pack</a></span>
         </p>
         <button type="button" class="btn btn-primary btn-lg form-close">知道了</button>
       </div>
