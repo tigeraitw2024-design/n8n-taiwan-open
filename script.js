@@ -121,8 +121,8 @@
 
 
   // ---------- Countdown timer ----------
-  // Target: 2026-07-05 10:00:00 Asia/Taipei (UTC+8)
-  const targetDate = new Date('2026-07-05T10:00:00+08:00').getTime();
+  // Target: 2026-08-07 10:00:00 Asia/Taipei (UTC+8)
+  const targetDate = new Date('2026-08-07T10:00:00+08:00').getTime();
 
   const daysEl = document.getElementById('days');
   const hoursEl = document.getElementById('hours');
