@@ -61,7 +61,7 @@ website/
 5. **Themes** — 四大題目類別
 6. **Community** — Morris 介紹 + 社群數據（計數動畫）
 7. **Prizes** — 三階獎項（總冠軍 AMD 顯卡、亞季軍 Zeabur 點數）
-8. **Judges** — 三位評審 + 1 個預留位
+8. **Judges** — 七位評審 + 1 個預留位
 9. **Evaluation** — 五維評審標準（進度條動畫）
 10. **Sponsors** — 四級合作夥伴 Logo 牆
 11. **FAQ** — 12 題折疊式手風琴
@@ -87,8 +87,6 @@ website/
 
 ## 已知待補項目
 
-- ⬜ 評審 Leo、Joseph 實際照片（目前用 placeholder）
-- ⬜ Morris 第二張照片（Judges 區用 _2.png，需確認存在）
 - ⬜ 報名表單連結（所有「立即報名」按鈕目前指向 `#register` 錨點）
 - ⬜ Email 訂閱後端串接（目前只是示範 alert）
 - ⬜ 網站 Favicon
