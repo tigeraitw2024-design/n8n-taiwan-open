@@ -2578,6 +2578,24 @@ body.modal-open {
   border-top: 1px dashed var(--gray-200);
 }
 
+/* 陸續新增 placeholder 卡 */
+.judge-photo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.judge-photo-placeholder svg {
+  width: 56px;
+  height: 56px;
+  color: var(--gray-400);
+  stroke-width: 1.5;
+}
+
+.judge-card-placeholder .judge-name {
+  color: var(--gray-500);
+}
+
 /* 卷軸箭頭 */
 .judges-arrow {
   position: absolute;
