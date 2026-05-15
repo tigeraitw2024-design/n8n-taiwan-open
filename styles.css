@@ -283,6 +283,27 @@ svg.lucide,
 .nav-cta { flex-shrink: 0; }
 .nav-cta svg { width: 16px; height: 16px; }
 
+.nav-lang {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 12px;
+  margin-right: 4px;
+  border: 1px solid var(--gray-300);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all var(--t-fast);
+  letter-spacing: 0.05em;
+  min-width: 48px;
+}
+.nav-lang:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
 .nav-toggle {
   display: none;
   flex-direction: column;

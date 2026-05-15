@@ -725,4 +725,42 @@
   }
 
 
+  // ====================================================
+  //  Language Toggle (中文 / EN)
+  // ====================================================
+  (function () {
+    const STORAGE_KEY = 'site-lang';
+    const btn = document.getElementById('navLang');
+    if (!btn) return;
+
+    function applyLang(lang) {
+      document.documentElement.lang = (lang === 'en') ? 'en' : 'zh-Hant';
+      document.querySelectorAll('[data-en]').forEach(function (el) {
+        if (el.dataset.zh === undefined) {
+          el.dataset.zh = el.innerHTML;
+        }
+        el.innerHTML = (lang === 'en') ? el.dataset.en : el.dataset.zh;
+      });
+      btn.textContent = (lang === 'en') ? '中文' : 'EN';
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+      // Re-render lucide icons in case any were inside swapped HTML
+      if (window.lucide && window.lucide.createIcons) {
+        window.lucide.createIcons();
+      }
+    }
+
+    btn.addEventListener('click', function () {
+      const current = (document.documentElement.lang === 'en') ? 'en' : 'zh';
+      applyLang(current === 'en' ? 'zh' : 'en');
+    });
+
+    // Init from localStorage
+    try {
+      if (localStorage.getItem(STORAGE_KEY) === 'en') {
+        applyLang('en');
+      }
+    } catch (e) {}
+  })();
+
+
 })();
