@@ -566,6 +566,14 @@
     if (modalBody) {
       modalBody.innerHTML = '';
       modalBody.appendChild(template.content.cloneNode(true));
+
+      // Apply current language to freshly cloned modal content
+      if (document.documentElement.lang === 'en') {
+        modalBody.querySelectorAll('[data-en]').forEach(function (el) {
+          if (el.dataset.zh === undefined) el.dataset.zh = el.innerHTML;
+          el.innerHTML = el.dataset.en;
+        });
+      }
     }
 
     modal.classList.add('open');
