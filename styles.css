@@ -2829,6 +2829,12 @@ body.modal-open {
   max-width: 160px;
 }
 
+/* +30% size boost for specific logos (e.g. partner with small base art) */
+.sponsor-logo.sponsor-logo-boost img {
+  max-height: 78px;
+  max-width: 208px;
+}
+
 .sponsor-note {
   font-size: 12px;
   color: var(--gray-500);
