@@ -487,7 +487,7 @@
 
         <div class="funnel-card funnel-semi-active">
           <div class="funnel-audience funnel-audience-student">
-            <i data-lucide="graduation-cap"></i> <span data-en="Students' entry">學生專用入口</span>
+            <i data-lucide="users"></i> <span data-en="Teachers &amp; students entry">老師＋學生報名入口</span>
           </div>
           <div class="funnel-step" data-en="Step 2">第二步</div>
           <div class="funnel-icon"><i data-lucide="graduation-cap"></i></div>
@@ -504,8 +504,10 @@
             <p data-en="On-site n8n Level 1 international certification exam">n8n Level 1 國際認證現場考試</p>
             <p data-en="Hands-on lab + hackathon brief">實機體驗 + 黑客松題目說明</p>
           </div>
-          <button type="button" class="btn btn-secondary btn-full" data-form-trigger="student"><span data-en="Students — Register interest">學生先登記興趣</span> <i data-lucide="arrow-right"></i></button>
-          <button type="button" class="funnel-teacher-link" data-form-trigger="teacher"><i data-lucide="briefcase"></i> <span data-en="Teacher joining the workshop? Register here (no referral code needed)">老師要參加工作坊？由此報名（無需推薦碼）</span></button>
+          <div class="funnel-btn-row">
+            <button type="button" class="btn btn-primary" data-form-trigger="teacher"><i data-lucide="briefcase"></i> <span data-en="Teacher — Register">老師報名</span></button>
+            <button type="button" class="btn btn-secondary" data-form-trigger="student"><i data-lucide="graduation-cap"></i> <span data-en="Student — Register">學生登記</span></button>
+          </div>
         </div>
 
         <div class="funnel-card funnel-locked">
@@ -1081,6 +1083,10 @@
           <div class="final-cta-card-arrow"><i data-lucide="arrow-right"></i></div>
         </button>
       </div>
+
+      <button type="button" class="final-cta-teacher-workshop" data-form-trigger="teacher">
+        <i data-lucide="briefcase"></i> <span data-en="Teacher attending the workshop? Register here (no referral code needed)">老師要參加工作坊？由此報名（無需推薦碼）</span>
+      </button>
 
       <p class="final-cta-note" data-en="All 3 stages free · Limited seats — register now">三階段全程免費 · 名額有限報名即刻開始</p>
       <p class="final-cta-gift" data-en="<i data-lucide='gift'></i> Register and instantly receive the <strong>n8n Education Skill Pack</strong> — link sent to your email">
