@@ -2123,11 +2123,14 @@ body.modal-open {
 }
 
 .funnel-btn-row .btn {
-  flex: 1;
   min-width: 0;
   padding-left: 12px;
   padding-right: 12px;
 }
+
+/* 老師為主要目標客群 → 按鈕比例 7:3 */
+.funnel-btn-row .btn:first-child { flex: 7; }
+.funnel-btn-row .btn:last-child { flex: 3; }
 
 /* ---------- Themes ---------- */
 .theme-grid {
