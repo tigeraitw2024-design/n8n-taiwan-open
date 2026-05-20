@@ -592,6 +592,19 @@ svg.lucide,
 .gift-float-card-cta-student:hover .gift-float-card-cta-arrow {
   color: #2563EB;
 }
+/* Teacher-workshop variant — orange to distinguish from the pink pre-event CTA */
+.gift-float-card-cta-teacher-ws .gift-float-card-cta-icon {
+  background: linear-gradient(135deg, #FF8A50 0%, #FF6B35 100%);
+  box-shadow: 0 4px 10px -2px rgba(255, 107, 53, 0.4);
+}
+.gift-float-card-cta-teacher-ws:hover {
+  border-color: #FF6B35;
+  background: rgba(255, 107, 53, 0.06);
+  box-shadow: 0 8px 18px -8px rgba(255, 107, 53, 0.4);
+}
+.gift-float-card-cta-teacher-ws:hover .gift-float-card-cta-arrow {
+  color: #FF6B35;
+}
 .gift-float-card-cta-icon [data-lucide] { width: 19px; height: 19px; }
 .gift-float-card-cta-text {
   display: flex;
@@ -3034,37 +3047,6 @@ body.modal-open {
   opacity: 0.8;
 }
 
-.final-cta-teacher-workshop {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: fit-content;
-  max-width: 100%;
-  margin: 24px auto 0;
-  padding: 12px 26px;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1.5px solid rgba(255, 255, 255, 0.55);
-  border-radius: 999px;
-  color: #fff;
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.4;
-  cursor: pointer;
-  transition: all var(--t-fast);
-}
-
-.final-cta-teacher-workshop:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
-}
-
-.final-cta-teacher-workshop svg {
-  width: 17px;
-  height: 17px;
-  flex: 0 0 auto;
-}
-
 .final-cta-gift {
   margin-top: 14px;
   display: inline-flex;
@@ -3082,9 +3064,9 @@ body.modal-open {
 
 .final-cta-buttons {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  max-width: 780px;
+  max-width: 1140px;
   margin: 0 auto;
 }
 
@@ -3141,6 +3123,10 @@ body.modal-open {
 
 .final-cta-student .final-cta-card-icon {
   background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+}
+
+.final-cta-teacher-ws .final-cta-card-icon {
+  background: linear-gradient(135deg, #FF8A50 0%, #FF6B35 100%);
 }
 
 .final-cta-card-icon svg {
@@ -3200,10 +3186,11 @@ body.modal-open {
   stroke-width: 2.5;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .final-cta-buttons {
     grid-template-columns: 1fr;
     gap: 16px;
+    max-width: 480px;
   }
 }
 
