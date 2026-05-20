@@ -178,6 +178,30 @@ svg.lucide,
   transform: translateY(-2px);
 }
 
+/* 報名按鈕配色：前哨站=粉、老師報名=橘(btn-primary)、學生=藍 */
+.btn-pink {
+  background: var(--pink);
+  color: var(--white);
+}
+
+.btn-pink:hover {
+  background: var(--pink-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(234, 75, 113, 0.3);
+}
+
+.btn-blue {
+  background: transparent;
+  color: #2563EB;
+  border: 2px solid #3B82F6;
+}
+
+.btn-blue:hover {
+  background: #3B82F6;
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
 .btn-white {
   background: var(--white);
   color: var(--black);
