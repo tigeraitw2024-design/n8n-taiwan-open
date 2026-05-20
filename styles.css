@@ -1429,6 +1429,46 @@ body.modal-open {
   margin-left: 4px;
 }
 
+.form-check-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  background: var(--white);
+  border: 1.5px solid var(--gray-200);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-800);
+}
+
+.form-check:hover {
+  border-color: var(--pink);
+}
+
+.form-check input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  margin: 0;
+  accent-color: var(--pink);
+  cursor: pointer;
+}
+
+.form-check:has(input:checked) {
+  border-color: var(--pink);
+  background: var(--pink-50, #fff0f6);
+}
+
 .form-row input,
 .form-row select,
 .form-row textarea {
@@ -2033,6 +2073,35 @@ body.modal-open {
   height: 4px;
   border-radius: 50%;
   background: var(--pink);
+}
+
+.funnel-teacher-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-600);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--t-fast);
+}
+
+.funnel-teacher-link:hover {
+  color: var(--pink);
+}
+
+.funnel-teacher-link svg {
+  width: 15px;
+  height: 15px;
 }
 
 /* ---------- Themes ---------- */
