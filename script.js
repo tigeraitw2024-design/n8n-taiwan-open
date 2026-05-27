@@ -562,7 +562,8 @@
         }
       } catch (err) {
         console.error('表單送出錯誤：', err);
-        errorEl.textContent = '網路連線問題，請檢查網路後重試';
+        // 送出可能其實已成功（後端較慢），先請使用者查信箱、勿盲目重送，避免重複報名
+        errorEl.textContent = '送出時間較長。您的報名可能已成功，請先到信箱確認確認信；若 5 分鐘內未收到再重新送出。';
         errorEl.hidden = false;
         submitBtn.classList.remove('loading');
         submitBtn.disabled = false;
