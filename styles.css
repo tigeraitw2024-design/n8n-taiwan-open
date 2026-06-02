@@ -2087,6 +2087,16 @@ body.modal-open {
   stroke-width: 2.2;
 }
 
+.funnel-list li a {
+  color: #2563EB;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.funnel-list li a:hover {
+  color: #1D4ED8;
+}
+
 .funnel-desc {
   margin-bottom: 28px;
   flex: 1;
