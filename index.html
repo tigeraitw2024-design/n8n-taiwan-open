@@ -1207,7 +1207,7 @@
         <div>
           <div class="form-modal-kicker" data-en="Teachers' entry">老師專用入口</div>
           <h3 class="form-modal-title" id="teacherFormTitle" data-en="Teacher Registration">老師報名</h3>
-          <p class="form-modal-sub" data-en="Pre-event briefing and/or on-site workshop · Get your campus referral code">前哨站線上說明會 ／ 實體工作坊講座，擇一或兩者皆可 · 取得校園推薦碼</p>
+          <p class="form-modal-sub" data-en="On-site workshop &amp; certification · Get your campus referral code">實體工作坊講座（到校實作）· 取得校園推薦碼</p>
         </div>
       </header>
 
@@ -1240,28 +1240,16 @@
               <option value="其他">其他</option>
             </select>
           </div>
+          <input type="hidden" name="attendWorkshop" value="工作坊">
           <div class="form-row form-row-full">
-            <label data-en="Which sessions will you join? (multi-select)">您要參加哪些活動？<span class="req">*</span><span class="hint" data-en="(multi-select)">（可複選）</span></label>
-            <div class="form-check-group" id="tf-attend-group">
-              <label class="form-check">
-                <input type="checkbox" id="tf-attend-pre" name="attendPre" value="前哨站">
-                <span data-en="Pre-event online briefing (6/27 · extra session)">前哨站線上說明會（6/27 線上 · 加開場次）</span>
-              </label>
-              <label class="form-check">
-                <input type="checkbox" id="tf-attend-workshop" name="attendWorkshop" value="工作坊">
-                <span data-en="On-site workshop &amp; certification">實體工作坊講座（到校實作）</span>
-              </label>
-            </div>
-          </div>
-          <div class="form-row form-row-full form-section" id="tf-workshop-session-section" hidden>
-            <label for="tf-workshop-session" data-en="Workshop session">工作坊場次 <span class="req">*</span></label>
-            <select id="tf-workshop-session" name="workshopSession">
+            <label for="tf-workshop-session" data-en="Which workshop session? (on-site)">報名工作坊場次 <span class="req">*</span></label>
+            <select id="tf-workshop-session" name="workshopSession" required>
               <option value="" data-en="Please select">請選擇</option>
               <option value="中部場 7/21（逢甲大學）">中部場 7/21 · 逢甲大學</option>
               <option value="南部場 7/27（高雄科技大學）">南部場 7/27 · 高雄科技大學</option>
               <option value="北部場 7/24（臺科大）">北部場 7/24 · 臺科大</option>
             </select>
-            <p class="form-hint" data-en="Missed the pre-event? You can still join the workshop directly — no referral code needed.">錯過前哨站也沒關係，老師可直接出席工作坊，無需推薦碼。</p>
+            <p class="form-hint" data-en="Teachers can join the workshop directly — no referral code needed.">老師可直接出席工作坊，無需推薦碼。</p>
           </div>
           <div class="form-row">
             <label for="tf-referrer">推薦人 / 推薦單位 <span class="hint">（選填）</span></label>
@@ -1277,7 +1265,7 @@
           </div>
           <div class="form-row form-row-full">
             <label for="tf-note">其他想了解的事 <span class="hint">（選填）</span></label>
-            <textarea id="tf-note" name="note" rows="3" placeholder="您想在前哨站特別了解的內容..."></textarea>
+            <textarea id="tf-note" name="note" rows="3" placeholder="您想在工作坊特別了解的內容..."></textarea>
           </div>
         </div>
 

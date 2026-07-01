@@ -442,26 +442,6 @@
     });
   }
 
-  // ---------- Teacher form: show workshop session when 工作坊 checked ----------
-  const teacherForm = document.getElementById('teacherForm');
-  if (teacherForm) {
-    const workshopCheckbox = teacherForm.querySelector('#tf-attend-workshop');
-    const sessionSection = teacherForm.querySelector('#tf-workshop-session-section');
-    const sessionSelect = teacherForm.querySelector('#tf-workshop-session');
-    if (workshopCheckbox && sessionSection && sessionSelect) {
-      workshopCheckbox.addEventListener('change', function () {
-        if (workshopCheckbox.checked) {
-          sessionSection.hidden = false;
-          sessionSelect.setAttribute('required', '');
-        } else {
-          sessionSection.hidden = true;
-          sessionSelect.removeAttribute('required');
-          sessionSelect.value = '';
-        }
-      });
-    }
-  }
-
   // ---------- Form submission ----------
   function handleFormSubmit(form) {
     form.addEventListener('submit', async function (e) {
@@ -494,18 +474,6 @@
           errorEl.textContent = 'Email 格式不正確，請檢查';
           errorEl.hidden = false;
           field.focus();
-          return;
-        }
-      }
-
-      // Teacher form: require at least one attendance option
-      if (formType === 'teacher') {
-        const pre = form.querySelector('#tf-attend-pre');
-        const ws = form.querySelector('#tf-attend-workshop');
-        if (pre && ws && !pre.checked && !ws.checked) {
-          errorEl.textContent = '請至少勾選一項要參加的活動（前哨站或工作坊）';
-          errorEl.hidden = false;
-          pre.focus();
           return;
         }
       }
