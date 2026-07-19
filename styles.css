@@ -2204,6 +2204,163 @@ body.modal-open {
 .funnel-btn-row .btn:first-child { flex: 7; }
 .funnel-btn-row .btn:last-child { flex: 3; }
 
+/* funnel workshop card → 導向下方 venues 區塊的連結 */
+.funnel-venues-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pink-deep);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: background var(--t-fast);
+}
+.funnel-venues-link:hover { background: var(--pink-soft); }
+.funnel-venues-link svg { width: 14px; height: 14px; stroke-width: 2.2; }
+
+/* ---------- Workshop Venues ---------- */
+.venue-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.venue-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--t-normal);
+}
+.venue-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--pink);
+  box-shadow: 0 16px 40px rgba(240, 100, 140, 0.12);
+}
+
+.venue-region-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.venue-region-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.venue-badge-central { background: var(--pink-bg); color: var(--pink-deep); }
+.venue-badge-north   { background: rgba(59, 130, 246, 0.12); color: #2563EB; }
+.venue-badge-south   { background: rgba(232, 169, 60, 0.18); color: #B45309; }
+
+.venue-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-800);
+}
+.venue-date svg { width: 14px; height: 14px; stroke-width: 2.2; color: var(--gray-500); }
+
+.venue-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--gray-600);
+  margin-bottom: 20px;
+}
+.venue-time svg { width: 13px; height: 13px; stroke-width: 2.2; }
+
+.venue-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gray-800);
+  line-height: 1.25;
+  margin: 0 0 6px;
+}
+
+.venue-room {
+  font-size: 14px;
+  color: var(--gray-600);
+  line-height: 1.5;
+  margin: 0 0 18px;
+}
+
+.venue-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 14px;
+  background: var(--gray-100);
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+}
+.venue-address > svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  stroke-width: 2.2;
+  color: var(--pink-deep);
+}
+.venue-address p {
+  font-size: 13.5px;
+  color: var(--gray-800);
+  line-height: 1.5;
+  margin: 0 0 6px;
+}
+.venue-map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--pink-deep);
+  text-decoration: none;
+}
+.venue-map-link:hover { text-decoration: underline; }
+.venue-map-link svg { width: 12px; height: 12px; stroke-width: 2.2; }
+
+.venue-luma-btn {
+  margin-top: auto;
+}
+
+.venue-alt-note {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--gray-500);
+}
+.venue-alt-note a {
+  color: var(--pink-deep);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--pink-deep);
+}
+.venue-alt-note a:hover { text-decoration: none; opacity: 0.8; }
+
+@media (max-width: 900px) {
+  .venue-grid { grid-template-columns: 1fr; }
+}
+
 /* ---------- Themes ---------- */
 .theme-grid {
   display: grid;
