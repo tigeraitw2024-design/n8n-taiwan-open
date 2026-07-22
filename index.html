@@ -556,10 +556,10 @@
       </div>
 
       <div class="venue-grid">
-        <!-- 中部場 -->
-        <article class="venue-card venue-central">
+        <!-- 中部場 · 已結束 -->
+        <article class="venue-card venue-central venue-ended">
           <div class="venue-region-row">
-            <span class="venue-region-badge venue-badge-central" data-en="Central">中部場</span>
+            <span class="venue-region-badge venue-badge-central" data-en="Central · Ended">中部場 · 已結束</span>
             <span class="venue-date"><i data-lucide="calendar"></i> <span data-en="Jul 21 (Tue)">7/21（二）</span></span>
           </div>
           <div class="venue-time"><i data-lucide="clock"></i> <span data-en="13:00–17:00 · 4 hrs">13:00–17:00 · 4 小時</span></div>
@@ -577,9 +577,9 @@
             </div>
           </div>
 
-          <a href="https://luma.com/n8n-n7l3" target="_blank" rel="noopener" class="btn btn-primary btn-full venue-luma-btn">
-            <span data-en="Register on Luma">至 Luma 報名</span> <i data-lucide="arrow-up-right"></i>
-          </a>
+          <button class="btn btn-disabled btn-full venue-luma-btn" disabled>
+            <i data-lucide="check-circle"></i> <span data-en="Session ended · Thank you">場次已結束 · 感謝參與</span>
+          </button>
         </article>
 
         <!-- 北部場 -->
@@ -1340,9 +1340,9 @@
             <label for="tf-workshop-session" data-en="Which workshop session? (on-site)">報名工作坊場次 <span class="req">*</span></label>
             <select id="tf-workshop-session" name="workshopSession" required>
               <option value="" data-en="Please select">請選擇</option>
-              <option value="中部場 7/21（逢甲大學）">中部場 7/21 · 逢甲大學</option>
-              <option value="南部場 7/27（高雄科技大學）">南部場 7/27 · 高雄科技大學</option>
+              <option value="" disabled data-en="Central 7/21 · Feng Chia · Ended">中部場 7/21 · 逢甲大學 · 已結束</option>
               <option value="北部場 7/24（臺科大）">北部場 7/24 · 臺科大</option>
+              <option value="南部場 7/27（高雄科技大學）">南部場 7/27 · 高雄科技大學</option>
             </select>
             <p class="form-hint" data-en="Teachers can join the workshop directly — no referral code needed.">老師可直接出席工作坊，無需推薦碼。</p>
           </div>
@@ -1525,9 +1525,9 @@
             <label for="sf-session">偏好工作坊講座場次 <span class="req">*</span></label>
             <select id="sf-session" name="session">
               <option value="">請選擇</option>
-              <option value="中部場 7/21（逢甲大學）">中部場 7/21 · 逢甲大學</option>
-              <option value="南部場 7/27（高雄科技大學）">南部場 7/27 · 高雄科技大學</option>
+              <option value="" disabled>中部場 7/21 · 逢甲大學 · 已結束</option>
               <option value="北部場 7/24（臺科大）">北部場 7/24 · 臺科大</option>
+              <option value="南部場 7/27（高雄科技大學）">南部場 7/27 · 高雄科技大學</option>
             </select>
           </div>
           <div class="form-row">
