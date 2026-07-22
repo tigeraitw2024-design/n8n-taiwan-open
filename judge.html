@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>評審評分 · n8n Taiwan Open Hackathon 2026</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    --pink: #F0648C;
+    --pink-deep: #EA4B71;
+    --pink-soft: #FFF5F5;
+    --pink-bg: #FFECF2;
+    --black: #0D0D0D;
+    --white: #FFFFFF;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --green: #10B981;
+    --amber: #F59E0B;
+    --red: #EF4444;
+    --font-display: 'Satoshi', 'Noto Sans TC', -apple-system, system-ui, sans-serif;
+    --font-body: 'Noto Sans TC', 'Satoshi', -apple-system, system-ui, sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    background: var(--gray-50);
+    color: var(--gray-800);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .header {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 20px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--gray-800);
+  }
+  .brand-pill {
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: var(--pink-bg);
+    color: var(--pink-deep);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .judge-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--gray-600);
+  }
+  .judge-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-deep) 100%);
+    color: var(--white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+  .status-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    background: var(--pink-soft);
+    color: var(--gray-800);
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+  .status-banner svg { flex-shrink: 0; width: 20px; height: 20px; color: var(--pink-deep); }
+  .status-banner.status-error { background: #FEF2F2; }
+  .status-banner.status-error svg { color: var(--red); }
+  .status-banner.status-ok { background: #ECFDF5; }
+  .status-banner.status-ok svg { color: var(--green); }
+
+  .progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200);
+    margin-bottom: 24px;
+  }
+  .progress-stats { display: flex; gap: 32px; }
+  .progress-stat-label {
+    font-size: 12px;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+  .progress-stat-value {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gray-800);
+  }
+  .filter-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .filter-tab {
+    padding: 8px 16px;
+    border-radius: 100px;
+    background: var(--gray-100);
+    color: var(--gray-600);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+  }
+  .filter-tab:hover { background: var(--gray-200); }
+  .filter-tab.active {
+    background: var(--pink-deep);
+    color: var(--white);
+  }
+  .team-list {
+    display: grid;
+    gap: 16px;
+  }
+  .team-card {
+    background: var(--white);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .team-card:hover {
+    border-color: var(--pink);
+    box-shadow: 0 8px 24px rgba(240, 100, 140, 0.08);
+  }
+  .team-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    cursor: pointer;
+    gap: 16px;
+  }
+  .team-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    flex: 1;
+  }
+  .team-idx {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--gray-100);
+    color: var(--gray-700);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .team-title-block { min-width: 0; }
+  .team-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--gray-800);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .team-theme-tag {
+    padding: 2px 10px;
+    border-radius: 100px;
+    background: var(--pink-bg);
+    color: var(--pink-deep);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .team-title-sub {
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-top: 4px;
+  }
+  .team-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 100px;
+  }
+  .team-status.status-pending {
+    background: var(--gray-100);
+    color: var(--gray-500);
+  }
+  .team-status.status-scored {
+    background: #ECFDF5;
+    color: var(--green);
+  }
+  .team-status svg { width: 14px; height: 14px; }
+  .team-body {
+    display: none;
+    padding: 0 24px 24px;
+    border-top: 1px solid var(--gray-200);
+  }
+  .team-card.expanded .team-body { display: block; }
+  .team-card.expanded .team-header .expand-icon {
+    transform: rotate(180deg);
+  }
+  .expand-icon {
+    transition: transform 0.2s;
+    color: var(--gray-400);
+  }
+
+  .team-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--gray-200);
+    margin-bottom: 24px;
+  }
+  .team-meta-item { font-size: 13px; }
+  .team-meta-label {
+    font-size: 11px;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .team-meta-value {
+    color: var(--gray-800);
+    word-break: break-word;
+  }
+  .team-meta-value a {
+    color: var(--pink-deep);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .team-meta-value a:hover { text-decoration: underline; }
+
+  .score-grid {
+    display: grid;
+    gap: 24px;
+  }
+  .score-row { }
+  .score-row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .score-label {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--gray-800);
+    font-size: 15px;
+  }
+  .score-weight {
+    font-size: 12px;
+    color: var(--gray-500);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .score-desc {
+    font-size: 12.5px;
+    color: var(--gray-500);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .score-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .score-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--gray-200);
+    outline: none;
+    cursor: pointer;
+  }
+  .score-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--pink-deep);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(240, 100, 140, 0.4);
+  }
+  .score-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--pink-deep);
+    cursor: pointer;
+    border: none;
+  }
+  .score-value-input {
+    width: 72px;
+    padding: 8px 10px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+    color: var(--pink-deep);
+  }
+  .score-value-input:focus {
+    outline: none;
+    border-color: var(--pink-deep);
+  }
+  .score-value-max {
+    color: var(--gray-400);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, var(--pink-soft) 0%, var(--pink-bg) 100%);
+    border-radius: var(--radius-md);
+    margin-top: 24px;
+  }
+  .total-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--gray-800);
+  }
+  .total-value {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--pink-deep);
+    line-height: 1;
+  }
+  .total-value .max {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gray-500);
+  }
+
+  .note-block { margin-top: 24px; }
+  .note-label {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--gray-800);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .note-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 14px;
+    resize: vertical;
+    min-height: 80px;
+  }
+  .note-textarea:focus {
+    outline: none;
+    border-color: var(--pink-deep);
+  }
+
+  .submit-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .btn {
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn svg { width: 16px; height: 16px; stroke-width: 2.2; }
+  .btn-primary {
+    background: var(--pink-deep);
+    color: var(--white);
+  }
+  .btn-primary:hover { background: var(--pink); }
+  .btn-primary:disabled {
+    background: var(--gray-300);
+    cursor: not-allowed;
+  }
+  .btn-secondary {
+    background: var(--gray-100);
+    color: var(--gray-700);
+  }
+  .btn-secondary:hover { background: var(--gray-200); }
+  .btn-full { width: 100%; }
+
+  .auth-required {
+    text-align: center;
+    padding: 80px 24px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .auth-required h2 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  .auth-required p {
+    color: var(--gray-500);
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    color: var(--gray-500);
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    background: var(--gray-800);
+    color: var(--white);
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    font-weight: 600;
+    display: none;
+    z-index: 200;
+  }
+  .toast.show { display: block; animation: toast-in 0.2s ease-out; }
+  .toast.toast-success { background: var(--green); }
+  .toast.toast-error { background: var(--red); }
+  @keyframes toast-in {
+    from { opacity: 0; transform: translate(-50%, 20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
+
+  @media (max-width: 700px) {
+    .container { padding: 20px 16px 60px; }
+    .header { padding: 16px; }
+    .progress-row { flex-direction: column; align-items: flex-start; gap: 16px; padding: 16px 20px; }
+    .team-header { flex-wrap: wrap; }
+    .team-meta { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="brand-pill">Judge Console</span>
+      <span>n8n Taiwan Open 2026</span>
+    </div>
+    <div class="judge-info" id="judgeInfo" style="display:none;">
+      <div class="judge-avatar" id="judgeAvatar">?</div>
+      <div>
+        <div style="font-family: var(--font-display); font-weight:700; color:var(--gray-800); font-size:14px;" id="judgeName">評審</div>
+        <div style="font-size:11px; color:var(--gray-500);" id="judgeEmail">—</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container" id="app">
+  <!-- Loaded dynamically -->
+  <div style="text-align:center; padding:80px 24px; color:var(--gray-500);">
+    <i data-lucide="loader-circle" style="width:32px; height:32px; animation:spin 1s linear infinite;"></i>
+    <p style="margin-top:16px;">載入中⋯</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<template id="tpl-auth-error">
+  <div class="auth-required">
+    <div style="width:64px; height:64px; margin: 0 auto 20px; border-radius: 16px; background: #FEF2F2; color: var(--red); display: inline-flex; align-items: center; justify-content: center;">
+      <i data-lucide="lock" style="width:32px; height:32px;"></i>
+    </div>
+    <h2>需要評審連結</h2>
+    <p>請由主辦方（Robin · tiger.ai.tw2024@gmail.com）取得您的專屬 Magic Link。<br>該連結會直接帶您到評審評分頁面，無需帳號密碼。</p>
+    <p style="font-size:12px; color:var(--gray-400); margin-top:32px;">若您已收過連結但無法進入，請聯絡 Robin：0911-436-467</p>
+  </div>
+</template>
+
+<template id="tpl-team-body">
+  <div class="team-body">
+    <div class="team-meta"></div>
+    <div class="score-grid">
+      <div class="score-row" data-dim="d1">
+        <div class="score-row-head">
+          <span class="score-label">1. 實作完整度</span>
+          <span class="score-weight">30 分</span>
+        </div>
+        <p class="score-desc">端到端運作 · 處理錯誤情境 · 資料流順暢 · 觸發→處理→輸出流程完整</p>
+        <div class="score-slider-row">
+          <input type="range" class="score-slider" min="0" max="30" step="1" value="0" data-dim="d1">
+          <input type="number" class="score-value-input" min="0" max="30" value="0" data-dim="d1">
+          <span class="score-value-max">/ 30</span>
+        </div>
+      </div>
+      <div class="score-row" data-dim="d2">
+        <div class="score-row-head">
+          <span class="score-label">2. 創新價值</span>
+          <span class="score-weight">25 分</span>
+        </div>
+        <p class="score-desc">解決真實問題 · 獨到切入點 · 對既有流程帶來質的改變 · 跨領域思維</p>
+        <div class="score-slider-row">
+          <input type="range" class="score-slider" min="0" max="25" step="1" value="0" data-dim="d2">
+          <input type="number" class="score-value-input" min="0" max="25" value="0" data-dim="d2">
+          <span class="score-value-max">/ 25</span>
+        </div>
+      </div>
+      <div class="score-row" data-dim="d3">
+        <div class="score-row-head">
+          <span class="score-label">3. 商業可行性</span>
+          <span class="score-weight">20 分</span>
+        </div>
+        <p class="score-desc">明確使用者族群 · 可真實導入 · 對使用者有明確價值 · 可延伸規模化</p>
+        <div class="score-slider-row">
+          <input type="range" class="score-slider" min="0" max="20" step="1" value="0" data-dim="d3">
+          <input type="number" class="score-value-input" min="0" max="20" value="0" data-dim="d3">
+          <span class="score-value-max">/ 20</span>
+        </div>
+      </div>
+      <div class="score-row" data-dim="d4">
+        <div class="score-row-head">
+          <span class="score-label">4. 展示說服力</span>
+          <span class="score-weight">15 分</span>
+        </div>
+        <p class="score-desc">Pitch 結構清晰 · Demo 順利 · 團隊分工顯合作感 · 能回應提問</p>
+        <div class="score-slider-row">
+          <input type="range" class="score-slider" min="0" max="15" step="1" value="0" data-dim="d4">
+          <input type="number" class="score-value-input" min="0" max="15" value="0" data-dim="d4">
+          <span class="score-value-max">/ 15</span>
+        </div>
+      </div>
+      <div class="score-row" data-dim="d5">
+        <div class="score-row-head">
+          <span class="score-label">5. n8n 運用深度</span>
+          <span class="score-weight">10 分</span>
+        </div>
+        <p class="score-desc">善用多種節點 · 發揮 Expression / Code Node · 工作流可讀性佳</p>
+        <div class="score-slider-row">
+          <input type="range" class="score-slider" min="0" max="10" step="1" value="0" data-dim="d5">
+          <input type="number" class="score-value-input" min="0" max="10" value="0" data-dim="d5">
+          <span class="score-value-max">/ 10</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="total-row">
+      <div class="total-label">此隊伍總分</div>
+      <div class="total-value"><span class="total-num">0</span> <span class="max">/ 100</span></div>
+    </div>
+
+    <div class="note-block">
+      <div class="note-label">評語（選填 · 僅主辦方看到）</div>
+      <textarea class="note-textarea" placeholder="例：技術扎實但商業定位模糊、demo 有臨場 bug 但恢復很快、可作為特別獎推薦⋯⋯"></textarea>
+    </div>
+
+    <div class="submit-row">
+      <button class="btn btn-secondary btn-clear">
+        <i data-lucide="rotate-ccw"></i> <span>清空</span>
+      </button>
+      <button class="btn btn-primary btn-submit" style="flex:1;">
+        <i data-lucide="check"></i> <span>送出評分</span>
+      </button>
+    </div>
+  </div>
+</template>
+
+<script>
+  /* -----------------------------------------------------
+     GAS Web App URL（決賽前主辦方需部署新的 GAS 版本）
+     暫時填入現有 URL，若尚未升級後端 → 頁面會顯示錯誤，可在此頁改
+     ----------------------------------------------------- */
+  const GAS_URL = 'REPLACE_WITH_JUDGING_GAS_URL';
+
+  /* -----------------------------------------------------
+     取 URL 參數
+     ----------------------------------------------------- */
+  const params = new URLSearchParams(location.search);
+  const judgeSlug = params.get('j');
+  const token = params.get('t');
+  const DEMO_MODE = params.get('demo') === '1';  // 加 ?demo=1 可用假資料試 UI
+
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => document.querySelectorAll(sel);
+
+  function toast(msg, kind) {
+    const el = $('#toast');
+    el.textContent = msg;
+    el.className = 'toast show ' + (kind ? 'toast-' + kind : '');
+    setTimeout(() => { el.className = 'toast'; }, 2400);
+  }
+
+  async function api(action, payload) {
+    if (DEMO_MODE) return demoApi(action, payload);
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action, judge: judgeSlug, token, ...payload })
+    });
+    return res.json();
+  }
+
+  /* -----------------------------------------------------
+     Demo mode · 讓沒 GAS 也能點看
+     ----------------------------------------------------- */
+  function demoApi(action, payload) {
+    if (action === 'judge-get-teams') {
+      return Promise.resolve({
+        ok: true,
+        judge: { name: 'Morris (Demo)', email: 'demo@tigerai.tw' },
+        teams: [
+          { id: 't001', name: '流程獵人', school: '臺科大', theme: 1, title: '校內選課通知整合器', pitch: '', video: '', repo: '' },
+          { id: 't002', name: 'Prompt 佛山', school: '逢甲', theme: 2, title: '中小企業 FAQ 智能客服', pitch: '', video: '', repo: '' },
+          { id: 't003', name: 'IG 排程神獸', school: '高科大', theme: 3, title: 'AI 短影片素材工廠', pitch: '', video: '', repo: '' },
+          { id: 't004', name: 'NPO 加速器', school: '成大', theme: 4, title: '志工排班自動化', pitch: '', video: '', repo: '' }
+        ],
+        myScores: {
+          't002': { d1: 22, d2: 18, d3: 15, d4: 10, d5: 7, note: 'Demo · 已評分示範', ts: new Date().toISOString() }
+        }
+      });
+    }
+    if (action === 'judge-submit-score') {
+      return Promise.resolve({ ok: true });
+    }
+    return Promise.resolve({ ok: false, message: 'Unknown action' });
+  }
+
+  /* -----------------------------------------------------
+     檢查 auth
+     ----------------------------------------------------- */
+  if (!DEMO_MODE && (!judgeSlug || !token)) {
+    showAuthError();
+  } else {
+    loadTeams();
+  }
+
+  function showAuthError() {
+    const tpl = document.getElementById('tpl-auth-error');
+    $('#app').innerHTML = '';
+    $('#app').appendChild(tpl.content.cloneNode(true));
+    lucide.createIcons();
+  }
+
+  /* -----------------------------------------------------
+     載入隊伍列表
+     ----------------------------------------------------- */
+  const THEMES = {
+    1: '校園自動化',
+    2: '商業 AI 助手',
+    3: '創作工作流',
+    4: '公益社會影響'
+  };
+
+  let allTeams = [];
+  let myScores = {};
+  let currentFilter = 'all'; // all | pending | scored | 1-4
+
+  async function loadTeams() {
+    try {
+      const data = await api('judge-get-teams');
+      if (!data.ok) { showAuthError(); return; }
+      renderJudgeInfo(data.judge);
+      allTeams = data.teams || [];
+      myScores = data.myScores || {};
+      renderApp();
+    } catch (err) {
+      $('#app').innerHTML = `<div class="status-banner status-error"><i data-lucide="alert-circle"></i><span>無法連線到評分後端。請跟 Robin 確認連結或後端狀態。錯誤：${err.message}</span></div>`;
+      lucide.createIcons();
+    }
+  }
+
+  function renderJudgeInfo(judge) {
+    if (!judge) return;
+    $('#judgeInfo').style.display = 'flex';
+    $('#judgeName').textContent = judge.name || '評審';
+    $('#judgeEmail').textContent = judge.email || '';
+    $('#judgeAvatar').textContent = (judge.name || '?').slice(0, 1);
+  }
+
+  function renderApp() {
+    const scoredCount = Object.keys(myScores).length;
+    const totalCount = allTeams.length;
+    const html = `
+      ${DEMO_MODE ? `<div class="status-banner"><i data-lucide="info"></i><span>Demo 模式 · 目前顯示假資料，任何送出不會存到後端</span></div>` : ''}
+      <div class="progress-row">
+        <div class="progress-stats">
+          <div>
+            <div class="progress-stat-label">已評 / 總數</div>
+            <div class="progress-stat-value">${scoredCount} / ${totalCount}</div>
+          </div>
+          <div>
+            <div class="progress-stat-label">進度</div>
+            <div class="progress-stat-value">${totalCount ? Math.round(scoredCount/totalCount*100) : 0}%</div>
+          </div>
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab ${currentFilter==='all'?'active':''}" data-filter="all">全部</button>
+          <button class="filter-tab ${currentFilter==='pending'?'active':''}" data-filter="pending">未評</button>
+          <button class="filter-tab ${currentFilter==='scored'?'active':''}" data-filter="scored">已評</button>
+          <button class="filter-tab ${currentFilter==='1'?'active':''}" data-filter="1">校園</button>
+          <button class="filter-tab ${currentFilter==='2'?'active':''}" data-filter="2">商業</button>
+          <button class="filter-tab ${currentFilter==='3'?'active':''}" data-filter="3">創作</button>
+          <button class="filter-tab ${currentFilter==='4'?'active':''}" data-filter="4">公益</button>
+        </div>
+      </div>
+      <div class="team-list" id="teamList"></div>
+    `;
+    $('#app').innerHTML = html;
+    renderTeamList();
+    lucide.createIcons();
+    $$('.filter-tab').forEach(b => b.addEventListener('click', () => {
+      currentFilter = b.dataset.filter;
+      renderApp();
+    }));
+  }
+
+  function renderTeamList() {
+    const teams = allTeams.filter(t => {
+      const scored = !!myScores[t.id];
+      if (currentFilter === 'pending') return !scored;
+      if (currentFilter === 'scored') return scored;
+      if (['1','2','3','4'].includes(currentFilter)) return String(t.theme) === currentFilter;
+      return true;
+    });
+    if (!teams.length) {
+      $('#teamList').innerHTML = '<div class="empty-state">目前沒有符合條件的隊伍</div>';
+      return;
+    }
+    $('#teamList').innerHTML = teams.map((t, i) => renderTeamCard(t, i)).join('');
+    lucide.createIcons();
+    $$('.team-header').forEach(h => h.addEventListener('click', () => {
+      const card = h.closest('.team-card');
+      card.classList.toggle('expanded');
+      if (card.classList.contains('expanded')) mountBody(card);
+    }));
+  }
+
+  function renderTeamCard(t, i) {
+    const scored = !!myScores[t.id];
+    return `
+      <article class="team-card" data-team="${t.id}">
+        <div class="team-header">
+          <div class="team-header-left">
+            <div class="team-idx">${String(i+1).padStart(2,'0')}</div>
+            <div class="team-title-block">
+              <div class="team-name">
+                <span>${escapeHtml(t.name)}</span>
+                <span class="team-theme-tag">${THEMES[t.theme] || '—'}</span>
+              </div>
+              <div class="team-title-sub">${escapeHtml(t.title || '')} · ${escapeHtml(t.school || '')}</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="team-status ${scored ? 'status-scored' : 'status-pending'}">
+              ${scored
+                ? `<i data-lucide="check-circle-2"></i><span>已評 ${sumScore(myScores[t.id])} 分</span>`
+                : `<i data-lucide="clock"></i><span>待評</span>`
+              }
+            </div>
+            <i data-lucide="chevron-down" class="expand-icon"></i>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function sumScore(s) {
+    if (!s) return 0;
+    return (Number(s.d1)||0) + (Number(s.d2)||0) + (Number(s.d3)||0) + (Number(s.d4)||0) + (Number(s.d5)||0);
+  }
+
+  function mountBody(card) {
+    if (card.querySelector('.team-body')) return; // already mounted
+    const teamId = card.dataset.team;
+    const t = allTeams.find(x => x.id === teamId);
+    const prev = myScores[teamId] || {};
+    const tpl = document.getElementById('tpl-team-body');
+    const node = tpl.content.cloneNode(true);
+    card.appendChild(node);
+
+    // 填 meta
+    const metaEl = card.querySelector('.team-meta');
+    const meta = [
+      ['隊名', t.name],
+      ['學校', t.school],
+      ['作品標題', t.title],
+      ['題目', THEMES[t.theme]],
+      ['Demo 影片', t.video ? `<a href="${t.video}" target="_blank" rel="noopener">開啟 →</a>` : '—'],
+      ['Pitch 簡報', t.pitch ? `<a href="${t.pitch}" target="_blank" rel="noopener">開啟 →</a>` : '—'],
+      ['GitHub / Repo', t.repo ? `<a href="${t.repo}" target="_blank" rel="noopener">開啟 →</a>` : '—'],
+      ['作品簡介', t.summary || '—']
+    ];
+    metaEl.innerHTML = meta.map(([k,v]) => `<div class="team-meta-item"><div class="team-meta-label">${k}</div><div class="team-meta-value">${v || '—'}</div></div>`).join('');
+
+    // 填先前分數
+    ['d1','d2','d3','d4','d5'].forEach(dim => {
+      const val = Number(prev[dim] || 0);
+      const slider = card.querySelector(`.score-slider[data-dim="${dim}"]`);
+      const input = card.querySelector(`.score-value-input[data-dim="${dim}"]`);
+      slider.value = val;
+      input.value = val;
+    });
+    updateTotal(card);
+
+    // 綁事件
+    card.querySelectorAll('.score-slider').forEach(sl => {
+      sl.addEventListener('input', () => {
+        const input = card.querySelector(`.score-value-input[data-dim="${sl.dataset.dim}"]`);
+        input.value = sl.value;
+        updateTotal(card);
+      });
+    });
+    card.querySelectorAll('.score-value-input').forEach(inp => {
+      inp.addEventListener('input', () => {
+        const max = Number(inp.max);
+        let v = Math.max(0, Math.min(max, Number(inp.value) || 0));
+        inp.value = v;
+        const sl = card.querySelector(`.score-slider[data-dim="${inp.dataset.dim}"]`);
+        sl.value = v;
+        updateTotal(card);
+      });
+    });
+
+    // note prefill
+    if (prev.note) card.querySelector('.note-textarea').value = prev.note;
+
+    card.querySelector('.btn-clear').addEventListener('click', () => {
+      if (!confirm('確定清空此隊伍所有分數？')) return;
+      card.querySelectorAll('.score-slider').forEach(s => s.value = 0);
+      card.querySelectorAll('.score-value-input').forEach(i => i.value = 0);
+      card.querySelector('.note-textarea').value = '';
+      updateTotal(card);
+    });
+
+    card.querySelector('.btn-submit').addEventListener('click', () => submitScore(card));
+
+    lucide.createIcons();
+  }
+
+  function updateTotal(card) {
+    let total = 0;
+    ['d1','d2','d3','d4','d5'].forEach(dim => {
+      total += Number(card.querySelector(`.score-value-input[data-dim="${dim}"]`).value) || 0;
+    });
+    card.querySelector('.total-num').textContent = total;
+  }
+
+  async function submitScore(card) {
+    const teamId = card.dataset.team;
+    const scores = {};
+    ['d1','d2','d3','d4','d5'].forEach(dim => {
+      scores[dim] = Number(card.querySelector(`.score-value-input[data-dim="${dim}"]`).value) || 0;
+    });
+    const note = card.querySelector('.note-textarea').value.trim();
+    const btn = card.querySelector('.btn-submit');
+    btn.disabled = true;
+    btn.innerHTML = '<i data-lucide="loader-circle" style="animation:spin 1s linear infinite;"></i><span>送出中⋯</span>';
+    lucide.createIcons();
+
+    try {
+      const res = await api('judge-submit-score', { teamId, scores, note });
+      if (res.ok) {
+        myScores[teamId] = { ...scores, note, ts: new Date().toISOString() };
+        toast('已送出評分', 'success');
+        card.classList.remove('expanded');
+        card.querySelector('.team-body')?.remove();
+        renderApp();
+      } else {
+        toast('送出失敗：' + (res.message || '未知錯誤'), 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="check"></i><span>送出評分</span>';
+        lucide.createIcons();
+      }
+    } catch (err) {
+      toast('連線錯誤：' + err.message, 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i data-lucide="check"></i><span>送出評分</span>';
+      lucide.createIcons();
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+</script>
+
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
+</body>
+</html>

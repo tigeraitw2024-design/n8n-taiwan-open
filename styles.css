@@ -2361,6 +2361,117 @@ body.modal-open {
   .venue-grid { grid-template-columns: 1fr; }
 }
 
+/* ---------- Rules (Handbook + Challenge Brief) ---------- */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.rules-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--t-normal);
+}
+.rules-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--pink);
+  box-shadow: 0 16px 40px rgba(240, 100, 140, 0.12);
+}
+
+.rules-icon {
+  width: 60px;
+  height: 60px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: var(--pink-soft);
+  color: var(--pink-deep);
+  margin-bottom: 16px;
+}
+.rules-icon svg { width: 28px; height: 28px; stroke-width: 2; }
+
+.rules-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: var(--gray-100);
+  color: var(--gray-600);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  align-self: flex-start;
+}
+
+.rules-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin: 0 0 10px;
+  line-height: 1.25;
+}
+
+.rules-desc {
+  font-size: 14px;
+  color: var(--gray-600);
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.rules-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+.rules-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--gray-800);
+  margin-bottom: 10px;
+}
+.rules-list li svg {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.5;
+  color: var(--pink-deep);
+}
+
+.rules-download {
+  margin-top: auto;
+}
+.rules-download svg { width: 16px; height: 16px; stroke-width: 2.2; }
+
+.rules-note {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 14px;
+  color: var(--gray-500);
+}
+.rules-note a {
+  color: var(--pink-deep);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--pink-deep);
+}
+.rules-note a:hover { opacity: 0.8; }
+
+@media (max-width: 800px) {
+  .rules-grid { grid-template-columns: 1fr; }
+}
+
 /* 已結束場次：灰化、去除 hover 效果、按鈕 disabled */
 .venue-card.venue-ended {
   background: var(--gray-100);

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>得獎名單 · n8n Taiwan Open Hackathon 2026</title>
+<meta name="description" content="n8n Taiwan Open Hackathon 2026 得獎名單即將揭曉">
+<meta property="og:title" content="n8n Taiwan Open Hackathon 2026 · 得獎名單">
+<meta property="og:description" content="全台第一場 n8n 官方黑客松，得獎作品即將公布">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    --pink: #F0648C;
+    --pink-deep: #EA4B71;
+    --pink-soft: #FFF5F5;
+    --pink-bg: #FFECF2;
+    --black: #0D0D0D;
+    --white: #FFFFFF;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-800: #1F2937;
+    --gold: #E8A93C;
+    --silver: #A8B0BA;
+    --bronze: #B87333;
+    --font-display: 'Satoshi', 'Noto Sans TC', -apple-system, system-ui, sans-serif;
+    --font-body: 'Noto Sans TC', 'Satoshi', -apple-system, system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    background: var(--black);
+    color: var(--white);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .bg-gradient {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at top left, rgba(240,100,140,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(232,169,60,0.12) 0%, transparent 50%),
+      var(--black);
+    z-index: -1;
+  }
+  .nav-bar {
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--white);
+  }
+  .nav-brand-pill {
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(240, 100, 140, 0.2);
+    color: var(--pink);
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .nav-brand-text {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 24px;
+  }
+  .nav-link {
+    color: var(--gray-400);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 13px;
+    transition: color 0.15s;
+  }
+  .nav-link:hover { color: var(--white); }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  /* ================= 揭曉前：倒數 ================= */
+  .countdown-wrap {
+    text-align: center;
+    padding: 80px 20px 40px;
+  }
+  .countdown-kicker {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 100px;
+    background: rgba(240, 100, 140, 0.15);
+    color: var(--pink);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .countdown-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 7vw, 72px);
+    font-weight: 900;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--white) 0%, var(--pink) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+  .countdown-sub {
+    color: var(--gray-400);
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto 48px;
+  }
+  .countdown-clock {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 640px;
+    margin: 0 auto 48px;
+  }
+  .clock-unit {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 24px 12px;
+  }
+  .clock-num {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 7vw, 64px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  .clock-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .reveal-at {
+    color: var(--gray-500);
+    font-size: 14px;
+  }
+  .reveal-at strong { color: var(--white); }
+
+  /* ================= 揭曉後：頒獎台 ================= */
+  .reveal-wrap { padding: 40px 0 60px; }
+  .reveal-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .reveal-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 8vw, 84px);
+    font-weight: 900;
+    line-height: 1.05;
+    background: linear-gradient(135deg, var(--white) 0%, var(--gold) 50%, var(--pink) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    animation: reveal-fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-sub {
+    color: var(--gray-400);
+    font-size: 18px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  @keyframes reveal-fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .podium {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
+    gap: 24px;
+    align-items: end;
+    margin-bottom: 80px;
+  }
+  .podium-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 32px 28px;
+    text-align: center;
+    animation: rise-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+    overflow: hidden;
+  }
+  .podium-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--medal-glow);
+    opacity: 0.08;
+    pointer-events: none;
+  }
+  .podium-gold {
+    --medal-glow: radial-gradient(ellipse at top, var(--gold), transparent 60%);
+    border-color: rgba(232, 169, 60, 0.3);
+    animation-delay: 0.5s;
+    padding-top: 44px;
+    padding-bottom: 44px;
+  }
+  .podium-silver {
+    --medal-glow: radial-gradient(ellipse at top, var(--silver), transparent 60%);
+    border-color: rgba(168, 176, 186, 0.3);
+    animation-delay: 0.2s;
+  }
+  .podium-bronze {
+    --medal-glow: radial-gradient(ellipse at top, var(--bronze), transparent 60%);
+    border-color: rgba(184, 115, 51, 0.3);
+    animation-delay: 0.8s;
+  }
+  .podium-medal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--black);
+  }
+  .podium-gold .podium-medal { background: linear-gradient(135deg, #FFE082 0%, var(--gold) 100%); }
+  .podium-silver .podium-medal { background: linear-gradient(135deg, #E5E7EB 0%, var(--silver) 100%); }
+  .podium-bronze .podium-medal { background: linear-gradient(135deg, #D4A574 0%, var(--bronze) 100%); color: var(--white); }
+  .podium-rank {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 8px;
+  }
+  .podium-gold .podium-rank { color: var(--gold); }
+  .podium-silver .podium-rank { color: var(--silver); }
+  .podium-bronze .podium-rank { color: var(--bronze); }
+  .podium-team {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .podium-gold .podium-team { font-size: 32px; }
+  .podium-school {
+    color: var(--gray-400);
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .podium-title {
+    color: var(--white);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    min-height: 40px;
+  }
+  .podium-theme-chip {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 100px;
+    background: rgba(240, 100, 140, 0.15);
+    color: var(--pink);
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+  }
+  .podium-links {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-podium {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    transition: background 0.15s;
+  }
+  .btn-podium:hover { background: rgba(255, 255, 255, 0.2); }
+  .btn-podium svg { width: 12px; height: 12px; }
+
+  /* 特別獎 */
+  .special-section {
+    margin-bottom: 60px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .section-title span {
+    background: linear-gradient(135deg, var(--pink) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .special-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .special-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 24px;
+    animation: rise-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .special-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(240, 100, 140, 0.15);
+    color: var(--pink);
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+  .special-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .special-school {
+    color: var(--gray-400);
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .special-title {
+    color: var(--gray-500);
+    font-size: 13px;
+  }
+
+  /* 完賽榮譽榜 */
+  .honor-section { padding: 40px 0; }
+  .honor-note {
+    color: var(--gray-400);
+    text-align: center;
+    font-size: 14px;
+    max-width: 640px;
+    margin: 0 auto 32px;
+  }
+  .honor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .honor-item {
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    font-size: 13px;
+    color: var(--gray-400);
+  }
+  .honor-item strong {
+    color: var(--white);
+    font-family: var(--font-display);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .share-row {
+    text-align: center;
+    padding: 40px 0 20px;
+  }
+  .btn-share {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: 100px;
+    background: var(--white);
+    color: var(--black);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .btn-share:hover { transform: translateY(-2px); }
+  .btn-share svg { width: 16px; height: 16px; }
+
+  .footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--gray-500);
+    font-size: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .footer a { color: var(--pink); text-decoration: none; }
+
+  @media (max-width: 800px) {
+    .podium {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .podium-gold { order: -1; padding: 32px 24px; }
+    .podium-gold .podium-team { font-size: 26px; }
+  }
+
+  .loading {
+    text-align: center;
+    padding: 120px 24px;
+    color: var(--gray-400);
+  }
+  .loading svg { width: 40px; height: 40px; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="bg-gradient"></div>
+
+<nav class="nav-bar">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-pill">Finals Results</span>
+    <span class="nav-brand-text">n8n Taiwan Open 2026</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">首頁</a>
+    <a href="showcase.html" class="nav-link">全部作品</a>
+  </div>
+</nav>
+
+<div class="container" id="app">
+  <div class="loading">
+    <i data-lucide="loader-circle"></i>
+    <p style="margin-top:16px;">載入中⋯</p>
+  </div>
+</div>
+
+<div class="footer">
+  <p>n8n Taiwan Open Hackathon 2026 · 主辦：虎智科技 TigerAI</p>
+  <p>共同主辦：博碩文化 × 臺科大創新育成中心 · 贊助：AMD × TUL × Zeabur</p>
+  <p style="margin-top:12px;"><a href="index.html">回活動首頁</a></p>
+</div>
+
+<script>
+  const GAS_URL = 'REPLACE_WITH_RESULTS_GAS_URL';
+  const DEMO_MODE = new URLSearchParams(location.search).get('demo') === '1';
+
+  const $ = (sel) => document.querySelector(sel);
+
+  async function loadStatus() {
+    if (DEMO_MODE) return demoStatus();
+    try {
+      const res = await fetch(GAS_URL + '?action=results-status');
+      return res.json();
+    } catch (err) {
+      return { ok: false, message: err.message };
+    }
+  }
+
+  function demoStatus() {
+    // 兩個測試模式：?demo=1 (未揭曉) 或 ?demo=2 (已揭曉)
+    const mode = new URLSearchParams(location.search).get('demo');
+    if (mode === '2') {
+      return Promise.resolve({
+        ok: true,
+        revealed: true,
+        revealAt: '2026-08-07T18:00:00+08:00',
+        winners: {
+          grand: {
+            team: '流程獵人', school: '國立臺灣科技大學',
+            title: '校內選課通知整合器',
+            theme: '校園自動化',
+            summary: '整合逢甲 / 臺科 / 高科三校選課系統，將課程異動即時推送到 LINE。',
+            video: 'https://youtu.be/example',
+            repo: 'https://github.com/example'
+          },
+          silver: {
+            team: 'Prompt 佛山', school: '逢甲大學',
+            title: '中小企業 FAQ 智能客服',
+            theme: '商業 AI 助手',
+            summary: '結合 RAG + LINE Bot，讓小店家 5 分鐘上手 AI 客服。',
+            video: 'https://youtu.be/example', repo: 'https://github.com/example'
+          },
+          bronze: {
+            team: 'IG 排程神獸', school: '國立高雄科技大學',
+            title: 'AI 短影片素材工廠',
+            theme: '創作工作流',
+            summary: '一句話生成 IG Reels 素材包（腳本 + 字卡 + 音樂建議）。',
+            video: 'https://youtu.be/example', repo: 'https://github.com/example'
+          },
+          specialAwards: [
+            { title: '最佳創意獎', team: 'NPO 加速器', school: '成大', workTitle: '志工排班自動化' },
+            { title: '最佳社會影響獎', team: '偏鄉光橋', school: '中山', workTitle: '偏鄉教材媒合平台' },
+            { title: '觀眾票選獎', team: '課表小精靈', school: '臺大', workTitle: '跨校課程搜尋' }
+          ],
+          allTeams: [
+            { name: '流程獵人', school: '臺科大', title: '校內選課通知' },
+            { name: 'Prompt 佛山', school: '逢甲', title: 'FAQ 客服' },
+            { name: 'IG 排程神獸', school: '高科', title: '素材工廠' },
+            { name: 'NPO 加速器', school: '成大', title: '志工排班' },
+            { name: '偏鄉光橋', school: '中山', title: '教材媒合' },
+            { name: '課表小精靈', school: '臺大', title: '跨校課程' },
+            { name: '會議摘要俠', school: '政大', title: '會議 AI' },
+            { name: 'AI 圖卡工', school: '文化', title: '社群素材' }
+          ]
+        }
+      });
+    }
+    return Promise.resolve({
+      ok: true,
+      revealed: false,
+      revealAt: '2026-08-07T18:00:00+08:00'
+    });
+  }
+
+  async function init() {
+    const data = await loadStatus();
+    if (!data.ok) {
+      $('#app').innerHTML = `<div class="loading" style="color:var(--pink);"><p>暫時無法連線。請稍後重試。</p></div>`;
+      return;
+    }
+    if (data.revealed) {
+      renderReveal(data.winners);
+    } else {
+      renderCountdown(new Date(data.revealAt));
+    }
+    lucide.createIcons();
+  }
+
+  function renderCountdown(target) {
+    $('#app').innerHTML = `
+      <div class="countdown-wrap">
+        <div class="countdown-kicker">Results Reveal</div>
+        <h1 class="countdown-title">得獎名單<br>即將揭曉</h1>
+        <p class="countdown-sub">2026 全台第一場 n8n 官方黑客松 · 決賽現場評分完成後即時公布</p>
+        <div class="countdown-clock">
+          <div class="clock-unit"><div class="clock-num" id="d">--</div><div class="clock-label">Days</div></div>
+          <div class="clock-unit"><div class="clock-num" id="h">--</div><div class="clock-label">Hours</div></div>
+          <div class="clock-unit"><div class="clock-num" id="m">--</div><div class="clock-label">Minutes</div></div>
+          <div class="clock-unit"><div class="clock-num" id="s">--</div><div class="clock-label">Seconds</div></div>
+        </div>
+        <p class="reveal-at">預計揭曉時間：<strong>${target.toLocaleString('zh-TW', { dateStyle: 'long', timeStyle: 'short' })}</strong></p>
+        <p class="reveal-at" style="margin-top:8px; font-size:12px;">頁面每 30 秒自動更新，得獎公告時無需重新整理</p>
+      </div>
+    `;
+    startClock(target);
+    setInterval(async () => {
+      const d = await loadStatus();
+      if (d.ok && d.revealed) location.reload();
+    }, 30000);
+  }
+
+  function startClock(target) {
+    function tick() {
+      const now = new Date();
+      let diff = Math.max(0, Math.floor((target - now) / 1000));
+      const d = Math.floor(diff / 86400); diff -= d * 86400;
+      const h = Math.floor(diff / 3600); diff -= h * 3600;
+      const m = Math.floor(diff / 60); diff -= m * 60;
+      const s = diff;
+      $('#d').textContent = String(d).padStart(2, '0');
+      $('#h').textContent = String(h).padStart(2, '0');
+      $('#m').textContent = String(m).padStart(2, '0');
+      $('#s').textContent = String(s).padStart(2, '0');
+    }
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  function renderReveal(w) {
+    const linkBtns = (obj) => `
+      ${obj.video ? `<a href="${obj.video}" target="_blank" rel="noopener" class="btn-podium"><i data-lucide="play"></i><span>Demo</span></a>` : ''}
+      ${obj.repo ? `<a href="${obj.repo}" target="_blank" rel="noopener" class="btn-podium"><i data-lucide="external-link"></i><span>Repo</span></a>` : ''}
+    `;
+    $('#app').innerHTML = `
+      <div class="reveal-wrap">
+        <div class="reveal-header">
+          <h1 class="reveal-title">得獎<br>作品</h1>
+          <p class="reveal-sub">Congratulations! 恭喜三隊拿下 2026 首屆 n8n Taiwan Open 榮耀</p>
+        </div>
+
+        <div class="podium">
+          <div class="podium-card podium-silver">
+            <div class="podium-medal">2</div>
+            <div class="podium-rank">Silver · 亞軍</div>
+            <div class="podium-team">${escape(w.silver.team)}</div>
+            <div class="podium-school">${escape(w.silver.school)}</div>
+            <div class="podium-theme-chip">${escape(w.silver.theme)}</div>
+            <div class="podium-title">${escape(w.silver.title)}</div>
+            <div class="podium-links">${linkBtns(w.silver)}</div>
+          </div>
+
+          <div class="podium-card podium-gold">
+            <div class="podium-medal">1</div>
+            <div class="podium-rank">Grand Prize · 總冠軍</div>
+            <div class="podium-team">${escape(w.grand.team)}</div>
+            <div class="podium-school">${escape(w.grand.school)}</div>
+            <div class="podium-theme-chip">${escape(w.grand.theme)}</div>
+            <div class="podium-title">${escape(w.grand.title)}</div>
+            <div class="podium-links">${linkBtns(w.grand)}</div>
+          </div>
+
+          <div class="podium-card podium-bronze">
+            <div class="podium-medal">3</div>
+            <div class="podium-rank">Bronze · 季軍</div>
+            <div class="podium-team">${escape(w.bronze.team)}</div>
+            <div class="podium-school">${escape(w.bronze.school)}</div>
+            <div class="podium-theme-chip">${escape(w.bronze.theme)}</div>
+            <div class="podium-title">${escape(w.bronze.title)}</div>
+            <div class="podium-links">${linkBtns(w.bronze)}</div>
+          </div>
+        </div>
+
+        ${(w.specialAwards && w.specialAwards.length) ? `
+          <section class="special-section">
+            <h2 class="section-title">特別 <span>獎項</span></h2>
+            <div class="special-grid">
+              ${w.specialAwards.map((a, i) => `
+                <div class="special-card" style="animation-delay:${1 + i * 0.15}s">
+                  <div class="special-badge">${escape(a.title)}</div>
+                  <div class="special-name">${escape(a.team)}</div>
+                  <div class="special-school">${escape(a.school)}</div>
+                  <div class="special-title">${escape(a.workTitle || '')}</div>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+        ` : ''}
+
+        <section class="honor-section">
+          <h2 class="section-title">完賽 <span>榮譽榜</span></h2>
+          <p class="honor-note">全體參賽隊伍 —— 每一份作品都值得被記住</p>
+          <div class="honor-grid">
+            ${(w.allTeams || []).map(t => `
+              <div class="honor-item">
+                <strong>${escape(t.name)}</strong>
+                <span>${escape(t.school)} · ${escape(t.title || '')}</span>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+
+        <div class="share-row">
+          <button class="btn-share" onclick="share()"><i data-lucide="share-2"></i><span>分享得獎頁</span></button>
+        </div>
+      </div>
+    `;
+    lucide.createIcons();
+  }
+
+  function escape(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function share() {
+    if (navigator.share) {
+      navigator.share({
+        title: 'n8n Taiwan Open Hackathon 2026 得獎名單',
+        text: '全台第一場 n8n 官方黑客松得獎名單出爐！',
+        url: location.href
+      });
+    } else {
+      navigator.clipboard.writeText(location.href);
+      alert('連結已複製，可貼到社群');
+    }
+  }
+
+  init();
+</script>
+
+</body>
+</html>
