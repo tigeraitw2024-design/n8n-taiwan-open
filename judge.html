@@ -373,12 +373,11 @@
     padding: 14px 16px;
     border: 2px solid var(--gray-200);
     border-radius: var(--radius-sm);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-display);
     font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
+    font-weight: 600;
+    letter-spacing: 0.05em;
     text-align: center;
-    text-transform: uppercase;
     margin-bottom: 12px;
   }
   .invite-input:focus {
@@ -387,8 +386,8 @@
   }
   .invite-input::placeholder {
     color: var(--gray-400);
-    letter-spacing: 0.15em;
     font-weight: 400;
+    letter-spacing: 0.02em;
   }
   .auth-hint {
     text-align: center;
@@ -465,27 +464,27 @@
   <div class="auth-wrap">
     <div class="auth-card">
       <h1 class="auth-title">評審評分入口</h1>
-      <p class="auth-sub">請用您的 Google 帳號登入，並輸入主辦方提供的邀請碼</p>
+      <p class="auth-sub">請填入邀請碼，並用您常用的 Google 帳號登入</p>
       <div class="auth-error" id="authError"></div>
 
       <div class="auth-step" id="step1">
         <div class="auth-step-num">1</div>
         <div class="auth-step-body">
-          <div class="auth-step-label">用 Google 登入</div>
-          <div id="gsiButton"></div>
-          <div class="auth-signed-in" id="signedInBanner" style="display:none;">
-            <span><i data-lucide="check-circle-2" style="width:14px; height:14px; vertical-align:-3px;"></i> 已登入：<strong id="signedInEmail"></strong></span>
-            <button class="btn-tiny" onclick="signOutFromAuth()">切換帳號</button>
-          </div>
+          <div class="auth-step-label">您的邀請碼</div>
+          <input type="text" class="invite-input" id="inviteInput" placeholder="例：morrislu" autocomplete="off" autofocus>
         </div>
       </div>
 
       <div class="auth-step" id="step2">
         <div class="auth-step-num">2</div>
         <div class="auth-step-body">
-          <div class="auth-step-label">輸入邀請碼</div>
-          <input type="text" class="invite-input" id="inviteInput" placeholder="XXXX-XXXX" maxlength="12" autocomplete="off">
-          <button class="btn btn-primary btn-full" onclick="submitAuth()"><i data-lucide="log-in"></i><span>進入評分系統</span></button>
+          <div class="auth-step-label">用 Google 登入（任一 Google 帳號皆可）</div>
+          <div id="gsiButton"></div>
+          <div class="auth-signed-in" id="signedInBanner" style="display:none;">
+            <span><i data-lucide="check-circle-2" style="width:14px; height:14px; vertical-align:-3px;"></i> 已登入：<strong id="signedInEmail"></strong></span>
+            <button class="btn-tiny" onclick="signOutFromAuth()">切換帳號</button>
+          </div>
+          <button class="btn btn-primary btn-full" onclick="submitAuth()" style="margin-top:12px;"><i data-lucide="log-in"></i><span>進入評分系統</span></button>
         </div>
       </div>
 
@@ -659,10 +658,10 @@
     // 初始化 Google Sign-In（等 GSI script 載入完）
     initGoogleSignIn();
 
-    // Invite code input formatting
+    // Invite code input formatting（允許 a-z, A-Z, 0-9, 連字號；統一轉小寫）
     const inp = $('#inviteInput');
     inp.addEventListener('input', () => {
-      inp.value = inp.value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+      inp.value = inp.value.toLowerCase().replace(/[^a-z0-9-]/g, '');
     });
     inp.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') submitAuth();
@@ -714,7 +713,7 @@
       $('#signedInEmail').textContent = payload.email;
       $('#signedInBanner').style.display = 'flex';
       document.getElementById('gsiButton').style.display = 'none';
-      $('#step1').classList.add('done');
+      $('#step2').classList.add('done');
     } catch (e) {
       showAuthError('無法解析 Google 登入資訊：' + e.message);
     }
@@ -727,7 +726,7 @@
       google.accounts.id.disableAutoSelect();
     }
     $('#signedInBanner').style.display = 'none';
-    $('#step1').classList.remove('done');
+    $('#step2').classList.remove('done');
     document.getElementById('gsiButton').style.display = 'flex';
     initGoogleSignIn();
   }
@@ -743,9 +742,9 @@
 
   async function submitAuth() {
     hideAuthError();
-    const inviteCode = $('#inviteInput').value.trim().toUpperCase();
-    if (!session.idToken) return showAuthError('請先用 Google 登入');
+    const inviteCode = $('#inviteInput').value.trim().toLowerCase();
     if (!inviteCode) return showAuthError('請輸入邀請碼');
+    if (!session.idToken) return showAuthError('請用 Google 帳號登入（任一 Google 帳號皆可）');
 
     session.inviteCode = inviteCode;
     // 試著驗證
