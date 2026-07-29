@@ -50,9 +50,9 @@
       <button type="button" class="gift-float-card-close" id="giftFloatClose" aria-label="關閉">
         <i data-lucide="x"></i>
       </button>
-      <div class="gift-float-card-kicker" data-en="🎁 Limited-time gift">🎁 限時贈禮</div>
-      <strong class="gift-float-card-title" data-en="Register and receive<br>the n8n Education Skill Pack">登記即送<br>n8n 教育學習包</strong>
-      <p class="gift-float-card-desc" data-en="After registration, <strong>the Skill Pack link is sent directly to your email</strong>. Teachers and students both welcome — pick your role to register:">完成登記後，<strong>學習包連結會直接寄到您的 Email</strong>。老師、學生都能領取，請選擇身份立即登記：</p>
+      <div class="gift-float-card-kicker" data-en="🏆 8/7 Finals · Upload now">🏆 8/7 決賽 · 立即上傳作品</div>
+      <strong class="gift-float-card-title" data-en="Have Level 1 cert?<br>Upload your project now">通過 Level 1 認證？<br>立即上傳決賽作品</strong>
+      <p class="gift-float-card-desc" data-en="Workshops have concluded. Any team with n8n Level 1 certification can compete. <strong>On-site at t.Hub Taipei or remote via Google Meet — both eligible for prizes.</strong>">工作坊已結束。持 n8n Level 1 認證即可參賽。<strong>t.Hub Taipei 現場出席或 Google Meet 遠端連線皆可爭取獎項。</strong></p>
       <div class="gift-float-card-actions">
         <a href="https://youtu.be/dN0zEpvXtqk" target="_blank" rel="noopener" class="gift-float-card-cta gift-float-card-cta-ended">
           <span class="gift-float-card-cta-icon"><i data-lucide="presentation"></i></span>
@@ -62,22 +62,14 @@
           </span>
           <i data-lucide="play-circle" class="gift-float-card-cta-arrow"></i>
         </a>
-        <button type="button" class="gift-float-card-cta gift-float-card-cta-teacher-ws" data-form-trigger="teacher" data-gift-cta>
-          <span class="gift-float-card-cta-icon"><i data-lucide="presentation"></i></span>
+        <a href="finals-submit.html" class="gift-float-card-cta gift-float-card-cta-teacher-ws">
+          <span class="gift-float-card-cta-icon"><i data-lucide="upload"></i></span>
           <span class="gift-float-card-cta-text">
-            <strong data-en="I'm a teacher">我是老師</strong>
-            <span data-en="Join the Workshop">報名工作坊</span>
+            <strong data-en="Upload finals project">上傳決賽作品</strong>
+            <span data-en="On-site or remote — both count">現場或遠端皆可</span>
           </span>
           <i data-lucide="arrow-right" class="gift-float-card-cta-arrow"></i>
-        </button>
-        <button type="button" class="gift-float-card-cta gift-float-card-cta-student" data-form-trigger="student" data-gift-cta>
-          <span class="gift-float-card-cta-icon"><i data-lucide="graduation-cap"></i></span>
-          <span class="gift-float-card-cta-text">
-            <strong data-en="I'm a student">我是學生</strong>
-            <span data-en="Register for Workshop">登記工作坊</span>
-          </span>
-          <i data-lucide="arrow-right" class="gift-float-card-cta-arrow"></i>
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -101,7 +93,7 @@
 
       <button type="button" class="nav-lang" id="navLang" aria-label="Switch language">EN</button>
 
-      <a href="#register" class="btn btn-primary nav-cta"><span data-en="Register Now">立即報名</span> <i data-lucide="arrow-right"></i></a>
+      <a href="finals-submit.html" class="btn btn-primary nav-cta"><span data-en="Upload finals project">上傳決賽作品</span> <i data-lucide="arrow-right"></i></a>
 
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -139,7 +131,7 @@
         </p>
 
         <div class="hero-cta">
-          <a href="#register" class="btn btn-primary btn-lg"><span data-en="Register for the Workshop">立即報名工作坊</span> <i data-lucide="arrow-right"></i></a>
+          <a href="finals-submit.html" class="btn btn-primary btn-lg"><span data-en="Upload finals project">上傳決賽作品</span> <i data-lucide="arrow-right"></i></a>
           <a href="#funnel" class="btn btn-secondary btn-lg" data-en="Explore the 3-stage format">了解三階段賽制</a>
         </div>
 
@@ -1202,7 +1194,7 @@
         </div>
         <div class="faq-item">
           <button class="faq-question"><span data-en="What if I pass certification but can't attend the finals?">通過認證但無法到決賽現場可以嗎？</span><i data-lucide="plus" class="faq-icon"></i></button>
-          <div class="faq-answer"><p data-en="Finals require in-person attendance in Taipei. Your certification remains valid, but you cannot compete for finals prizes.">決賽必須實體出席（台北）。若不克前往，認證證書仍有效，但無法參與決賽與獎項。</p></div>
+          <div class="faq-answer"><p data-en="Remote participation is available. Join via <a href='https://meet.google.com/sdx-abaj-jzp' target='_blank'>Google Meet</a> — you can present, pitch, and win prizes just like on-site teams. Select “remote” when uploading your project.">可以遠端參賽！透過 <a href="https://meet.google.com/sdx-abaj-jzp" target="_blank" rel="noopener">Google Meet</a> 加入 —— 一樣可以展示 Demo、上台 Pitch、爭取獎項。上傳作品時勾選「遠端參賽」即可。</p></div>
         </div>
         <div class="faq-item">
           <button class="faq-question"><span data-en="Do you offer travel or accommodation subsidies?">會提供交通與住宿補助嗎？</span><i data-lucide="plus" class="faq-icon"></i></button>
@@ -1223,43 +1215,29 @@
 
   <!-- ============ FINAL CTA ============ -->
   <section id="register" class="final-cta reveal">
-    <div id="register-teacher"></div>
-    <div id="register-student"></div>
     <div class="container">
-      <h2 class="final-cta-title" data-en="Ready to start your<br>AI automation journey?">準備好串起你的<br>AI 自動化旅程了嗎？</h2>
-      <p class="final-cta-sub" data-en="Taiwan's first n8n official certification event × Three free stages<br>Pick your role to register">全台首創 n8n 國際認證盛會 × 三階段全程免費<br>選擇你的身份，開始報名</p>
+      <h2 class="final-cta-title" data-en="Ready to compete<br>with your project?">準備好用你的作品<br>決勝負了嗎？</h2>
+      <p class="final-cta-sub" data-en="n8n Level 1 certification is the only requirement · 8/7 Taipei finals · On-site or remote — both eligible for prizes">持 n8n Level 1 認證即可參賽 · 8/7 台北決賽 · 現場或遠端皆可爭取獎項</p>
 
       <div class="final-cta-buttons">
-        <a href="https://youtu.be/dN0zEpvXtqk" target="_blank" rel="noopener" class="final-cta-card final-cta-ended">
-          <div class="final-cta-card-icon"><i data-lucide="presentation"></i></div>
-          <div class="final-cta-card-label" data-en="Teachers' pre-event">前哨站</div>
-          <div class="final-cta-card-title" data-en="Pre-event has ended">前哨站已結束</div>
-          <div class="final-cta-card-desc" data-en="Registration closed · watch the briefing replay">報名已截止<br>可觀看說明會錄影回放</div>
-          <div class="final-cta-card-arrow"><i data-lucide="play-circle"></i></div>
+        <a href="#rules" class="final-cta-card final-cta-ended">
+          <div class="final-cta-card-icon"><i data-lucide="book-open"></i></div>
+          <div class="final-cta-card-label" data-en="Handbook">參賽手冊</div>
+          <div class="final-cta-card-title" data-en="Read the rules first">先看比賽規則</div>
+          <div class="final-cta-card-desc" data-en="Handbook, challenge brief, judging rubric — all downloadable">簡章、題本、評分標準<br>都在 #rules 可下載 PDF</div>
+          <div class="final-cta-card-arrow"><i data-lucide="arrow-right"></i></div>
         </a>
 
-        <button type="button" class="final-cta-card final-cta-teacher-ws" data-form-trigger="teacher">
-          <div class="final-cta-card-icon"><i data-lucide="presentation"></i></div>
-          <div class="final-cta-card-label" data-en="I'm a teacher">我是老師</div>
-          <div class="final-cta-card-title" data-en="Join the Workshop">報名工作坊</div>
-          <div class="final-cta-card-desc" data-en="Attend the on-site workshop directly<br>No referral code needed">直接參加實體工作坊<br>無需推薦碼</div>
+        <a href="finals-submit.html" class="final-cta-card final-cta-teacher-ws">
+          <div class="final-cta-card-icon"><i data-lucide="upload"></i></div>
+          <div class="final-cta-card-label" data-en="Upload">立即上傳</div>
+          <div class="final-cta-card-title" data-en="Upload your finals project">上傳決賽作品</div>
+          <div class="final-cta-card-desc" data-en="Team info, Level 1 certs, workflow, Demo &amp; Pitch · On-site or remote">團隊資訊、Level 1 認證、workflow、Demo &amp; Pitch<br>可選現場或遠端連線參賽</div>
           <div class="final-cta-card-arrow"><i data-lucide="arrow-right"></i></div>
-        </button>
-
-        <button type="button" class="final-cta-card final-cta-student" data-form-trigger="student">
-          <div class="final-cta-card-icon"><i data-lucide="graduation-cap"></i></div>
-          <div class="final-cta-card-label" data-en="I'm a student">我是學生</div>
-          <div class="final-cta-card-title" data-en="Register for Workshop">登記工作坊講座</div>
-          <div class="final-cta-card-desc" data-en="Enter your teacher's referral code<br>(or just register your interest)">輸入老師的校園推薦碼<br>（未取得也可先登記興趣）</div>
-          <div class="final-cta-card-arrow"><i data-lucide="arrow-right"></i></div>
-        </button>
+        </a>
       </div>
 
-      <p class="final-cta-note" data-en="All 3 stages free · Limited seats — register now">三階段全程免費 · 名額有限報名即刻開始</p>
-      <p class="final-cta-gift" data-en="<i data-lucide='gift'></i> Register and instantly receive the <strong>n8n Education Skill Pack</strong> — link sent to your email">
-        <i data-lucide="gift"></i>
-        報名即送 <strong>n8n 教育學習包</strong>，學習包連結會直接寄到您的 Email
-      </p>
+      <p class="final-cta-note" data-en="Submission deadline: 8/7 12:30 · Winners revealed live 17:00">作品提交截止：8/7 12:30 · 得獎名單當日 17:00 現場揭曉</p>
     </div>
   </section>
 

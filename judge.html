@@ -757,7 +757,8 @@
             video: 'https://youtu.be/dQw4w9WgXcQ', pitch: '#',
             runtime: 'cloud', cloudUrl: 'https://learning.tigerai.tw/workflow/demo-t001',
             localDeps: '',
-            teacherName: 'Morris Lu', referralCode: 'N8N-NTUST-A3F'
+            teacherName: 'Morris Lu', referralCode: 'N8N-NTUST-A3F',
+            mode: 'onsite'
           },
           {
             id: 't002', name: 'Prompt 佛山', school: '逢甲', theme: 2, title: '中小企業 FAQ 智能客服',
@@ -773,7 +774,8 @@
             workflows: [{ name: 'faq-rag.json', url: '#', downloadUrl: '#' }],
             video: 'https://youtu.be/dQw4w9WgXcQ', pitch: '#',
             runtime: 'both', cloudUrl: 'https://learning.tigerai.tw/workflow/demo-t002',
-            localDeps: 'Docker\nOllama (mistral 7b)\nPostgres 15 (port 5432)\n環境變數：OPENAI_API_KEY'
+            localDeps: 'Docker\nOllama (mistral 7b)\nPostgres 15 (port 5432)\n環境變數：OPENAI_API_KEY',
+            mode: 'remote'
           },
           {
             id: 't003', name: 'IG 排程神獸', school: '高科大', theme: 3, title: 'AI 短影片素材工廠',
@@ -1097,13 +1099,18 @@
       ? esc(t.teacherName || '—') + (t.referralCode ? ` · <span style="font-family:monospace;color:var(--pink-deep);">${esc(t.referralCode)}</span>` : '')
       : '<span style="color:var(--gray-400);">未填 · 自主參賽</span>';
 
+    const modeInfo = t.mode === 'remote'
+      ? '🌐 <strong style="color:var(--pink-deep);">遠端連線</strong> · <a href="https://meet.google.com/sdx-abaj-jzp" target="_blank" rel="noopener">開 Meet</a>'
+      : '📍 現場出席';
+
     const basicGrid = [
       ['隊名', esc(t.name)],
       ['學校', esc(t.school)],
       ['隊長', esc(t.leader) + (t.memberCount ? ` · ${t.memberCount} 人團隊` : '')],
       ['題目', THEMES[t.theme]],
       ['作品標題', esc(t.title)],
-      ['推薦老師', teacherInfo]
+      ['推薦老師', teacherInfo],
+      ['參賽方式', modeInfo]
     ].map(([k, v]) => `<div class="team-meta-item"><div class="team-meta-label">${k}</div><div class="team-meta-value">${v || '—'}</div></div>`).join('');
 
     const summaryBlock = t.summary ? `

@@ -1056,10 +1056,46 @@
           </div>
         </section>
 
-        <!-- Section 9: Consent -->
+        <!-- Section 9: Participation Mode -->
         <section class="section">
           <div class="section-head">
             <div class="section-num">9</div>
+            <div>
+              <div class="section-title">參賽方式</div>
+              <div class="section-desc">現場出席 t.Hub Taipei，或用 Google Meet 遠端連線</div>
+            </div>
+          </div>
+          <div class="radio-group" id="modeGroup">
+            <label class="radio-card">
+              <input type="radio" name="mode" value="onsite" checked>
+              <div>
+                <div class="radio-card-title">📍 現場出席</div>
+                <div class="radio-card-desc">t.Hub Taipei 內科創新育成基地 · 08:30 開始報到 · 提供實體桌位、午餐、Wi-Fi</div>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="mode" value="remote">
+              <div>
+                <div class="radio-card-title">🌐 遠端連線</div>
+                <div class="radio-card-desc">用 Google Meet 加入 · Round 1 遠端 demo · Round 2 遠端 pitch · 可爭取獎項</div>
+              </div>
+            </label>
+          </div>
+          <div id="remoteBlock" style="margin-top:20px; display:none; padding:16px 20px; background:var(--pink-soft); border-radius:var(--radius-md); font-size:13.5px; line-height:1.7; color:var(--gray-700);">
+            🌐 <strong>遠端 Google Meet 連結</strong>（現場直播 + 遠端參賽共用）：
+            <br>
+            <a href="https://meet.google.com/sdx-abaj-jzp" target="_blank" rel="noopener" style="display:inline-block; margin-top:8px; padding:8px 14px; background:var(--white); border-radius:8px; color:var(--pink-deep); font-family:monospace; font-weight:600; text-decoration:none;">
+              https://meet.google.com/sdx-abaj-jzp
+            </a>
+            <br>
+            <span style="color:var(--gray-500); font-size:12.5px;">請於 8/7 08:45 前進入 Meet 準備 · 開幕 09:00 開始 · 建議提前測試設備與網路</span>
+          </div>
+        </section>
+
+        <!-- Section 10: Consent -->
+        <section class="section">
+          <div class="section-head">
+            <div class="section-num">10</div>
             <div>
               <div class="section-title">參賽同意書</div>
               <div class="section-desc">請仔細閱讀，勾選代表全隊成員同意</div>
@@ -1112,6 +1148,15 @@
     // Runtime radio
     $$('input[name="runtime"]').forEach(r => r.addEventListener('change', updateRuntimeUI));
     updateRuntimeUI();
+    // Mode radio (onsite/remote)
+    $$('input[name="mode"]').forEach(r => r.addEventListener('change', updateModeUI));
+    updateModeUI();
+  }
+
+  function updateModeUI() {
+    const r = document.querySelector('input[name="mode"]:checked')?.value;
+    $$('#modeGroup .radio-card').forEach(c => c.classList.toggle('active', c.querySelector('input').checked));
+    $('#remoteBlock').style.display = (r === 'remote') ? '' : 'none';
   }
 
   /* -----------------------------------------------------
@@ -1276,6 +1321,7 @@
       runtime: document.querySelector('input[name="runtime"]:checked')?.value || '',
       cloudUrl: $('#cloudUrl').value.trim(),
       localDeps: $('#localDeps').value.trim(),
+      mode: document.querySelector('input[name="mode"]:checked')?.value || 'onsite',
       consent: $('#consent1').checked && $('#consent2').checked && $('#consent3').checked
     };
 
