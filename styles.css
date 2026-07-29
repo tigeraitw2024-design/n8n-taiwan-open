@@ -2064,10 +2064,19 @@ body.modal-open {
 .funnel-ended .funnel-desc p {
   color: var(--gray-500);
 }
-.funnel-ended .funnel-audience-teacher {
+.funnel-ended .funnel-audience-teacher,
+.funnel-ended .funnel-audience-student,
+.funnel-ended .funnel-audience-final {
   background: var(--gray-200);
   color: var(--gray-500);
+  background-image: none;
 }
+.funnel-ended .funnel-list li,
+.funnel-ended .funnel-list li span {
+  color: var(--gray-500);
+}
+.funnel-ended .funnel-list li svg { color: var(--gray-400); }
+.funnel-ended .funnel-ended-note { color: var(--gray-400); }
 .funnel-vod-btn {
   background: var(--black);
   color: var(--white);
@@ -3437,9 +3446,9 @@ body.modal-open {
 
 .final-cta-buttons {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  max-width: 1140px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
