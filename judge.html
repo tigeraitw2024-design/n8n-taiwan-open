@@ -561,7 +561,7 @@
 <header class="header">
   <div class="header-inner">
     <div class="brand">
-      <span class="brand-pill">Judge Console</span>
+      <span class="brand-pill">評審評分</span>
       <span>n8n Taiwan Open 2026</span>
     </div>
     <div class="judge-info" id="judgeInfo" style="display:none;">
@@ -1089,9 +1089,9 @@
   }
 
   const RUNTIME_LABEL = {
-    cloud: '☁️ 雲端 Learning',
-    local: '💻 本地端 Docker',
-    both:  '🔀 兩者皆有'
+    cloud: '雲端 Learning',
+    local: '本地端 Docker',
+    both:  '雲端 + 本地端'
   };
 
   function renderTeamMeta(t) {
@@ -1100,8 +1100,8 @@
       : '<span style="color:var(--gray-400);">未填 · 自主參賽</span>';
 
     const modeInfo = t.mode === 'remote'
-      ? '🌐 <strong style="color:var(--pink-deep);">遠端連線</strong> · <a href="https://meet.google.com/sdx-abaj-jzp" target="_blank" rel="noopener">開 Meet</a>'
-      : '📍 現場出席';
+      ? '<strong style="color:var(--pink-deep);">遠端連線</strong> · <a href="https://meet.google.com/sdx-abaj-jzp" target="_blank" rel="noopener">開啟 Google Meet</a>'
+      : '現場出席';
 
     const basicGrid = [
       ['隊名', esc(t.name)],
