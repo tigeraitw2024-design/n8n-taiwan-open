@@ -927,10 +927,36 @@
           <button type="button" class="btn-add" id="addMemberBtn"><i data-lucide="plus"></i><span>新增隊員</span></button>
         </section>
 
-        <!-- Section 4: Certs -->
+        <!-- Section 4: Referral Teacher (optional) -->
         <section class="section">
           <div class="section-head">
             <div class="section-num">4</div>
+            <div>
+              <div class="section-title">推薦老師 · 選填</div>
+              <div class="section-desc">有指導老師介紹您參加？填一下讓我們感謝老師</div>
+            </div>
+          </div>
+          <div class="row row-2">
+            <div>
+              <label class="label" for="teacherName">推薦老師姓名</label>
+              <input class="input" id="teacherName" placeholder="例：Morris 盧業興">
+              <p class="hint">您在哪位老師的課程或介紹下認識這場活動的？</p>
+            </div>
+            <div>
+              <label class="label" for="referralCode">校園推薦碼</label>
+              <input class="input" id="referralCode" placeholder="例：N8N-NTUST-A3F" style="text-transform: uppercase;">
+              <p class="hint">格式為 N8N-XXX-XXX · 沒有可留空</p>
+            </div>
+          </div>
+          <div style="margin-top:16px; padding:12px 16px; background:var(--pink-soft); border-radius:var(--radius-md); font-size:13px; color:var(--gray-700); line-height:1.7;">
+            💡 <strong>沒指導老師也可以參賽！</strong> 但如果您已取得 Level 1 認證，歡迎順手把訊息傳給您的老師 —— 我們的長期目標是把 n8n 帶進校園課程，老師的加入對整個社群幫助很大。
+          </div>
+        </section>
+
+        <!-- Section 5: Certs -->
+        <section class="section">
+          <div class="section-head">
+            <div class="section-num">5</div>
             <div>
               <div class="section-title">n8n Level 1 認證證照</div>
               <div class="section-desc">每位隊員上傳一張 PNG · 最多 ${MAX_CERTS} 張 · 每張 ≤ ${MAX_CERT_MB}MB</div>
@@ -948,7 +974,7 @@
         <!-- Section 5: Workflow files -->
         <section class="section">
           <div class="section-head">
-            <div class="section-num">5</div>
+            <div class="section-num">6</div>
             <div>
               <div class="section-title">n8n Workflow 檔</div>
               <div class="section-desc">JSON 格式 · 可多份（例如 workflow.json、subflow.json）</div>
@@ -963,10 +989,10 @@
           <div class="file-list" id="workflowList"></div>
         </section>
 
-        <!-- Section 6: Demo video + Pitch -->
+        <!-- Section 7: Demo video + Pitch -->
         <section class="section">
           <div class="section-head">
-            <div class="section-num">6</div>
+            <div class="section-num">7</div>
             <div>
               <div class="section-title">Demo 影片 & Pitch 簡報</div>
               <div class="section-desc">影片走連結（YouTube 未列出 / Google Drive 分享）</div>
@@ -984,10 +1010,10 @@
           </div>
         </section>
 
-        <!-- Section 7: Runtime -->
+        <!-- Section 8: Runtime -->
         <section class="section">
           <div class="section-head">
-            <div class="section-num">7</div>
+            <div class="section-num">8</div>
             <div>
               <div class="section-title">n8n 運行環境</div>
               <div class="section-desc">告訴主辦方您的作品在哪跑，方便評審現場測試</div>
@@ -1030,10 +1056,10 @@
           </div>
         </section>
 
-        <!-- Section 8: Consent -->
+        <!-- Section 9: Consent -->
         <section class="section">
           <div class="section-head">
-            <div class="section-num">8</div>
+            <div class="section-num">9</div>
             <div>
               <div class="section-title">參賽同意書</div>
               <div class="section-desc">請仔細閱讀，勾選代表全隊成員同意</div>
@@ -1243,6 +1269,8 @@
         year: (m.year || '').trim(),
         email: (m.email || '').trim()
       })),
+      teacherName: $('#teacherName').value.trim(),
+      referralCode: $('#referralCode').value.trim().toUpperCase(),
       videoUrl: $('#videoUrl').value.trim(),
       pitchUrl: $('#pitchUrl').value.trim(),
       runtime: document.querySelector('input[name="runtime"]:checked')?.value || '',

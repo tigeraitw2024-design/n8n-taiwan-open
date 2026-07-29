@@ -756,7 +756,8 @@
             workflows: demoWorkflows,
             video: 'https://youtu.be/dQw4w9WgXcQ', pitch: '#',
             runtime: 'cloud', cloudUrl: 'https://learning.tigerai.tw/workflow/demo-t001',
-            localDeps: ''
+            localDeps: '',
+            teacherName: 'Morris Lu', referralCode: 'N8N-NTUST-A3F'
           },
           {
             id: 't002', name: 'Prompt 佛山', school: '逢甲', theme: 2, title: '中小企業 FAQ 智能客服',
@@ -1092,12 +1093,17 @@
   };
 
   function renderTeamMeta(t) {
+    const teacherInfo = (t.teacherName || t.referralCode)
+      ? esc(t.teacherName || '—') + (t.referralCode ? ` · <span style="font-family:monospace;color:var(--pink-deep);">${esc(t.referralCode)}</span>` : '')
+      : '<span style="color:var(--gray-400);">未填 · 自主參賽</span>';
+
     const basicGrid = [
       ['隊名', esc(t.name)],
       ['學校', esc(t.school)],
       ['隊長', esc(t.leader) + (t.memberCount ? ` · ${t.memberCount} 人團隊` : '')],
       ['題目', THEMES[t.theme]],
-      ['作品標題', esc(t.title)]
+      ['作品標題', esc(t.title)],
+      ['推薦老師', teacherInfo]
     ].map(([k, v]) => `<div class="team-meta-item"><div class="team-meta-label">${k}</div><div class="team-meta-value">${v || '—'}</div></div>`).join('');
 
     const summaryBlock = t.summary ? `
