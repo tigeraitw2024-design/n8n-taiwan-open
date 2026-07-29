@@ -2475,12 +2475,11 @@ body.modal-open {
 /* 已結束場次：灰化、去除 hover 效果、按鈕 disabled */
 .venue-card.venue-ended {
   background: var(--gray-100);
-  opacity: 0.75;
 }
 .venue-card.venue-ended:hover {
-  transform: none;
-  border-color: var(--gray-200);
-  box-shadow: none;
+  transform: translateY(-4px);
+  border-color: var(--pink);
+  box-shadow: 0 16px 40px rgba(240, 100, 140, 0.12);
 }
 .venue-card.venue-ended .venue-name,
 .venue-card.venue-ended .venue-room,
@@ -2494,6 +2493,15 @@ body.modal-open {
 .venue-card.venue-ended .venue-address {
   background: var(--white);
 }
+/* 回放按鈕：紅色系（貼近 YouTube 品牌感）但不搶戲 */
+.venue-replay-btn {
+  background: var(--pink-deep);
+  color: var(--white);
+}
+.venue-replay-btn:hover {
+  background: var(--pink);
+}
+.venue-replay-btn svg { width: 15px; height: 15px; }
 
 /* ---------- Themes ---------- */
 .theme-grid {
