@@ -2487,7 +2487,7 @@ body.modal-open {
 .venue-card.venue-ended .venue-time {
   color: var(--gray-500);
 }
-.venue-card.venue-ended .venue-badge-central {
+.venue-card.venue-ended .venue-region-badge {
   background: var(--gray-200);
   color: var(--gray-500);
 }
