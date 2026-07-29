@@ -683,7 +683,7 @@
       <h1 class="auth-title">決賽作品上傳</h1>
       <p class="auth-sub">請先用 Google 帳號登入，才能提交作品（任一 Google 帳號皆可）</p>
       <div id="gsiButton"></div>
-      <p class="auth-note">系統會記錄提交人的 Google Email 供稽核使用<br>如有問題請聯絡 Robin · 0911-436-467</p>
+      <p class="auth-note">系統會記錄提交人的 Google 帳號信箱作為稽核紀錄<br>如有問題請聯絡 Robin · 0911-436-467</p>
     </div>
   </div>
 </template>
@@ -695,8 +695,8 @@
     <h1 class="success-title" id="successTitle">作品已收到！</h1>
     <div class="success-team" id="successTeamId">T???</div>
     <p class="success-sub">
-      確認信已寄到您的隊長 Email，主辦方也收到通知。<br>
-      如需修改，請重新用相同的隊長 Email 上傳，系統會自動覆蓋原作品。
+      確認信已寄到您隊長的電子信箱，主辦方也收到通知。<br>
+      如需修改，請重新用相同的隊長信箱上傳，系統會自動覆蓋原作品。
     </p>
     <div class="success-actions">
       <button class="btn btn-outline" onclick="location.reload()"><i data-lucide="rotate-ccw"></i><span>修改 / 再交一次</span></button>
@@ -798,7 +798,7 @@
   function handleGoogleCredential(response) {
     const idToken = response.credential;
     try {
-      const payload = JSON.parse(atob(idToken.split('.')[1]));
+      const payload = decodeJwtPayload_(idToken);
       session.idToken = idToken;
       session.name = payload.name || payload.email;
       session.email = payload.email;
@@ -806,6 +806,17 @@
     } catch (e) {
       toast('無法解析 Google 登入資訊：' + e.message, 'error');
     }
+  }
+
+  // 修正 JWT payload 的中文亂碼：先 base64→bytes，再用 TextDecoder 以 UTF-8 解
+  function decodeJwtPayload_(jwt) {
+    const b64 = jwt.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const padded = b64 + '='.repeat((4 - b64.length % 4) % 4);
+    const bin = atob(padded);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const jsonStr = new TextDecoder('utf-8').decode(bytes);
+    return JSON.parse(jsonStr);
   }
 
   function signOut() {
@@ -838,8 +849,8 @@
           <i data-lucide="info"></i>
           <div>
             <strong>提交前請準備好：</strong>
-            隊員 Level 1 認證 PNG（每人一張）· n8n workflow JSON 檔（可多份）· Demo 影片連結（YouTube 未列出 / Google Drive 分享）· Pitch 簡報連結 · 若用雲端 Learning 請附 workflow URL。
-            <br><strong>可覆蓋：</strong>用同一個隊長 Email 重交就會覆蓋前一份。
+            隊員 n8n Level 1 認證圖（PNG，每人一張）· n8n 流程檔（JSON，可多份）· 作品展示影片連結（YouTube 未公開連結或 Google 雲端硬碟連結）· 作品簡報連結 · 若使用雲端 Learning 環境，請附上流程網址。
+            <br><strong>可重新提交：</strong>用同一個隊長信箱重新上傳，就會覆蓋前一次的資料。
           </div>
         </div>
 
@@ -899,9 +910,9 @@
           </div>
           <div class="row row-3">
             <div>
-              <label class="label" for="leaderEmail">Email <span class="req">*</span></label>
-              <input class="input" id="leaderEmail" type="email" placeholder="收確認信也是這個">
-              <p class="hint">同 email 重交會覆蓋</p>
+              <label class="label" for="leaderEmail">電子信箱 <span class="req">*</span></label>
+              <input class="input" id="leaderEmail" type="email" placeholder="確認信會寄到這個信箱">
+              <p class="hint">用相同信箱重新上傳會自動覆蓋原資料</p>
             </div>
             <div>
               <label class="label" for="leaderPhone">電話 <span class="req">*</span></label>
@@ -976,8 +987,8 @@
           <div class="section-head">
             <div class="section-num">6</div>
             <div>
-              <div class="section-title">n8n Workflow 檔</div>
-              <div class="section-desc">JSON 格式 · 可多份（例如 workflow.json、subflow.json）</div>
+              <div class="section-title">n8n 流程檔</div>
+              <div class="section-desc">JSON 檔案 · 可上傳多份（例如主流程 + 子流程）</div>
             </div>
           </div>
           <label class="upload-zone" id="workflowUpload">
@@ -989,24 +1000,24 @@
           <div class="file-list" id="workflowList"></div>
         </section>
 
-        <!-- Section 7: Demo video + Pitch -->
+        <!-- Section 7: 作品影片 + 簡報 -->
         <section class="section">
           <div class="section-head">
             <div class="section-num">7</div>
             <div>
-              <div class="section-title">Demo 影片 & Pitch 簡報</div>
-              <div class="section-desc">影片走連結（YouTube 未列出 / Google Drive 分享）</div>
+              <div class="section-title">作品展示影片與簡報</div>
+              <div class="section-desc">用連結提交，不上傳大檔（YouTube 未公開影片 / 雲端硬碟分享）</div>
             </div>
           </div>
           <div>
-            <label class="label" for="videoUrl">Demo 影片連結 <span class="req">*</span></label>
+            <label class="label" for="videoUrl">作品展示影片連結 <span class="req">*</span></label>
             <input class="input" id="videoUrl" placeholder="https://youtu.be/... 或 https://drive.google.com/...">
-            <p class="hint">2-5 分鐘 · 建議 YouTube 未列出（unlisted）連結，判斷 embed 用</p>
+            <p class="hint">2-5 分鐘介紹您的作品 · 建議上傳到 YouTube 並設為「不公開」（僅知道連結者可觀看），評審才能直接播放</p>
           </div>
           <div style="margin-top:20px;">
-            <label class="label" for="pitchUrl">Pitch 簡報連結</label>
+            <label class="label" for="pitchUrl">作品簡報連結</label>
             <input class="input" id="pitchUrl" placeholder="https://docs.google.com/presentation/...">
-            <p class="hint">Google Slides 分享連結（權限設「知道連結就能檢視」）</p>
+            <p class="hint">Google 簡報分享連結（權限設「知道連結的人皆可檢視」）</p>
           </div>
         </section>
 
@@ -1044,9 +1055,9 @@
           </div>
 
           <div style="margin-top:20px;" id="cloudUrlBlock">
-            <label class="label" for="cloudUrl">雲端 Learning workflow URL</label>
+            <label class="label" for="cloudUrl">雲端 Learning 流程網址</label>
             <input class="input" id="cloudUrl" placeholder="https://learning.tigerai.tw/workflow/...">
-            <p class="hint">評審會用這個連結直接進去看 workflow · 選「雲端」或「兩者」時必填</p>
+            <p class="hint">評審會用這個連結直接進去看您的流程 · 選「雲端」或「兩者」時必填</p>
           </div>
 
           <div style="margin-top:20px;" id="localDepsBlock">
@@ -1077,7 +1088,7 @@
               <input type="radio" name="mode" value="remote">
               <div>
                 <div class="radio-card-title">🌐 遠端連線</div>
-                <div class="radio-card-desc">用 Google Meet 加入 · Round 1 遠端 demo · Round 2 遠端 pitch · 可爭取獎項</div>
+                <div class="radio-card-desc">用 Google Meet 加入 · 第一輪遠端展示、第二輪遠端上台簡報 · 可爭取獎項</div>
               </div>
             </label>
           </div>
@@ -1117,7 +1128,7 @@
           <label class="check-row" style="margin-top:10px;">
             <input type="checkbox" id="consent3">
             <span>
-              我同意主辦方在得獎頁與作品展示頁公開展示本隊作品資訊（隊名、作品標題、簡介、Demo 影片、Workflow）。
+              我同意主辦方在得獎頁與作品展示頁公開展示本隊作品資訊（隊名、作品標題、簡介、作品影片、流程檔）。
             </span>
           </label>
         </section>
@@ -1176,7 +1187,7 @@
         <div class="row row-3">
           <div><label class="label">系所</label><input class="input m-dept" value="${escAttr(m.dept)}"></div>
           <div><label class="label">年級</label><input class="input m-year" value="${escAttr(m.year)}" placeholder="例：大三"></div>
-          <div><label class="label">Email</label><input class="input m-email" value="${escAttr(m.email)}"></div>
+          <div><label class="label">電子信箱</label><input class="input m-email" value="${escAttr(m.email)}"></div>
         </div>
       </div>
     `).join('');
@@ -1224,7 +1235,7 @@
         const dataUrl = await readAsDataURL(f);
         certs.push({ file: f, dataUrl });
       } else {
-        if (workflows.length >= MAX_WORKFLOWS) { toast('Workflow 最多 ' + MAX_WORKFLOWS + ' 份', 'error'); break; }
+        if (workflows.length >= MAX_WORKFLOWS) { toast('流程檔最多 ' + MAX_WORKFLOWS + ' 份', 'error'); break; }
         if (f.size > MAX_WORKFLOW_MB * 1024 * 1024) { toast(`${f.name} 超過 ${MAX_WORKFLOW_MB}MB`, 'error'); continue; }
         const dataUrl = await readAsDataURL(f);
         workflows.push({ file: f, dataUrl });
@@ -1340,10 +1351,10 @@
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.leader.email)) return showErr('隊長 Email 格式不對');
     if (data.members.filter(m => m.name).length < 2) return showErr('至少要有 2 位成員');
     if (certs.length < data.members.filter(m => m.name).length) return showErr(`證照張數應與隊員數相符（${certs.length} 張 / ${data.members.filter(m => m.name).length} 人）`);
-    if (workflows.length === 0) return showErr('至少要上傳 1 份 Workflow JSON');
-    if (!data.videoUrl) return showErr('請填 Demo 影片連結');
+    if (workflows.length === 0) return showErr('至少要上傳 1 份 n8n 流程檔');
+    if (!data.videoUrl) return showErr('請填作品展示影片連結');
     if (!data.runtime) return showErr('請選運行環境');
-    if ((data.runtime === 'cloud' || data.runtime === 'both') && !data.cloudUrl) return showErr('選了雲端環境請填 workflow URL');
+    if ((data.runtime === 'cloud' || data.runtime === 'both') && !data.cloudUrl) return showErr('選了雲端環境請填流程網址');
     if ((data.runtime === 'local' || data.runtime === 'both') && !data.localDeps) return showErr('選了本地端請填依賴清單');
     if (!data.consent) return showErr('請勾選全部 3 項同意書');
 

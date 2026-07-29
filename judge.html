@@ -896,7 +896,7 @@
     const idToken = response.credential;
     // Client-side decode 只是為了立刻顯示 email，實際驗證仍在後端做
     try {
-      const payload = JSON.parse(atob(idToken.split('.')[1]));
+      const payload = decodeJwtPayload_(idToken);
       session.idToken = idToken;
       session.email = payload.email;
       session.name = payload.name;
@@ -1304,6 +1304,17 @@
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
   function escAttr(s) { return esc(s); }
+
+  // 修正 JWT payload 中文亂碼：先 base64→bytes，再用 TextDecoder 以 UTF-8 解
+  function decodeJwtPayload_(jwt) {
+    const b64 = jwt.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const padded = b64 + '='.repeat((4 - b64.length % 4) % 4);
+    const bin = atob(padded);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const jsonStr = new TextDecoder('utf-8').decode(bytes);
+    return JSON.parse(jsonStr);
+  }
 </script>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
