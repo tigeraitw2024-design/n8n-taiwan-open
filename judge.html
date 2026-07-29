@@ -219,8 +219,16 @@
   .expand-icon { transition: transform 0.2s; color: var(--gray-400); }
 
   .team-meta {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--gray-200);
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .team-meta-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px; padding: 20px 0; border-bottom: 1px solid var(--gray-200); margin-bottom: 24px;
+    gap: 12px;
   }
   .team-meta-item { font-size: 13px; }
   .team-meta-label {
@@ -230,6 +238,122 @@
   .team-meta-value { color: var(--gray-800); word-break: break-word; }
   .team-meta-value a { color: var(--pink-deep); text-decoration: none; font-weight: 600; }
   .team-meta-value a:hover { text-decoration: underline; }
+
+  .team-block {
+    background: var(--gray-50);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+  }
+  .team-block-title {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-500);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .team-block-title svg { width: 14px; height: 14px; color: var(--pink-deep); }
+
+  .members-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px;
+  }
+  .member-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+  }
+  .member-chip-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--pink-bg); color: var(--pink-deep);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 11px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .member-chip-body { min-width: 0; flex: 1; }
+  .member-chip-name {
+    font-family: var(--font-display); font-weight: 600; color: var(--gray-800);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .member-chip-meta { font-size: 11.5px; color: var(--gray-500); }
+
+  .certs-gallery {
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .cert-tile {
+    width: 88px; height: 88px; border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-200); background: var(--white);
+    overflow: hidden; cursor: pointer; position: relative;
+    transition: transform 0.15s;
+  }
+  .cert-tile:hover { transform: scale(1.05); }
+  .cert-tile img { width: 100%; height: 100%; object-fit: cover; }
+  .cert-tile-fallback {
+    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+    color: var(--gray-400); flex-direction: column; gap: 4px;
+    font-size: 10px; padding: 4px;
+  }
+  .cert-tile-fallback svg { width: 22px; height: 22px; }
+
+  .file-btns {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .file-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 12px; border-radius: var(--radius-sm);
+    background: var(--white); border: 1px solid var(--gray-200);
+    color: var(--gray-700); text-decoration: none;
+    font-family: var(--font-display); font-weight: 600; font-size: 12.5px;
+    max-width: 100%; overflow: hidden;
+  }
+  .file-btn:hover { border-color: var(--pink); color: var(--pink-deep); }
+  .file-btn svg { width: 13px; height: 13px; stroke-width: 2.2; flex-shrink: 0; }
+  .file-btn-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .runtime-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 100px;
+    background: var(--pink-bg); color: var(--pink-deep);
+    font-family: var(--font-display); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+  .runtime-detail {
+    font-size: 13px; color: var(--gray-700); line-height: 1.6;
+  }
+  .runtime-detail a {
+    display: inline-flex; align-items: center; gap: 4px;
+    color: var(--pink-deep); font-weight: 600; text-decoration: none;
+    padding: 6px 12px; background: var(--white); border-radius: 100px; border: 1px solid var(--pink-bg);
+    margin-top: 6px;
+  }
+  .runtime-detail a:hover { background: var(--pink-soft); }
+  .runtime-detail a svg { width: 12px; height: 12px; }
+  .runtime-local-deps {
+    font-family: monospace; font-size: 12px;
+    background: var(--white); padding: 10px 12px; border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-200); white-space: pre-wrap; word-break: break-word;
+    margin-top: 8px;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85);
+    display: none; align-items: center; justify-content: center; z-index: 500;
+    padding: 20px; cursor: pointer;
+  }
+  .lightbox.show { display: flex; }
+  .lightbox img { max-width: 100%; max-height: 100%; border-radius: var(--radius-md); }
 
   .score-grid { display: grid; gap: 24px; }
   .score-row-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
@@ -606,14 +730,77 @@
 
   function demoApi(action, payload) {
     if (action === 'judge-get-teams') {
+      const demoCerts = [
+        { name: 'cert_morris.png', url: 'https://picsum.photos/seed/c1/400/300', thumbUrl: 'https://picsum.photos/seed/c1/200/150' },
+        { name: 'cert_joseph.png', url: 'https://picsum.photos/seed/c2/400/300', thumbUrl: 'https://picsum.photos/seed/c2/200/150' },
+        { name: 'cert_ann.png', url: 'https://picsum.photos/seed/c3/400/300', thumbUrl: 'https://picsum.photos/seed/c3/200/150' }
+      ];
+      const demoWorkflows = [
+        { name: 'main-workflow.json', url: '#', downloadUrl: '#' },
+        { name: 'notification-subflow.json', url: '#', downloadUrl: '#' }
+      ];
       return Promise.resolve({
         ok: true,
         judge: { name: 'Morris (Demo)', email: 'demo@tigerai.tw' },
         teams: [
-          { id: 't001', name: '流程獵人', school: '臺科大', theme: 1, title: '校內選課通知整合器', video: '', repo: '', summary: '' },
-          { id: 't002', name: 'Prompt 佛山', school: '逢甲', theme: 2, title: '中小企業 FAQ 智能客服', video: '', repo: '', summary: '' },
-          { id: 't003', name: 'IG 排程神獸', school: '高科大', theme: 3, title: 'AI 短影片素材工廠', video: '', repo: '', summary: '' },
-          { id: 't004', name: 'NPO 加速器', school: '成大', theme: 4, title: '志工排班自動化', video: '', repo: '', summary: '' }
+          {
+            id: 't001', name: '流程獵人', school: '臺科大', theme: 1, title: '校內選課通知整合器',
+            leader: '林哲宇', memberCount: 3,
+            summary: '整合逢甲 / 臺科 / 高科三校選課系統，將課程異動即時推送到 LINE。上線兩週已服務 300+ 學生。',
+            members: [
+              { name: '林哲宇', school: '臺科大', dept: '資工系', year: '大三' },
+              { name: '陳允中', school: '臺科大', dept: '資管系', year: '大四' },
+              { name: '黃佳恩', school: '臺科大', dept: '企管系', year: '大二' }
+            ],
+            certs: demoCerts,
+            workflows: demoWorkflows,
+            video: 'https://youtu.be/dQw4w9WgXcQ', pitch: '#',
+            runtime: 'cloud', cloudUrl: 'https://learning.tigerai.tw/workflow/demo-t001',
+            localDeps: ''
+          },
+          {
+            id: 't002', name: 'Prompt 佛山', school: '逢甲', theme: 2, title: '中小企業 FAQ 智能客服',
+            leader: '陳雅婷', memberCount: 4,
+            summary: '結合 RAG + LINE Bot，讓小店家 5 分鐘上手 AI 客服，內建計費與使用量統計。',
+            members: [
+              { name: '陳雅婷', school: '逢甲', dept: '商管系', year: '大三' },
+              { name: '劉旻嘉', school: '逢甲', dept: '資工', year: '大二' },
+              { name: '張永勳', school: '逢甲', dept: '會計', year: '大四' },
+              { name: '謝曉薇', school: '逢甲', dept: '國企', year: '大三' }
+            ],
+            certs: demoCerts.concat([{ name: 'cert_extra.png', url: 'https://picsum.photos/seed/c4/400/300', thumbUrl: 'https://picsum.photos/seed/c4/200/150' }]),
+            workflows: [{ name: 'faq-rag.json', url: '#', downloadUrl: '#' }],
+            video: 'https://youtu.be/dQw4w9WgXcQ', pitch: '#',
+            runtime: 'both', cloudUrl: 'https://learning.tigerai.tw/workflow/demo-t002',
+            localDeps: 'Docker\nOllama (mistral 7b)\nPostgres 15 (port 5432)\n環境變數：OPENAI_API_KEY'
+          },
+          {
+            id: 't003', name: 'IG 排程神獸', school: '高科大', theme: 3, title: 'AI 短影片素材工廠',
+            leader: '黃冠豪', memberCount: 2,
+            summary: '一句話生成 IG Reels 素材包 —— 腳本、字卡、音樂建議、跨帳號同步排程一次搞定。',
+            members: [
+              { name: '黃冠豪', school: '高科大', dept: '創意設計', year: '大四' },
+              { name: '王思穎', school: '高科大', dept: '視傳', year: '大三' }
+            ],
+            certs: [demoCerts[0], demoCerts[1]],
+            workflows: [{ name: 'ig-flow.json', url: '#', downloadUrl: '#' }],
+            video: '', pitch: '',
+            runtime: 'local', cloudUrl: '', localDeps: 'Docker\nRedis 7 (port 6379)\nffmpeg 6.x'
+          },
+          {
+            id: 't004', name: 'NPO 加速器', school: '成大', theme: 4, title: '志工排班自動化',
+            leader: '吳庭安', memberCount: 3,
+            summary: '為家扶基金會打造 LINE + Google Sheets 志工排班，已試辦兩個月，取代原本手工排班。',
+            members: [
+              { name: '吳庭安', school: '成大', dept: '社工系', year: '大四' },
+              { name: '許怡君', school: '成大', dept: '資工系', year: '大三' },
+              { name: '林俊良', school: '成大', dept: '心理系', year: '大二' }
+            ],
+            certs: [demoCerts[2], demoCerts[0], demoCerts[1]],
+            workflows: [{ name: 'volunteer-schedule.json', url: '#', downloadUrl: '#' }],
+            video: 'https://youtu.be/dQw4w9WgXcQ', pitch: '#',
+            runtime: 'cloud', cloudUrl: 'https://learning.tigerai.tw/workflow/demo-t004', localDeps: ''
+          }
         ],
         myScores: {
           't002': { d1: 22, d2: 18, d3: 15, d4: 10, d5: 7, note: 'Demo 已評分', ts: new Date().toISOString() }
@@ -898,6 +1085,118 @@
     return (Number(s.d1)||0) + (Number(s.d2)||0) + (Number(s.d3)||0) + (Number(s.d4)||0) + (Number(s.d5)||0);
   }
 
+  const RUNTIME_LABEL = {
+    cloud: '☁️ 雲端 Learning',
+    local: '💻 本地端 Docker',
+    both:  '🔀 兩者皆有'
+  };
+
+  function renderTeamMeta(t) {
+    const basicGrid = [
+      ['隊名', esc(t.name)],
+      ['學校', esc(t.school)],
+      ['隊長', esc(t.leader) + (t.memberCount ? ` · ${t.memberCount} 人團隊` : '')],
+      ['題目', THEMES[t.theme]],
+      ['作品標題', esc(t.title)]
+    ].map(([k, v]) => `<div class="team-meta-item"><div class="team-meta-label">${k}</div><div class="team-meta-value">${v || '—'}</div></div>`).join('');
+
+    const summaryBlock = t.summary ? `
+      <div class="team-block">
+        <div class="team-block-title"><i data-lucide="file-text"></i> 作品簡介</div>
+        <div style="font-size:13.5px; color:var(--gray-700); line-height:1.7;">${esc(t.summary)}</div>
+      </div>
+    ` : '';
+
+    const membersBlock = (Array.isArray(t.members) && t.members.length) ? `
+      <div class="team-block">
+        <div class="team-block-title"><i data-lucide="users"></i> 隊員名單</div>
+        <div class="members-list">
+          ${t.members.map((m, i) => `
+            <div class="member-chip">
+              <span class="member-chip-num">${i + 1}</span>
+              <div class="member-chip-body">
+                <div class="member-chip-name">${esc(m.name || '(未填)')}</div>
+                <div class="member-chip-meta">${esc([m.school, m.dept, m.year].filter(Boolean).join(' · ') || '—')}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    const certsBlock = (Array.isArray(t.certs) && t.certs.length) ? `
+      <div class="team-block">
+        <div class="team-block-title"><i data-lucide="award"></i> Level 1 認證證照（${t.certs.length} 張）</div>
+        <div class="certs-gallery">
+          ${t.certs.map((c, i) => `
+            <div class="cert-tile" onclick="openLightbox('${escAttr(c.url || '')}', '${escAttr(c.thumbUrl || '')}')">
+              ${c.thumbUrl
+                ? `<img src="${escAttr(c.thumbUrl)}" alt="${escAttr(c.name || 'cert')}" onerror="this.replaceWith(certFallback());">`
+                : `<div class="cert-tile-fallback"><i data-lucide="image"></i><span>${esc(c.name || 'cert')}</span></div>`
+              }
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    const workflowsBlock = (Array.isArray(t.workflows) && t.workflows.length) ? `
+      <div class="team-block">
+        <div class="team-block-title"><i data-lucide="file-code-2"></i> Workflow JSON（${t.workflows.length} 檔）</div>
+        <div class="file-btns">
+          ${t.workflows.map(w => `
+            <a class="file-btn" href="${escAttr(w.downloadUrl || w.url)}" target="_blank" rel="noopener">
+              <i data-lucide="download"></i><span class="file-btn-name">${esc(w.name || 'workflow.json')}</span>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    const runtimeBlock = t.runtime ? `
+      <div class="team-block">
+        <div class="team-block-title"><i data-lucide="server"></i> 運行環境</div>
+        <div class="runtime-badge">${RUNTIME_LABEL[t.runtime] || t.runtime}</div>
+        <div class="runtime-detail">
+          ${t.cloudUrl ? `<a href="${escAttr(t.cloudUrl)}" target="_blank" rel="noopener"><i data-lucide="external-link"></i>開雲端 Workflow</a>` : ''}
+          ${t.localDeps ? `<div class="runtime-local-deps">${esc(t.localDeps)}</div>` : ''}
+        </div>
+      </div>
+    ` : '';
+
+    const linksGrid = [
+      ['Demo 影片', t.video ? `<a href="${escAttr(t.video)}" target="_blank" rel="noopener">開啟 →</a>` : '—'],
+      ['Pitch 簡報', t.pitch ? `<a href="${escAttr(t.pitch)}" target="_blank" rel="noopener">開啟 →</a>` : '—']
+    ].map(([k, v]) => `<div class="team-meta-item"><div class="team-meta-label">${k}</div><div class="team-meta-value">${v}</div></div>`).join('');
+
+    return `
+      <div class="team-meta-grid">${basicGrid}</div>
+      ${summaryBlock}
+      ${membersBlock}
+      ${certsBlock}
+      ${workflowsBlock}
+      ${runtimeBlock}
+      <div class="team-meta-grid">${linksGrid}</div>
+    `;
+  }
+
+  window.openLightbox = function(url, thumbUrl) {
+    const lb = document.getElementById('lightbox');
+    if (!lb) return;
+    lb.querySelector('img').src = url || thumbUrl;
+    lb.classList.add('show');
+  };
+  window.closeLightbox = function() {
+    document.getElementById('lightbox')?.classList.remove('show');
+  };
+  window.certFallback = function() {
+    const div = document.createElement('div');
+    div.className = 'cert-tile-fallback';
+    div.innerHTML = '<i data-lucide="image-off"></i><span>載入失敗</span>';
+    setTimeout(() => lucide.createIcons(), 10);
+    return div;
+  };
+
   function mountBody(card) {
     if (card.querySelector('.team-body')) return;
     const teamId = card.dataset.team;
@@ -907,14 +1206,7 @@
     card.appendChild(tpl.content.cloneNode(true));
 
     const metaEl = card.querySelector('.team-meta');
-    const meta = [
-      ['隊名', t.name], ['學校', t.school], ['作品標題', t.title], ['題目', THEMES[t.theme]],
-      ['Demo 影片', t.video ? `<a href="${t.video}" target="_blank" rel="noopener">開啟 →</a>` : '—'],
-      ['Pitch 簡報', t.pitch ? `<a href="${t.pitch}" target="_blank" rel="noopener">開啟 →</a>` : '—'],
-      ['GitHub / Repo', t.repo ? `<a href="${t.repo}" target="_blank" rel="noopener">開啟 →</a>` : '—'],
-      ['作品簡介', t.summary || '—']
-    ];
-    metaEl.innerHTML = meta.map(([k,v]) => `<div class="team-meta-item"><div class="team-meta-label">${k}</div><div class="team-meta-value">${v || '—'}</div></div>`).join('');
+    metaEl.innerHTML = renderTeamMeta(t);
 
     ['d1','d2','d3','d4','d5'].forEach(dim => {
       const val = Number(prev[dim] || 0);
@@ -998,7 +1290,12 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;')
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
+  function escAttr(s) { return esc(s); }
 </script>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img src="" alt="Certificate">
+</div>
 
 </body>
 </html>
