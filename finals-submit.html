@@ -852,7 +852,7 @@
           <i data-lucide="info"></i>
           <div>
             <strong>提交前請準備好：</strong>
-            隊員 n8n Level 1 認證圖（PNG，每人一張）· n8n 流程檔（JSON，可多份）· 作品展示影片連結（YouTube 未公開連結或 Google 雲端硬碟連結）· 作品簡報連結 · 若使用雲端 Learning 環境，請附上流程網址。
+            隊員 n8n Level 1 認證圖（PNG，每人一張）· n8n 流程檔（JSON，可多份）· 作品展示影片連結（YouTube 未公開連結或 Google 雲端硬碟連結）· 作品簡報連結 · <strong>虎智科技 Learning 流程網址</strong>（所有作品必須在 Learning 上跑，評審才能實測）。
             <br><strong>可重新提交：</strong>用同一個隊長信箱重新上傳，就會覆蓋前一次的資料。
           </div>
         </div>
@@ -1024,49 +1024,23 @@
           </div>
         </section>
 
-        <!-- Section 8: Runtime -->
+        <!-- Section 8: Runtime · Learning URL (required) -->
         <section class="section">
           <div class="section-head">
             <div class="section-num">8</div>
             <div>
-              <div class="section-title">n8n 運行環境</div>
-              <div class="section-desc">告訴主辦方您的作品在哪跑，方便評審現場測試</div>
+              <div class="section-title">虎智科技 Learning 流程網址</div>
+              <div class="section-desc">所有參賽作品都必須佈署在虎智科技 Learning 平台上運行，評審才能實際測試</div>
             </div>
           </div>
-          <div class="radio-group" id="runtimeGroup">
-            <label class="radio-card">
-              <input type="radio" name="runtime" value="cloud">
-              <div>
-                <div class="radio-card-title">☁️ 雲端 Learning</div>
-                <div class="radio-card-desc">作品已跑在 TigerAI Learning 平台，主辦方可直接開連結</div>
-              </div>
-            </label>
-            <label class="radio-card">
-              <input type="radio" name="runtime" value="local">
-              <div>
-                <div class="radio-card-title">💻 本地端 Docker</div>
-                <div class="radio-card-desc">現場用主辦方或自帶的本地機器跑（列出依賴）</div>
-              </div>
-            </label>
-            <label class="radio-card">
-              <input type="radio" name="runtime" value="both">
-              <div>
-                <div class="radio-card-title">🔀 兩者皆有</div>
-                <div class="radio-card-desc">雲端有一份、本地也可跑</div>
-              </div>
-            </label>
+          <div style="padding:14px 18px; background:var(--pink-soft); border-radius:var(--radius-md); font-size:13.5px; line-height:1.7; color:var(--gray-700); margin-bottom:20px;">
+            <strong>📌 統一運行環境</strong>：本次比賽所有作品**必須**在 <strong>虎智科技 Learning 平台</strong>上跑得起來，才符合比賽資格。<br>
+            如果您還沒有 Learning 帳號，請聯絡主辦方（Robin · 0911-436-467）取得帳號。
           </div>
-
-          <div style="margin-top:20px;" id="cloudUrlBlock">
-            <label class="label" for="cloudUrl">雲端 Learning 流程網址</label>
+          <div>
+            <label class="label" for="cloudUrl">Learning 流程網址 <span class="req">*</span></label>
             <input class="input" id="cloudUrl" placeholder="https://learning.tigerai.tw/workflow/...">
-            <p class="hint">評審會用這個連結直接進去看您的流程 · 選「雲端」或「兩者」時必填</p>
-          </div>
-
-          <div style="margin-top:20px;" id="localDepsBlock">
-            <label class="label" for="localDeps">本地端依賴（軟體、port、環境變數）</label>
-            <textarea class="textarea" id="localDeps" placeholder="例：Docker · Ollama (mistral 7b) · Postgres 15 (port 5432) · 需要 OPENAI_API_KEY 環境變數"></textarea>
-            <p class="hint">選「本地端」或「兩者」時必填 · 越詳細主辦方越好準備現場機器</p>
+            <p class="hint">請貼上您的作品在 Learning 上的完整網址 · 評審會用這個連結直接進去看並實測您的流程</p>
           </div>
         </section>
 
@@ -1159,9 +1133,6 @@
     $('#workflowInput').addEventListener('change', (e) => onFilesChosen(e.target.files, 'workflows'));
     bindDragDrop($('#certUpload'), 'certs');
     bindDragDrop($('#workflowUpload'), 'workflows');
-    // Runtime radio
-    $$('input[name="runtime"]').forEach(r => r.addEventListener('change', updateRuntimeUI));
-    updateRuntimeUI();
     // Mode radio (onsite/remote)
     $$('input[name="mode"]').forEach(r => r.addEventListener('change', updateModeUI));
     updateModeUI();
@@ -1291,16 +1262,6 @@
   }
 
   /* -----------------------------------------------------
-     Runtime UI
-     ----------------------------------------------------- */
-  function updateRuntimeUI() {
-    const r = document.querySelector('input[name="runtime"]:checked')?.value;
-    $$('.radio-card').forEach(c => c.classList.toggle('active', c.querySelector('input').checked));
-    $('#cloudUrlBlock').style.display = (r === 'cloud' || r === 'both') ? '' : 'none';
-    $('#localDepsBlock').style.display = (r === 'local' || r === 'both') ? '' : 'none';
-  }
-
-  /* -----------------------------------------------------
      Submit
      ----------------------------------------------------- */
   async function submitForm() {
@@ -1332,9 +1293,9 @@
       referralCode: $('#referralCode').value.trim().toUpperCase(),
       videoUrl: $('#videoUrl').value.trim(),
       pitchUrl: $('#pitchUrl').value.trim(),
-      runtime: document.querySelector('input[name="runtime"]:checked')?.value || '',
+      runtime: 'cloud',
       cloudUrl: $('#cloudUrl').value.trim(),
-      localDeps: $('#localDeps').value.trim(),
+      localDeps: '',
       mode: document.querySelector('input[name="mode"]:checked')?.value || 'onsite',
       consent: $('#consent1').checked && $('#consent2').checked && $('#consent3').checked
     };
@@ -1356,9 +1317,7 @@
     if (certs.length < data.members.filter(m => m.name).length) return showErr(`證照張數應與隊員數相符（${certs.length} 張 / ${data.members.filter(m => m.name).length} 人）`);
     if (workflows.length === 0) return showErr('至少要上傳 1 份 n8n 流程檔');
     if (!data.videoUrl) return showErr('請填作品展示影片連結');
-    if (!data.runtime) return showErr('請選運行環境');
-    if ((data.runtime === 'cloud' || data.runtime === 'both') && !data.cloudUrl) return showErr('選了雲端環境請填流程網址');
-    if ((data.runtime === 'local' || data.runtime === 'both') && !data.localDeps) return showErr('選了本地端請填依賴清單');
+    if (!data.cloudUrl) return showErr('請填 Learning 流程網址（所有作品都必須在 Learning 上跑）');
     if (!data.consent) return showErr('請勾選全部 3 項同意書');
 
     // Build payload
