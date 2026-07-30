@@ -148,6 +148,54 @@
   .status-banner.status-ok { background: #ECFDF5; }
   .status-banner.status-ok svg { color: var(--green); }
 
+  /* n8n Learning 共用帳號提示 */
+  .learning-banner {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 100%);
+    border: 1px solid #FCD34D;
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--gray-800);
+  }
+  .learning-banner-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    color: #92400E;
+    margin-bottom: 10px;
+  }
+  .learning-banner-head svg { width: 18px; height: 18px; }
+  .learning-banner-grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 8px 12px;
+    align-items: center;
+  }
+  .learning-banner-grid .label { color: var(--gray-500); font-size: 12px; }
+  .learning-banner-grid .value {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--black);
+    word-break: break-all;
+  }
+  .learning-banner-grid .value a { color: var(--pink-deep); text-decoration: none; }
+  .learning-banner-grid .value a:hover { text-decoration: underline; }
+  .learning-copy-btn {
+    padding: 4px 10px;
+    background: #fff;
+    border: 1px solid #FCD34D;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #92400E;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .learning-copy-btn:hover { background: #FEF3C7; }
+  .learning-copy-btn.copied { background: #10B981; color: #fff; border-color: #10B981; }
+
   .progress-row {
     display: flex;
     justify-content: space-between;
@@ -1021,6 +1069,23 @@
     $('#app').innerHTML = `
       <div class="container">
         ${DEMO_MODE ? `<div class="status-banner"><i data-lucide="info"></i><span>Demo 模式 · 目前顯示假資料，任何送出不會存到後端</span></div>` : ''}
+        <div class="learning-banner">
+          <div class="learning-banner-head">
+            <i data-lucide="key-round"></i>
+            <span>觀看雲端 Workflow 前 · 請先登入 n8n Learning 共用帳號</span>
+          </div>
+          <div class="learning-banner-grid">
+            <span class="label">網址</span>
+            <span class="value"><a href="https://learning.n8n.tw" target="_blank" rel="noopener">https://learning.n8n.tw</a></span>
+            <span></span>
+            <span class="label">帳號</span>
+            <span class="value" id="learningAccount">tigerain8n@gmail.com</span>
+            <button class="learning-copy-btn" onclick="copyLearningCred('learningAccount', this)">複製</button>
+            <span class="label">密碼</span>
+            <span class="value" id="learningPass">Taiwan@No1</span>
+            <button class="learning-copy-btn" onclick="copyLearningCred('learningPass', this)">複製</button>
+          </div>
+        </div>
         <div class="progress-row">
           <div class="progress-stats">
             <div>
@@ -1209,6 +1274,26 @@
       <div class="team-meta-grid">${linksGrid}</div>
     `;
   }
+
+  window.copyLearningCred = function(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.textContent.trim();
+    const done = () => {
+      const orig = btn.textContent;
+      btn.textContent = '已複製';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1400);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => {});
+    } else {
+      const t = document.createElement('textarea');
+      t.value = text; document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(t);
+    }
+  };
 
   window.openLightbox = function(url, thumbUrl) {
     const lb = document.getElementById('lightbox');
