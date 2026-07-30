@@ -64,9 +64,27 @@
     color: var(--white);
     transition: opacity 0.15s;
   }
-  .nav-brand:hover { opacity: 0.7; }
-  .nav-brand-home { width: 16px; height: 16px; color: var(--gray-400); }
-  .nav-brand:hover .nav-brand-home { color: var(--pink); }
+  .nav-brand:hover { opacity: 0.75; }
+  .nav-brand-mark {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--pink);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-family: var(--font-display);
+  }
+  .nav-brand-tw {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-400);
+    font-family: var(--font-display);
+  }
+  .nav-brand-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255,255,255,0.15);
+    margin: 0 2px;
+  }
   .nav-brand-pill {
     padding: 4px 10px;
     border-radius: 100px;
@@ -584,9 +602,10 @@
 
 <nav class="nav-bar">
   <a href="index.html" class="nav-brand" title="回活動首頁">
-    <i data-lucide="home" class="nav-brand-home" aria-hidden="true"></i>
+    <span class="nav-brand-mark">n8n</span>
+    <span class="nav-brand-tw">Taiwan Open</span>
+    <span class="nav-brand-divider"></span>
     <span class="nav-brand-pill" data-en="Finals Results">得獎名單</span>
-    <span class="nav-brand-text">n8n Taiwan Open 2026</span>
   </a>
   <div style="display:flex; align-items:center; gap:20px;">
     <div class="nav-links">
