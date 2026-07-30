@@ -570,12 +570,6 @@
   <p>n8n Taiwan Open Hackathon 2026 · 主辦：虎智科技 TigerAI</p>
   <p>共同主辦：博碩文化 × 臺科大創新育成中心 · 贊助：AMD × TUL × Zeabur</p>
   <p style="margin-top:12px;"><a href="index.html">回活動首頁</a></p>
-  <p style="margin-top:20px; font-size:10px; opacity:0.4; letter-spacing:0.05em;">
-    主辦方控制 ·
-    <a href="#" onclick="event.preventDefault(); toggleReveal(true);" style="color:inherit; text-decoration:underline;">公布</a>
-    ·
-    <a href="#" onclick="event.preventDefault(); toggleReveal(false);" style="color:inherit; text-decoration:underline;">收回</a>
-  </p>
 </div>
 
 <script>
@@ -816,40 +810,6 @@
       alert('連結已複製，可貼到社群');
     }
   }
-
-  /* -----------------------------------------------------
-     主辦方小按鈕（頁面底部）· 需要管理密碼
-     ----------------------------------------------------- */
-  const ADMIN_PIN_KEY = 'n8n-admin-pin';
-  function getAdminPin() {
-    let pin = '';
-    try { pin = sessionStorage.getItem(ADMIN_PIN_KEY) || ''; } catch (e) {}
-    if (!pin) {
-      pin = (prompt('請輸入管理密碼') || '').trim();
-      if (pin) { try { sessionStorage.setItem(ADMIN_PIN_KEY, pin); } catch (e) {} }
-    }
-    return pin;
-  }
-  async function toggleReveal(on) {
-    if (!confirm(on ? '確定「立即公布得獎名單」？' : '確定「收回公布」·回到倒數狀態？')) return;
-    const pin = getAdminPin();
-    if (!pin) return;
-    try {
-      const res = await fetch(GAS_URL, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'admin-simple-reveal', pin: pin, value: on ? 'TRUE' : 'FALSE' })
-      });
-      const data = await res.json();
-      if (data.ok) {
-        location.reload();
-      } else {
-        // 密碼錯 → 清掉快取，下次會重新問
-        try { sessionStorage.removeItem(ADMIN_PIN_KEY); } catch (e) {}
-        alert('失敗：' + (data.message || '未知錯誤'));
-      }
-    } catch (e) { alert('連線錯誤：' + e.message); }
-  }
-  window.toggleReveal = toggleReveal;
 
   init();
 
