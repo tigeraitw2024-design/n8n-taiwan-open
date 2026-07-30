@@ -183,6 +183,19 @@
   }
   .btn-add:hover { color: var(--pink); border-color: var(--pink); }
 
+  .btn-auto-fill {
+    padding: 6px 12px;
+    background: rgba(240,100,140,0.12);
+    color: var(--pink);
+    border: 1px solid rgba(240,100,140,0.35);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-auto-fill:hover { background: rgba(240,100,140,0.22); border-color: var(--pink); }
+
   .action-bar {
     position: sticky;
     bottom: 0;
@@ -494,7 +507,10 @@
   <section>
     <h2>
       得獎名單設定
-      <span class="hint">選好後按下方「儲存」</span>
+      <span style="display:flex; gap:12px; align-items:center;">
+        <span class="hint">選好後按下方「儲存」</span>
+        <button type="button" class="btn-auto-fill" onclick="autoFillTopThree()">依平均分自動帶入 1/2/3</button>
+      </span>
     </h2>
     <div id="awardsBox">
       <div class="award-row">
@@ -803,6 +819,29 @@
       }
     });
   }
+
+  function autoFillTopThree() {
+    if (!allTeams.length) { toast('目前沒有隊伍資料', 'error'); return; }
+    const scored = allTeams.filter(t => t.judgeCount > 0);
+    if (scored.length < 3) {
+      toast('已評分的隊伍不到 3 隊 · 無法自動帶入', 'error');
+      return;
+    }
+    // allTeams 已依 totalAvg 由高至低排序（backend 已 sort）
+    const [g, s, b] = scored;
+    if (!confirm(
+      '確定要用目前排行榜帶入？\n' +
+      '\n冠軍 → #1 ' + g.name + '（' + g.totalAvg.toFixed(1) + '）' +
+      '\n亞軍 → #2 ' + s.name + '（' + s.totalAvg.toFixed(1) + '）' +
+      '\n季軍 → #3 ' + b.name + '（' + b.totalAvg.toFixed(1) + '）' +
+      '\n\n（會覆蓋現有選擇 · 不會自動儲存）'
+    )) return;
+    document.querySelector('#awardsBox select[data-slug="grand"]').value  = g.teamId;
+    document.querySelector('#awardsBox select[data-slug="silver"]').value = s.teamId;
+    document.querySelector('#awardsBox select[data-slug="bronze"]').value = b.teamId;
+    toast('已帶入前 3 名 · 記得按「儲存得獎名單」', 'success');
+  }
+  window.autoFillTopThree = autoFillTopThree;
 
   function addSpecial(slug, displayName, teamId, subtitle) {
     specialCounter++;
