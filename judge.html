@@ -111,6 +111,20 @@
     font-weight: 600;
   }
   .btn-tiny:hover { background: var(--gray-100); }
+  .lang-btn {
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--gray-300);
+    background: var(--white);
+    color: var(--gray-700);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+  }
+  .lang-btn:hover { border-color: var(--pink-deep); color: var(--pink-deep); }
 
   .container {
     max-width: 1100px;
@@ -561,16 +575,19 @@
 <header class="header">
   <div class="header-inner">
     <div class="brand">
-      <span class="brand-pill">評審評分</span>
+      <span class="brand-pill" data-en="Judge Console">評審評分</span>
       <span>n8n Taiwan Open 2026</span>
     </div>
-    <div class="judge-info" id="judgeInfo" style="display:none;">
-      <div class="judge-avatar" id="judgeAvatar">?</div>
-      <div>
-        <div style="font-family: var(--font-display); font-weight:700; color:var(--gray-800); font-size:14px;" id="judgeName">評審</div>
-        <div style="font-size:11px; color:var(--gray-500);" id="judgeEmail">—</div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <button type="button" class="lang-btn" id="langBtn" aria-label="Switch language">EN</button>
+      <div class="judge-info" id="judgeInfo" style="display:none;">
+        <div class="judge-avatar" id="judgeAvatar">?</div>
+        <div>
+          <div style="font-family: var(--font-display); font-weight:700; color:var(--gray-800); font-size:14px;" id="judgeName" data-en="Judge">評審</div>
+          <div style="font-size:11px; color:var(--gray-500);" id="judgeEmail">—</div>
+        </div>
+        <button class="btn-tiny" onclick="signOut()" data-en="Sign out">登出</button>
       </div>
-      <button class="btn-tiny" onclick="signOut()">登出</button>
     </div>
   </div>
 </header>
@@ -1315,6 +1332,36 @@
     const jsonStr = new TextDecoder('utf-8').decode(bytes);
     return JSON.parse(jsonStr);
   }
+
+  /* Language Toggle */
+  (function () {
+    const STORAGE_KEY = 'site-lang';
+    const btn = document.getElementById('langBtn');
+    if (!btn) return;
+    function applyLang(lang) {
+      document.documentElement.lang = (lang === 'en') ? 'en' : 'zh-Hant';
+      document.querySelectorAll('[data-en]').forEach(function (el) {
+        if (el.dataset.zh === undefined) el.dataset.zh = el.innerHTML;
+        el.innerHTML = (lang === 'en') ? el.dataset.en : el.dataset.zh;
+      });
+      btn.textContent = (lang === 'en') ? '中文' : 'EN';
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+      if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+    }
+    btn.addEventListener('click', function () {
+      const current = (document.documentElement.lang === 'en') ? 'en' : 'zh';
+      applyLang(current === 'en' ? 'zh' : 'en');
+    });
+    try { if (localStorage.getItem(STORAGE_KEY) === 'en') applyLang('en'); } catch (e) {}
+    // 頁面動態渲染後再套一次
+    const app = document.getElementById('app');
+    if (app) {
+      new MutationObserver(function () {
+        const cur = (document.documentElement.lang === 'en') ? 'en' : 'zh';
+        if (cur === 'en') applyLang('en');
+      }).observe(app, { childList: true });
+    }
+  })();
 </script>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">

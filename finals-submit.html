@@ -112,6 +112,20 @@
     font-weight: 600;
   }
   .btn-tiny:hover { background: var(--gray-100); }
+  .lang-btn {
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--gray-300);
+    background: var(--white);
+    color: var(--gray-700);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+  }
+  .lang-btn:hover { border-color: var(--pink-deep); color: var(--pink-deep); }
 
   .container {
     max-width: 900px;
@@ -650,16 +664,19 @@
 <header class="header">
   <div class="header-inner">
     <a href="index.html" class="brand">
-      <span class="brand-pill">決賽作品上傳</span>
+      <span class="brand-pill" data-en="Finals Submission">決賽作品上傳</span>
       <span>n8n Taiwan Open 2026</span>
     </a>
-    <div class="signed-info" id="signedInfo" style="display:none;">
-      <div class="signed-avatar" id="signedAvatar">?</div>
-      <div>
-        <div style="font-family:var(--font-display); font-weight:700; font-size:13px; color:var(--gray-800);" id="signedName">—</div>
-        <div style="font-size:11px; color:var(--gray-500);" id="signedEmail">—</div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <button type="button" class="lang-btn" id="langBtn" aria-label="Switch language">EN</button>
+      <div class="signed-info" id="signedInfo" style="display:none;">
+        <div class="signed-avatar" id="signedAvatar">?</div>
+        <div>
+          <div style="font-family:var(--font-display); font-weight:700; font-size:13px; color:var(--gray-800);" id="signedName">—</div>
+          <div style="font-size:11px; color:var(--gray-500);" id="signedEmail">—</div>
+        </div>
+        <button class="btn-tiny" onclick="signOut()" data-en="Sign out">登出</button>
       </div>
-      <button class="btn-tiny" onclick="signOut()">登出</button>
     </div>
   </div>
 </header>
@@ -683,10 +700,10 @@
 <template id="tpl-auth">
   <div class="auth-wrap">
     <div class="auth-card">
-      <h1 class="auth-title">決賽作品上傳</h1>
-      <p class="auth-sub">請先用 Google 帳號登入，才能提交作品（任一 Google 帳號皆可）</p>
+      <h1 class="auth-title" data-en="Finals Submission">決賽作品上傳</h1>
+      <p class="auth-sub" data-en="Sign in with Google to submit your project (any Google account works)">請先用 Google 帳號登入，才能提交作品（任一 Google 帳號皆可）</p>
       <div id="gsiButton"></div>
-      <p class="auth-note">系統會記錄提交人的 Google 帳號信箱作為稽核紀錄<br>如有問題請聯絡 Robin · 0911-436-467</p>
+      <p class="auth-note" data-en="Your Google account email is logged for audit.<br>Questions? Contact Robin · 0911-436-467">系統會記錄提交人的 Google 帳號信箱作為稽核紀錄<br>如有問題請聯絡 Robin · 0911-436-467</p>
     </div>
   </div>
 </template>
@@ -695,15 +712,15 @@
 <template id="tpl-success">
   <div class="success-wrap">
     <div class="success-icon"><i data-lucide="check"></i></div>
-    <h1 class="success-title" id="successTitle">作品已收到！</h1>
+    <h1 class="success-title" id="successTitle" data-en="Project received!">作品已收到！</h1>
     <div class="success-team" id="successTeamId">T???</div>
-    <p class="success-sub">
+    <p class="success-sub" data-en="Confirmation email sent to your team leader's inbox · Organizer also notified.<br>To modify, re-upload with the same leader email and it will overwrite.">
       確認信已寄到您隊長的電子信箱，主辦方也收到通知。<br>
       如需修改，請重新用相同的隊長信箱上傳，系統會自動覆蓋原作品。
     </p>
     <div class="success-actions">
-      <button class="btn btn-outline" onclick="location.reload()"><i data-lucide="rotate-ccw"></i><span>修改 / 再交一次</span></button>
-      <a class="btn btn-primary" href="index.html"><i data-lucide="home"></i><span>回活動首頁</span></a>
+      <button class="btn btn-outline" onclick="location.reload()"><i data-lucide="rotate-ccw"></i><span data-en="Edit / Re-submit">修改 / 再交一次</span></button>
+      <a class="btn btn-primary" href="index.html"><i data-lucide="home"></i><span data-en="Back to home">回活動首頁</span></a>
     </div>
   </div>
 </template>
@@ -845,8 +862,8 @@
 
     $('#app').innerHTML = `
       <div class="container">
-        <h1 class="page-title">上傳 <span>決賽作品</span></h1>
-        <p class="page-sub">2026/08/07 · t.Hub Taipei 內科創新育成基地 · 09:00–17:30</p>
+        <h1 class="page-title" data-en="Upload your <span>Finals Project</span>">上傳 <span>決賽作品</span></h1>
+        <p class="page-sub" data-en="2026/08/07 · t.Hub Taipei · 09:00–17:30">2026/08/07 · t.Hub Taipei 內科創新育成基地 · 09:00–17:30</p>
 
         <div class="banner">
           <i data-lucide="info"></i>
@@ -862,8 +879,8 @@
           <div class="section-head">
             <div class="section-num">1</div>
             <div>
-              <div class="section-title">隊伍基本資訊</div>
-              <div class="section-desc">隊名、題目類別、作品標題</div>
+              <div class="section-title" data-en="Team Basics">隊伍基本資訊</div>
+              <div class="section-desc" data-en="Team name, challenge theme, project title">隊名、題目類別、作品標題</div>
             </div>
           </div>
           <div class="row row-2">
@@ -897,8 +914,8 @@
           <div class="section-head">
             <div class="section-num">2</div>
             <div>
-              <div class="section-title">隊長資訊</div>
-              <div class="section-desc">主辦方會用這些資訊聯絡您</div>
+              <div class="section-title" data-en="Team Leader">隊長資訊</div>
+              <div class="section-desc" data-en="Contact info the organizer will use">主辦方會用這些資訊聯絡您</div>
             </div>
           </div>
           <div class="row row-2">
@@ -933,8 +950,8 @@
           <div class="section-head">
             <div class="section-num">3</div>
             <div>
-              <div class="section-title">隊員名單</div>
-              <div class="section-desc">含隊長 1-4 人皆可（1 人也能參賽）· 每位都需通過 Level 1 認證</div>
+              <div class="section-title" data-en="Team Members">隊員名單</div>
+              <div class="section-desc" data-en="1–4 people including the leader (solo welcome) · every member must have Level 1 certification">含隊長 1-4 人皆可（1 人也能參賽）· 每位都需通過 Level 1 認證</div>
             </div>
           </div>
           <div id="membersList"></div>
@@ -946,8 +963,8 @@
           <div class="section-head">
             <div class="section-num">4</div>
             <div>
-              <div class="section-title">推薦老師 · 選填</div>
-              <div class="section-desc">有指導老師介紹您參加？填一下讓我們感謝老師</div>
+              <div class="section-title" data-en="Referring Teacher · Optional">推薦老師 · 選填</div>
+              <div class="section-desc" data-en="If a teacher introduced you to this event, please help us thank them">有指導老師介紹您參加？填一下讓我們感謝老師</div>
             </div>
           </div>
           <div class="row row-2">
@@ -972,8 +989,8 @@
           <div class="section-head">
             <div class="section-num">5</div>
             <div>
-              <div class="section-title">n8n Level 1 認證證照</div>
-              <div class="section-desc">每位隊員上傳一張 PNG · 最多 ${MAX_CERTS} 張 · 每張 ≤ ${MAX_CERT_MB}MB</div>
+              <div class="section-title" data-en="n8n Level 1 Certification">n8n Level 1 認證證照</div>
+              <div class="section-desc" data-en="One PNG per member · up to ${MAX_CERTS} files · ≤ ${MAX_CERT_MB}MB each">每位隊員上傳一張 PNG · 最多 ${MAX_CERTS} 張 · 每張 ≤ ${MAX_CERT_MB}MB</div>
             </div>
           </div>
           <label class="upload-zone" id="certUpload">
@@ -990,8 +1007,8 @@
           <div class="section-head">
             <div class="section-num">6</div>
             <div>
-              <div class="section-title">n8n 流程檔</div>
-              <div class="section-desc">JSON 檔案 · 可上傳多份（例如主流程 + 子流程）</div>
+              <div class="section-title" data-en="n8n Workflow Files">n8n 流程檔</div>
+              <div class="section-desc" data-en="JSON files · multiple allowed (e.g. main + sub-workflow)">JSON 檔案 · 可上傳多份（例如主流程 + 子流程）</div>
             </div>
           </div>
           <label class="upload-zone" id="workflowUpload">
@@ -1008,8 +1025,8 @@
           <div class="section-head">
             <div class="section-num">7</div>
             <div>
-              <div class="section-title">作品展示影片與簡報</div>
-              <div class="section-desc">用連結提交，不上傳大檔（YouTube 未公開影片 / 雲端硬碟分享）</div>
+              <div class="section-title" data-en="Demo Video & Pitch Deck">作品展示影片與簡報</div>
+              <div class="section-desc" data-en="Submit as links to avoid large uploads (YouTube unlisted / Google Drive share)">用連結提交，不上傳大檔（YouTube 未公開影片 / 雲端硬碟分享）</div>
             </div>
           </div>
           <div>
@@ -1029,8 +1046,8 @@
           <div class="section-head">
             <div class="section-num">8</div>
             <div>
-              <div class="section-title">虎智科技 Learning 流程網址</div>
-              <div class="section-desc">所有參賽作品都必須佈署在虎智科技 Learning 平台上運行，評審才能實際測試</div>
+              <div class="section-title" data-en="TigerAI Learning Workflow URL">虎智科技 Learning 流程網址</div>
+              <div class="section-desc" data-en="All projects must run on the TigerAI Learning platform for judges to test">所有參賽作品都必須佈署在虎智科技 Learning 平台上運行，評審才能實際測試</div>
             </div>
           </div>
           <div style="padding:14px 18px; background:var(--pink-soft); border-radius:var(--radius-md); font-size:13.5px; line-height:1.7; color:var(--gray-700); margin-bottom:20px;">
@@ -1053,8 +1070,8 @@
           <div class="section-head">
             <div class="section-num">9</div>
             <div>
-              <div class="section-title">參賽方式</div>
-              <div class="section-desc">現場出席 t.Hub Taipei，或用 Google Meet 遠端連線</div>
+              <div class="section-title" data-en="Participation Mode">參賽方式</div>
+              <div class="section-desc" data-en="On-site at t.Hub Taipei, or remote via Google Meet">現場出席 t.Hub Taipei，或用 Google Meet 遠端連線</div>
             </div>
           </div>
           <div class="radio-group" id="modeGroup">
@@ -1089,8 +1106,8 @@
           <div class="section-head">
             <div class="section-num">10</div>
             <div>
-              <div class="section-title">參賽同意書</div>
-              <div class="section-desc">請仔細閱讀，勾選代表全隊成員同意</div>
+              <div class="section-title" data-en="Participant Agreement">參賽同意書</div>
+              <div class="section-desc" data-en="Please read carefully · ticking means all team members agree">請仔細閱讀，勾選代表全隊成員同意</div>
             </div>
           </div>
           <label class="check-row">
@@ -1117,10 +1134,10 @@
         <div class="error-msg" id="submitError"></div>
 
         <button type="button" class="btn btn-primary btn-full" onclick="submitForm()">
-          <i data-lucide="upload"></i><span>送出決賽作品</span>
+          <i data-lucide="upload"></i><span data-en="Submit Finals Project">送出決賽作品</span>
         </button>
 
-        <p style="text-align:center; color:var(--gray-400); font-size:12px; margin-top:16px;">
+        <p style="text-align:center; color:var(--gray-400); font-size:12px; margin-top:16px;" data-en="After submitting, files upload to Google Drive (10-30 seconds).<br>Please do not close or refresh the tab.">
           點送出後系統會把檔案上傳到 Google Drive，過程約 10-30 秒<br>
           期間請不要關閉或重整分頁
         </p>
@@ -1387,6 +1404,43 @@
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
   function escAttr(s) { return esc(s); }
+
+  /* -----------------------------------------------------
+     Language Toggle (中文 / EN)
+     ----------------------------------------------------- */
+  (function () {
+    const STORAGE_KEY = 'site-lang';
+    const btn = document.getElementById('langBtn');
+    if (!btn) return;
+    function applyLang(lang) {
+      document.documentElement.lang = (lang === 'en') ? 'en' : 'zh-Hant';
+      document.querySelectorAll('[data-en]').forEach(function (el) {
+        if (el.dataset.zh === undefined) el.dataset.zh = el.innerHTML;
+        el.innerHTML = (lang === 'en') ? el.dataset.en : el.dataset.zh;
+      });
+      document.querySelectorAll('[data-en-placeholder]').forEach(function (el) {
+        if (el.dataset.zhPlaceholder === undefined) el.dataset.zhPlaceholder = el.placeholder;
+        el.placeholder = (lang === 'en') ? el.dataset.enPlaceholder : el.dataset.zhPlaceholder;
+      });
+      btn.textContent = (lang === 'en') ? '中文' : 'EN';
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+      if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+    }
+    btn.addEventListener('click', function () {
+      const current = (document.documentElement.lang === 'en') ? 'en' : 'zh';
+      applyLang(current === 'en' ? 'zh' : 'en');
+    });
+    // Init from localStorage · MutationObserver so dynamically rendered content also gets translated
+    try { if (localStorage.getItem(STORAGE_KEY) === 'en') applyLang('en'); } catch (e) {}
+    // Re-apply after form re-renders (renderForm swaps innerHTML wholesale)
+    const app = document.getElementById('app');
+    if (app) {
+      new MutationObserver(function () {
+        const cur = (document.documentElement.lang === 'en') ? 'en' : 'zh';
+        if (cur === 'en') applyLang('en');
+      }).observe(app, { childList: true });
+    }
+  })();
 </script>
 
 </body>

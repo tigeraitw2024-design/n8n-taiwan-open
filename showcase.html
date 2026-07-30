@@ -81,6 +81,20 @@
     font-size: 13px;
   }
   .nav-link:hover { color: var(--gray-800); }
+  .lang-btn {
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--gray-300);
+    background: var(--white);
+    color: var(--gray-700);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+  }
+  .lang-btn:hover { border-color: var(--pink-deep); color: var(--pink-deep); }
 
   .hero {
     padding: 60px 24px 40px;
@@ -445,19 +459,22 @@
 
 <nav class="nav-bar">
   <a href="index.html" class="nav-brand">
-    <span class="nav-brand-pill">Showcase</span>
+    <span class="nav-brand-pill" data-en="Showcase">作品展示</span>
     <span class="nav-brand-text">n8n Taiwan Open 2026</span>
   </a>
-  <div class="nav-links">
-    <a href="index.html" class="nav-link">首頁</a>
-    <a href="results.html" class="nav-link">得獎名單</a>
+  <div style="display:flex; align-items:center; gap:20px;">
+    <div class="nav-links">
+      <a href="index.html" class="nav-link" data-en="Home">首頁</a>
+      <a href="results.html" class="nav-link" data-en="Winners">得獎名單</a>
+    </div>
+    <button type="button" class="lang-btn" id="langBtn" aria-label="Switch language">EN</button>
   </div>
 </nav>
 
 <div class="hero">
-  <div class="hero-kicker">Works Showcase</div>
-  <h1 class="hero-title">全體參賽 <span>作品</span></h1>
-  <p class="hero-sub">2026 全台第一場 n8n 官方黑客松作品彙集 · 每一份 workflow 都可以匯入你的 n8n，變成自己專案的起點。</p>
+  <div class="hero-kicker" data-en="Works Showcase">作品展示</div>
+  <h1 class="hero-title" data-en="All Submitted <span>Projects</span>">全體參賽 <span>作品</span></h1>
+  <p class="hero-sub" data-en="Every workflow from Taiwan's first official n8n hackathon — importable into your own n8n as a starting point for your own projects.">2026 全台第一場 n8n 官方黑客松作品彙集 · 每一份流程檔都可以匯入你的 n8n，變成自己專案的起點。</p>
 </div>
 
 <div class="toolbar">
@@ -698,6 +715,31 @@
   }
 
   init();
+
+  /* Language Toggle */
+  (function () {
+    const STORAGE_KEY = 'site-lang';
+    const btn = document.getElementById('langBtn');
+    if (!btn) return;
+    function applyLang(lang) {
+      document.documentElement.lang = (lang === 'en') ? 'en' : 'zh-Hant';
+      document.querySelectorAll('[data-en]').forEach(function (el) {
+        if (el.dataset.zh === undefined) el.dataset.zh = el.innerHTML;
+        el.innerHTML = (lang === 'en') ? el.dataset.en : el.dataset.zh;
+      });
+      btn.textContent = (lang === 'en') ? '中文' : 'EN';
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+      if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+    }
+    btn.addEventListener('click', function () {
+      const current = (document.documentElement.lang === 'en') ? 'en' : 'zh';
+      applyLang(current === 'en' ? 'zh' : 'en');
+    });
+    try { if (localStorage.getItem(STORAGE_KEY) === 'en') applyLang('en'); } catch (e) {}
+    setTimeout(function () {
+      try { if (localStorage.getItem(STORAGE_KEY) === 'en') applyLang('en'); } catch (e) {}
+    }, 1500);
+  })();
 </script>
 
 </body>

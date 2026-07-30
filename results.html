@@ -92,6 +92,77 @@
     transition: color 0.15s;
   }
   .nav-link:hover { color: var(--white); }
+  .lang-btn {
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: transparent;
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+  }
+  .lang-btn:hover { border-color: var(--pink); color: var(--pink); }
+
+  /* Admin 手動公布面板：URL 帶 ?admin=xxx 時顯示 */
+  .admin-panel {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--white);
+    color: var(--gray-800);
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    z-index: 500;
+    width: 260px;
+  }
+  .admin-panel-title {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--pink-deep);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .admin-panel-sub {
+    font-size: 12px;
+    color: var(--gray-500);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .admin-panel-btn {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: var(--pink-deep);
+    color: var(--white);
+    border: none;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 8px;
+  }
+  .admin-panel-btn:hover { background: var(--pink); }
+  .admin-panel-btn.secondary {
+    background: var(--white);
+    color: var(--gray-700);
+    border: 1px solid var(--gray-300);
+  }
+  .admin-panel-btn.secondary:hover { border-color: var(--pink-deep); color: var(--pink-deep); background: var(--white); }
+  .admin-panel-status {
+    font-size: 11px;
+    color: var(--gray-500);
+    margin-top: 4px;
+    text-align: center;
+  }
+  .admin-panel-status.ok { color: var(--green); }
+  .admin-panel-status.err { color: var(--red); }
 
   .container {
     max-width: 1200px;
@@ -476,12 +547,15 @@
 
 <nav class="nav-bar">
   <a href="index.html" class="nav-brand">
-    <span class="nav-brand-pill">Finals Results</span>
+    <span class="nav-brand-pill" data-en="Finals Results">得獎名單</span>
     <span class="nav-brand-text">n8n Taiwan Open 2026</span>
   </a>
-  <div class="nav-links">
-    <a href="index.html" class="nav-link">首頁</a>
-    <a href="showcase.html" class="nav-link">全部作品</a>
+  <div style="display:flex; align-items:center; gap:20px;">
+    <div class="nav-links">
+      <a href="index.html" class="nav-link" data-en="Home">首頁</a>
+      <a href="showcase.html" class="nav-link" data-en="All works">全部作品</a>
+    </div>
+    <button type="button" class="lang-btn" id="langBtn" aria-label="Switch language">EN</button>
   </div>
 </nav>
 
@@ -587,14 +661,14 @@
   function renderCountdown(target) {
     $('#app').innerHTML = `
       <div class="countdown-wrap">
-        <div class="countdown-kicker">Results Reveal</div>
+        <div class="countdown-kicker" data-en="Results Reveal">得獎揭曉</div>
         <h1 class="countdown-title">得獎名單<br>即將揭曉</h1>
         <p class="countdown-sub">2026 全台第一場 n8n 官方黑客松 · 決賽現場評分完成後即時公布</p>
         <div class="countdown-clock">
-          <div class="clock-unit"><div class="clock-num" id="d">--</div><div class="clock-label">Days</div></div>
-          <div class="clock-unit"><div class="clock-num" id="h">--</div><div class="clock-label">Hours</div></div>
-          <div class="clock-unit"><div class="clock-num" id="m">--</div><div class="clock-label">Minutes</div></div>
-          <div class="clock-unit"><div class="clock-num" id="s">--</div><div class="clock-label">Seconds</div></div>
+          <div class="clock-unit"><div class="clock-num" id="d">--</div><div class="clock-label" data-en="Days">天</div></div>
+          <div class="clock-unit"><div class="clock-num" id="h">--</div><div class="clock-label" data-en="Hours">時</div></div>
+          <div class="clock-unit"><div class="clock-num" id="m">--</div><div class="clock-label" data-en="Minutes">分</div></div>
+          <div class="clock-unit"><div class="clock-num" id="s">--</div><div class="clock-label" data-en="Seconds">秒</div></div>
         </div>
         <p class="reveal-at">預計揭曉時間：<strong>${target.toLocaleString('zh-TW', { dateStyle: 'long', timeStyle: 'short' })}</strong></p>
         <p class="reveal-at" style="margin-top:8px; font-size:12px;">頁面每 30 秒自動更新，得獎公告時無需重新整理</p>
@@ -625,21 +699,34 @@
   }
 
   function renderReveal(w) {
+    // Fallback：如果得獎名單還沒設 → 顯示提示，不要當機
+    if (!w || !w.grand || !w.silver || !w.bronze) {
+      $('#app').innerHTML = `
+        <div class="countdown-wrap">
+          <div class="countdown-kicker" data-en="Reveal in progress">得獎公布中</div>
+          <h1 class="countdown-title">評審討論中<br>請稍候</h1>
+          <p class="countdown-sub" style="margin-top:16px;">主辦方正在確認得獎名單，很快就會公布</p>
+          <p class="reveal-at" style="margin-top:32px; font-size:12px; opacity:0.6;">（若您是主辦方 · 請在 Awards 分頁填入得獎隊 ID，或執行 setAwardsQuick() 函式）</p>
+        </div>
+      `;
+      lucide.createIcons();
+      return;
+    }
     const linkBtns = (obj) => `
-      ${obj.video ? `<a href="${obj.video}" target="_blank" rel="noopener" class="btn-podium"><i data-lucide="play"></i><span>Demo</span></a>` : ''}
-      ${obj.repo ? `<a href="${obj.repo}" target="_blank" rel="noopener" class="btn-podium"><i data-lucide="external-link"></i><span>Repo</span></a>` : ''}
+      ${obj.video ? `<a href="${obj.video}" target="_blank" rel="noopener" class="btn-podium"><i data-lucide="play"></i><span>影片</span></a>` : ''}
+      ${obj.repo ? `<a href="${obj.repo}" target="_blank" rel="noopener" class="btn-podium"><i data-lucide="external-link"></i><span>作品連結</span></a>` : ''}
     `;
     $('#app').innerHTML = `
       <div class="reveal-wrap">
         <div class="reveal-header">
           <h1 class="reveal-title">得獎<br>作品</h1>
-          <p class="reveal-sub">Congratulations! 恭喜三隊拿下 2026 首屆 n8n Taiwan Open 榮耀</p>
+          <p class="reveal-sub">恭喜三隊拿下 2026 首屆 n8n Taiwan Open 榮耀</p>
         </div>
 
         <div class="podium">
           <div class="podium-card podium-silver">
             <div class="podium-medal">2</div>
-            <div class="podium-rank">Silver · 亞軍</div>
+            <div class="podium-rank">亞軍</div>
             <div class="podium-team">${escape(w.silver.team)}</div>
             <div class="podium-school">${escape(w.silver.school)}</div>
             <div class="podium-theme-chip">${escape(w.silver.theme)}</div>
@@ -649,7 +736,7 @@
 
           <div class="podium-card podium-gold">
             <div class="podium-medal">1</div>
-            <div class="podium-rank">Grand Prize · 總冠軍</div>
+            <div class="podium-rank">總冠軍</div>
             <div class="podium-team">${escape(w.grand.team)}</div>
             <div class="podium-school">${escape(w.grand.school)}</div>
             <div class="podium-theme-chip">${escape(w.grand.theme)}</div>
@@ -659,7 +746,7 @@
 
           <div class="podium-card podium-bronze">
             <div class="podium-medal">3</div>
-            <div class="podium-rank">Bronze · 季軍</div>
+            <div class="podium-rank">季軍</div>
             <div class="podium-team">${escape(w.bronze.team)}</div>
             <div class="podium-school">${escape(w.bronze.school)}</div>
             <div class="podium-theme-chip">${escape(w.bronze.theme)}</div>
@@ -724,7 +811,89 @@
     }
   }
 
+  /* -----------------------------------------------------
+     Admin 面板：URL 帶 ?admin=<adminToken> 才顯示
+     ----------------------------------------------------- */
+  (function () {
+    const adminToken = new URLSearchParams(location.search).get('admin');
+    if (!adminToken) return;
+
+    const panel = document.createElement('div');
+    panel.className = 'admin-panel';
+    panel.innerHTML = `
+      <div class="admin-panel-title">主辦方控制台</div>
+      <div class="admin-panel-sub">此按鈕不會出現在一般使用者頁面（需 ?admin= 參數）</div>
+      <button type="button" class="admin-panel-btn" id="btnReveal">立即公布得獎名單</button>
+      <button type="button" class="admin-panel-btn secondary" id="btnHide">收回公布 · 回到倒數</button>
+      <div class="admin-panel-status" id="adminStatus"></div>
+    `;
+    document.body.appendChild(panel);
+
+    async function callAdmin(revealed) {
+      const status = panel.querySelector('#adminStatus');
+      status.className = 'admin-panel-status';
+      status.textContent = '處理中⋯';
+      try {
+        const res = await fetch(GAS_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'admin-reveal',
+            adminToken: adminToken,
+            revealed: revealed ? 'TRUE' : 'FALSE'
+          })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          status.className = 'admin-panel-status ok';
+          status.textContent = revealed ? '已公布 · 3 秒後刷新' : '已收回 · 3 秒後刷新';
+          setTimeout(() => location.reload(), 3000);
+        } else {
+          status.className = 'admin-panel-status err';
+          status.textContent = '失敗：' + (data.message || '未知錯誤');
+        }
+      } catch (e) {
+        status.className = 'admin-panel-status err';
+        status.textContent = '連線錯誤：' + e.message;
+      }
+    }
+
+    panel.querySelector('#btnReveal').addEventListener('click', () => {
+      if (confirm('確定立即公布得獎名單？\n（請先確認 Awards 分頁已填入得獎隊 ID）')) callAdmin(true);
+    });
+    panel.querySelector('#btnHide').addEventListener('click', () => {
+      if (confirm('確定收回公布？頁面會回到倒數狀態')) callAdmin(false);
+    });
+  })();
+
   init();
+
+  /* -----------------------------------------------------
+     Language Toggle
+     ----------------------------------------------------- */
+  (function () {
+    const STORAGE_KEY = 'site-lang';
+    const btn = document.getElementById('langBtn');
+    if (!btn) return;
+    function applyLang(lang) {
+      document.documentElement.lang = (lang === 'en') ? 'en' : 'zh-Hant';
+      document.querySelectorAll('[data-en]').forEach(function (el) {
+        if (el.dataset.zh === undefined) el.dataset.zh = el.innerHTML;
+        el.innerHTML = (lang === 'en') ? el.dataset.en : el.dataset.zh;
+      });
+      btn.textContent = (lang === 'en') ? '中文' : 'EN';
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+      if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+    }
+    btn.addEventListener('click', function () {
+      const current = (document.documentElement.lang === 'en') ? 'en' : 'zh';
+      applyLang(current === 'en' ? 'zh' : 'en');
+    });
+    try { if (localStorage.getItem(STORAGE_KEY) === 'en') applyLang('en'); } catch (e) {}
+    // 頁面渲染完後（init() async）再套一次
+    setTimeout(function () {
+      try { if (localStorage.getItem(STORAGE_KEY) === 'en') applyLang('en'); } catch (e) {}
+    }, 1500);
+  })();
 </script>
 
 </body>
