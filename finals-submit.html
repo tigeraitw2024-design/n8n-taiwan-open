@@ -755,6 +755,33 @@
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbxgSAroD9N2Bs3-kKj5WV2oyFuMpznthbyujiRa3Q9SV3qH2PfdwgP2mx3wEMFLjgj7TQ/exec';
   const GOOGLE_CLIENT_ID = '794891982865-sbf7ums0an6ptl0ki0j3fubk304ohkvs.apps.googleusercontent.com';
 
+  // 決賽日時間閘：08:00 之前禁止上傳 · 14:30 之後也禁止
+  const FINALS_OPEN_AT  = new Date('2026-08-07T08:00:00+08:00').getTime();
+  const FINALS_CLOSE_AT = new Date('2026-08-07T14:30:00+08:00').getTime();
+  (function gateFinalsSubmit() {
+    const now = Date.now();
+    if (now >= FINALS_OPEN_AT && now <= FINALS_CLOSE_AT) return;   // 開放中 · 正常執行
+    const phase = now < FINALS_OPEN_AT ? 'before' : 'closed';
+    document.addEventListener('DOMContentLoaded', function () {
+      const html = phase === 'before'
+        ? '<div style="max-width:560px; margin:80px auto; padding:36px; text-align:center; background:#fff; border:1px solid #E5E7EB; border-radius:16px;">' +
+            '<div style="font-size:60px; margin-bottom:20px;">🔒</div>' +
+            '<h1 style="font-family:var(--font-display); font-size:26px; margin-bottom:12px; color:#0D0D0D;">作品上傳系統尚未開放</h1>' +
+            '<p style="color:#6B7280; margin-bottom:24px;">決賽當天 <strong style="color:#EA4B71;">2026/8/7（五）08:00</strong> 開放上傳<br>08:00 之後這個頁面會自動開啟</p>' +
+            '<p style="color:#6B7280; margin-bottom:24px; font-size:14px;">先完成報名 · 卡位決賽名額 · 8/7 現場再上傳作品</p>' +
+            '<a href="register.html" style="display:inline-flex; align-items:center; gap:8px; padding:14px 26px; background:linear-gradient(135deg,#F0648C,#EA4B71); color:#fff; text-decoration:none; border-radius:12px; font-weight:700;">前往報名 →</a>' +
+            '<div style="margin-top:20px;"><a href="index.html" style="color:#9CA3AF; text-decoration:none; font-size:13px;">回活動首頁</a></div>' +
+          '</div>'
+        : '<div style="max-width:560px; margin:80px auto; padding:36px; text-align:center; background:#fff; border:1px solid #E5E7EB; border-radius:16px;">' +
+            '<div style="font-size:60px; margin-bottom:20px;">⏰</div>' +
+            '<h1 style="font-family:var(--font-display); font-size:26px; margin-bottom:12px; color:#0D0D0D;">作品上傳已截止</h1>' +
+            '<p style="color:#6B7280; margin-bottom:24px;">收件時間為決賽當天 <strong>14:30 前</strong> · 現在已進入 AI 初審階段<br>若有特殊情況請立即聯絡 Robin 0911-436-467</p>' +
+            '<a href="results.html" style="display:inline-flex; align-items:center; gap:8px; padding:14px 26px; background:linear-gradient(135deg,#F0648C,#EA4B71); color:#fff; text-decoration:none; border-radius:12px; font-weight:700;">看得獎名單 →</a>' +
+          '</div>';
+      document.body.innerHTML = html;
+    });
+  })();
+
   const MAX_CERT_MB = 5;
   const MAX_WORKFLOW_MB = 5;
   const MAX_CERTS = 10;

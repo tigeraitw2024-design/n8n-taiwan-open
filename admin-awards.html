@@ -541,6 +541,14 @@
 
   <section>
     <h2>
+      決賽報名概況
+      <span class="hint">Registrations 分頁的即時統計</span>
+    </h2>
+    <div id="registrationBox"></div>
+  </section>
+
+  <section>
+    <h2>
       即時排行榜
       <span class="hint">點列展開 · 看每位評審的分數與評語</span>
     </h2>
@@ -669,12 +677,38 @@
   function handleBoardData(data) {
     allTeams  = data.board  || [];
     allJudges = data.judges || [];
+    renderRegistration(data.registrationStats || {});
     renderProgress(allTeams, allJudges);
     renderBoard(allTeams);
     populateAllSelects();
     applyCurrentAwards(data.currentAwards || []);
     setRevealPill(!!data.resultsRevealed);
     setShowcasePill(!!data.showcasePublished);
+  }
+
+  function renderRegistration(stats) {
+    const total     = stats.total     || 0;
+    const onsite    = stats.onsite    || 0;
+    const remote    = stats.remote    || 0;
+    const submitted = stats.submitted || 0;
+    const submitPct = total ? Math.round(submitted / total * 100) : 0;
+    document.getElementById('registrationBox').innerHTML = `
+      <div class="progress-panel">
+        <div class="progress-tile">
+          <div class="label">總報名人數</div>
+          <div class="value">${total}<span class="sub">人</span></div>
+        </div>
+        <div class="progress-tile">
+          <div class="label">現場 / 遠端</div>
+          <div class="value">${onsite}<span class="sub">現場</span> · ${remote}<span class="sub">遠端</span></div>
+        </div>
+        <div class="progress-tile">
+          <div class="label">已上傳作品</div>
+          <div class="value">${submitted}<span class="sub">/ ${total}（${submitPct}%）</span></div>
+          <div class="progress-bar"><div class="progress-bar-fill ${submitPct >= 100 ? 'done' : ''}" style="width:${submitPct}%"></div></div>
+        </div>
+      </div>
+    `;
   }
 
   function judgeCoversTeam(judge, team) {

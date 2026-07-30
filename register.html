@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>立即報名 · n8n Taiwan Open Hackathon 2026</title>
+<meta name="description" content="n8n Taiwan Open Hackathon 2026 決賽 · 8/7 台北 t.Hub Taipei · 立即報名">
+<meta property="og:title" content="n8n Taiwan Open Hackathon 2026 · 決賽報名">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    --pink: #F0648C;
+    --pink-deep: #EA4B71;
+    --pink-bg: #FFECF2;
+    --pink-soft: #FFF5F5;
+    --black: #0D0D0D;
+    --white: #FFFFFF;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-800: #1F2937;
+    --green: #34C759;
+    --red: #FF3B30;
+    --amber: #F59E0B;
+    --amber-bg: #FEF3C7;
+    --font-display: 'Satoshi', 'Noto Sans TC', -apple-system, system-ui, sans-serif;
+    --font-body: 'Noto Sans TC', 'Satoshi', -apple-system, system-ui, sans-serif;
+    --radius-md: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    background: #FAFAFA;
+    color: var(--gray-800);
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+  .header {
+    background: #fff;
+    border-bottom: 1px solid var(--gray-200);
+    position: sticky;
+    top: 0;
+    z-index: 90;
+  }
+  .header-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .brand:hover { opacity: 0.75; }
+  .brand-logo-mark {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--pink-deep);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .brand-logo-text {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-600);
+  }
+  .brand-divider { width: 1px; height: 20px; background: var(--gray-200); margin: 0 2px; }
+  .brand-pill {
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: var(--pink-bg);
+    color: var(--pink-deep);
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .lang-btn {
+    padding: 6px 14px;
+    background: transparent;
+    border: 1px solid var(--gray-200);
+    border-radius: 20px;
+    color: var(--gray-600);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .lang-btn:hover { border-color: var(--pink); color: var(--pink-deep); }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .hero {
+    text-align: left;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--gray-200);
+    margin-bottom: 36px;
+  }
+  .hero-kicker {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--pink-bg);
+    color: var(--pink-deep);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .hero h1 .accent { color: var(--pink-deep); }
+  .hero-meta {
+    color: var(--gray-500);
+    font-size: 15px;
+  }
+  .hero-meta strong { color: var(--gray-800); font-weight: 700; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+  .card h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card h2 svg { width: 20px; height: 20px; color: var(--pink-deep); }
+  .card .desc {
+    color: var(--gray-500);
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .form-row { display: flex; flex-direction: column; gap: 6px; }
+  .form-row.full { grid-column: 1 / -1; }
+  .form-row label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray-800);
+  }
+  .form-row label .req { color: var(--pink-deep); margin-left: 2px; }
+  .form-row label .opt { color: var(--gray-400); font-weight: 500; margin-left: 4px; font-size: 11px; }
+  .form-row input[type="text"],
+  .form-row input[type="email"],
+  .form-row input[type="tel"],
+  .form-row textarea,
+  .form-row select {
+    padding: 11px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--gray-800);
+    background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .form-row textarea { min-height: 70px; resize: vertical; }
+  .form-row input:focus,
+  .form-row textarea:focus,
+  .form-row select:focus {
+    outline: none;
+    border-color: var(--pink);
+    box-shadow: 0 0 0 3px rgba(240,100,140,0.1);
+  }
+  .form-row .hint {
+    font-size: 11px;
+    color: var(--gray-500);
+  }
+
+  .radio-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .radio-tile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 14px;
+  }
+  .radio-tile:hover { border-color: var(--pink); background: var(--pink-soft); }
+  .radio-tile input { margin: 0; accent-color: var(--pink-deep); }
+  .radio-tile input:checked ~ .radio-tile-label { color: var(--pink-deep); font-weight: 700; }
+  .radio-tile.on { border-color: var(--pink-deep); background: var(--pink-soft); }
+  .radio-tile.on .radio-tile-label { color: var(--pink-deep); font-weight: 700; }
+  .radio-tile-label { flex: 1; }
+  .radio-tile-desc { font-size: 11px; color: var(--gray-500); display: block; margin-top: 2px; font-weight: 400; }
+
+  .btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-deep) 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+  .btn-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-submit svg { width: 18px; height: 18px; }
+
+  .status-box {
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-top: 16px;
+    display: none;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .status-box.show { display: flex; }
+  .status-box svg { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; }
+  .status-box.ok { background: #ECFDF5; color: #065F46; }
+  .status-box.ok svg { color: var(--green); }
+  .status-box.err { background: #FEF2F2; color: #991B1B; }
+  .status-box.err svg { color: var(--red); }
+
+  .success-panel {
+    display: none;
+    background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%);
+    border: 1px solid #A7F3D0;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .success-panel.show { display: block; }
+  .success-panel h2 {
+    color: #065F46;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .success-panel h2 svg { width: 24px; height: 24px; color: var(--green); }
+  .success-panel p {
+    color: #047857;
+    font-size: 14px;
+  }
+
+  .preview-banner {
+    background: linear-gradient(135deg, var(--amber-bg) 0%, #FEF9C3 100%);
+    border: 1px solid #FCD34D;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .preview-banner svg { flex-shrink: 0; width: 20px; height: 20px; color: var(--amber); margin-top: 2px; }
+  .preview-banner strong { color: #92400E; }
+  .preview-banner p { color: #78350F; font-size: 13px; margin-top: 4px; }
+
+  .preview-list { display: flex; flex-direction: column; gap: 12px; }
+  .preview-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 16px;
+    background: #FAFAFA;
+    border: 1px dashed var(--gray-200);
+    border-radius: 10px;
+  }
+  .preview-item-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-500);
+  }
+  .preview-item-body { flex: 1; }
+  .preview-item-title {
+    font-weight: 700;
+    color: var(--gray-800);
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .preview-item-desc {
+    color: var(--gray-500);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .preview-item-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--gray-100);
+    color: var(--gray-500);
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-left: 6px;
+  }
+
+  .prep-list {
+    background: var(--pink-soft);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-top: 20px;
+  }
+  .prep-list h3 {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--pink-deep);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .prep-list h3 svg { width: 16px; height: 16px; }
+  .prep-list ul { padding-left: 22px; }
+  .prep-list li { font-size: 13px; color: var(--gray-800); margin: 4px 0; }
+
+  .footer {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--gray-500);
+    font-size: 13px;
+  }
+  .footer a { color: var(--pink-deep); text-decoration: none; margin: 0 6px; }
+  .footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .radio-row { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 30px; }
+    .card { padding: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="brand" title="回活動首頁">
+      <span class="brand-logo-mark">n8n</span>
+      <span class="brand-logo-text">Taiwan Open</span>
+      <span class="brand-divider"></span>
+      <span class="brand-pill" data-en="Register">立即報名</span>
+    </a>
+    <button type="button" class="lang-btn" id="langBtn" aria-label="Switch language">EN</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="hero">
+    <div class="hero-kicker" data-en="Finals · 2026/08/07">決賽 · 2026/08/07（五）</div>
+    <h1 data-en="Register for the <span class='accent'>Finals</span>">
+      立即報名 <span class="accent">決賽</span>
+    </h1>
+    <p class="hero-meta">
+      <strong data-en="9:00 AM–5:30 PM">09:00–17:30</strong> ·
+      <strong data-en="t.Hub Taipei">t.Hub Taipei 內科創新育成基地</strong> ·
+      <span data-en="Onsite or remote">現場 / 遠端皆可</span>
+    </p>
+  </section>
+
+  <!-- 已報名成功面板 -->
+  <div id="successPanel" class="success-panel">
+    <h2>
+      <i data-lucide="check-circle-2"></i>
+      <span data-en="Registration complete!">報名成功！</span>
+    </h2>
+    <p data-en="A confirmation email has been sent. See you on 8/7!">
+      我們已寄出確認信到你的 Email · 8/7 決賽現場見！
+    </p>
+  </div>
+
+  <!-- 報名表 -->
+  <div id="registerCard" class="card">
+    <h2>
+      <i data-lucide="user-plus"></i>
+      <span data-en="Registration">報名資料</span>
+    </h2>
+    <p class="desc" data-en="30 seconds · 3 hard fields · use the same email on 8/7 to auto-link your submission">
+      30 秒 · 只有 3 個必填 · 8/7 用同一個 Email 上傳作品會自動關聯
+    </p>
+
+    <form id="registerForm">
+      <div class="form-grid">
+        <div class="form-row">
+          <label data-en="Your name">姓名<span class="req">*</span></label>
+          <input type="text" name="name" required autocomplete="name">
+        </div>
+        <div class="form-row">
+          <label data-en="Email · used to link submission">Email<span class="req">*</span></label>
+          <input type="email" name="email" required autocomplete="email">
+          <div class="hint" data-en="Any email works · this is used to link your finals submission">學校信箱、Gmail 都可 · 用來對應決賽當天的作品</div>
+        </div>
+        <div class="form-row">
+          <label data-en="Phone">電話<span class="req">*</span></label>
+          <input type="tel" name="phone" required autocomplete="tel" placeholder="09xx-xxx-xxx">
+        </div>
+        <div class="form-row">
+          <label data-en="School / Department / Grade">學校 · 科系 · 年級<span class="req">*</span></label>
+          <input type="text" name="school" required placeholder="例：臺灣大學 資工三">
+        </div>
+        <div class="form-row full">
+          <label data-en="n8n Level 1 Cert Code (optional)">Level 1 認證碼<span class="opt" data-en="(optional)">（選填）</span></label>
+          <input type="text" name="certCode" placeholder="例：N8N-XXX-XXX · 沒有也能報名 · 但決賽當天至少 1 位隊員要有">
+          <div class="hint" data-en="Cert issued at workshops. At least 1 team member must have Level 1 to compete.">工作坊講座取得的認證碼 · 隊中至少 1 位持有才能參賽</div>
+        </div>
+        <div class="form-row full">
+          <label data-en="Attendance mode">參賽方式<span class="req">*</span></label>
+          <div class="radio-row" id="modeRow">
+            <label class="radio-tile" data-value="onsite">
+              <input type="radio" name="mode" value="onsite" required>
+              <div>
+                <span class="radio-tile-label" data-en="Onsite">現場出席</span>
+                <span class="radio-tile-desc" data-en="t.Hub Taipei · Neihu">t.Hub Taipei · 內科創新育成基地</span>
+              </div>
+            </label>
+            <label class="radio-tile" data-value="remote">
+              <input type="radio" name="mode" value="remote" required>
+              <div>
+                <span class="radio-tile-label" data-en="Remote">遠端連線</span>
+                <span class="radio-tile-desc" data-en="via Google Meet">Google Meet 全程參與</span>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div class="form-row">
+          <label data-en="Expected team size">預計隊員人數<span class="req">*</span></label>
+          <select name="memberCount" required>
+            <option value="">選擇</option>
+            <option value="1">1 人（單人參賽）</option>
+            <option value="2">2 人</option>
+            <option value="3">3 人</option>
+            <option value="4">4 人（上限）</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label data-en="Team name (optional)">隊名<span class="opt" data-en="(optional · can decide on-site)">（選填 · 當天再想也 OK）</span></label>
+          <input type="text" name="teamName" placeholder="例：AI 流程獵人">
+        </div>
+        <div class="form-row full">
+          <label data-en="Notes (optional)">備註<span class="opt" data-en="(optional)">（選填）</span></label>
+          <textarea name="note" placeholder="想被媒合組隊、飲食限制、其他要主辦知道的事..."></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">
+        <i data-lucide="send"></i>
+        <span data-en="Submit registration">送出報名</span>
+      </button>
+      <div id="statusBox" class="status-box"></div>
+    </form>
+  </div>
+
+  <!-- 決賽當天要填的欄位預覽 -->
+  <div class="card">
+    <h2>
+      <i data-lucide="clipboard-list"></i>
+      <span data-en="What you'll upload on 8/7">8/7 決賽當天 · 你會需要填這些</span>
+    </h2>
+    <p class="desc" data-en="Preview only · fields open at 8/7 08:00">
+      現在無法編輯 · 系統將於 8/7 08:00 自動開啟提交入口
+    </p>
+
+    <div class="preview-banner">
+      <i data-lucide="info"></i>
+      <div>
+        <strong data-en="Preview mode">預覽模式</strong>
+        <p data-en="Get familiar with the fields now so you can move fast on 8/7.">先熟悉一下欄位 · 8/7 當天現場填會比較順手 · 檔案先準備好</p>
+      </div>
+    </div>
+
+    <div class="preview-list">
+      <div class="preview-item">
+        <div class="preview-item-num">1</div>
+        <div class="preview-item-body">
+          <div class="preview-item-title" data-en="Team basics">隊伍基本資訊 <span class="preview-item-pill">當天填</span></div>
+          <div class="preview-item-desc" data-en="Team name · theme (1 of 4) · project title">隊名 · 選題（4 選 1）· 作品標題</div>
+        </div>
+      </div>
+      <div class="preview-item">
+        <div class="preview-item-num">2</div>
+        <div class="preview-item-body">
+          <div class="preview-item-title" data-en="200-char project summary">200 字作品簡介 <span class="preview-item-pill">當天填</span></div>
+          <div class="preview-item-desc" data-en="What problem · how you solve it · highlights">解決什麼問題 · 怎麼解 · 成果亮點</div>
+        </div>
+      </div>
+      <div class="preview-item">
+        <div class="preview-item-num">3</div>
+        <div class="preview-item-body">
+          <div class="preview-item-title" data-en="Team member list">全體隊員名單 <span class="preview-item-pill">當天填</span></div>
+          <div class="preview-item-desc" data-en="Name / school / department / grade for each member">每位成員的姓名 / 學校 / 科系 / 年級</div>
+        </div>
+      </div>
+      <div class="preview-item">
+        <div class="preview-item-num">4</div>
+        <div class="preview-item-body">
+          <div class="preview-item-title" data-en="Level 1 certificate PNG">n8n Level 1 認證證照 PNG <span class="preview-item-pill">當天上傳</span></div>
+          <div class="preview-item-desc" data-en="At least 1 member · file ≤ 5MB each">隊中至少 1 位持有 · 每張 ≤ 5MB</div>
+        </div>
+      </div>
+      <div class="preview-item">
+        <div class="preview-item-num">5</div>
+        <div class="preview-item-body">
+          <div class="preview-item-title" data-en="Workflow JSON files">Workflow JSON 檔 <span class="preview-item-pill">當天上傳</span></div>
+          <div class="preview-item-desc" data-en="Export from n8n · multiple files OK">從 n8n 匯出 · 可上傳多個檔案</div>
+        </div>
+      </div>
+      <div class="preview-item">
+        <div class="preview-item-num">6</div>
+        <div class="preview-item-body">
+          <div class="preview-item-title" data-en="Demo video URL">Demo 影片 URL <span class="preview-item-pill">當天填</span></div>
+          <div class="preview-item-desc" data-en="YouTube unlisted or Google Drive shared link">YouTube 未公開或 Google 雲端硬碟共用連結</div>
+        </div>
+      </div>
+      <div class="preview-item">
+        <div class="preview-item-num">7</div>
+        <div class="preview-item-body">
+          <div class="preview-item-title" data-en="Pitch deck URL">Pitch 簡報連結 <span class="preview-item-pill">當天填</span></div>
+          <div class="preview-item-desc" data-en="Google Slides / PDF / Slides.com">Google Slides / PDF / Slides.com 皆可</div>
+        </div>
+      </div>
+      <div class="preview-item">
+        <div class="preview-item-num">8</div>
+        <div class="preview-item-body">
+          <div class="preview-item-title">n8n Learning URL <span class="preview-item-pill" data-en="On the day">當天填</span></div>
+          <div class="preview-item-desc" data-en="Your workflow must run on learning.n8n.tw · judges need to test it live">作品必須在 https://learning.n8n.tw 上跑 · 評審要實測</div>
+        </div>
+      </div>
+      <div class="preview-item">
+        <div class="preview-item-num">9</div>
+        <div class="preview-item-body">
+          <div class="preview-item-title" data-en="Consent checkboxes">參賽同意書勾選 <span class="preview-item-pill">當天勾</span></div>
+          <div class="preview-item-desc" data-en="Level 1 confirmation · IP authorization · showcase consent">Level 1 認證確認 · 授權主辦方展示 · 作品公開同意</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prep-list">
+      <h3><i data-lucide="check-circle"></i> <span data-en="Prep checklist · get these ready before 8/7">8/7 前建議準備好這幾樣</span></h3>
+      <ul>
+        <li data-en="Level 1 certificate PNG (at least 1 member has one)">Level 1 認證證照 PNG（隊中至少 1 位）</li>
+        <li data-en="Working n8n workflow on learning.n8n.tw">learning.n8n.tw 上可執行的 workflow</li>
+        <li data-en="Demo video (YouTube unlisted)">Demo 影片（YouTube 未公開連結）</li>
+        <li data-en="Pitch deck (Google Slides / PDF)">Pitch 簡報（Google Slides 或 PDF）</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span data-en="Questions? Contact Robin">有問題聯絡 Robin</span> ·
+  0911-436-467 · LINE robin436467 ·
+  <a href="mailto:tiger.ai.tw2024@gmail.com">tiger.ai.tw2024@gmail.com</a>
+  <div style="margin-top:8px;">
+    <a href="index.html" data-en="Back to home">回活動首頁</a>
+  </div>
+</div>
+
+<script>
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxgSAroD9N2Bs3-kKj5WV2oyFuMpznthbyujiRa3Q9SV3qH2PfdwgP2mx3wEMFLjgj7TQ/exec';
+  const FINALS_OPEN_AT = new Date('2026-08-07T08:00:00+08:00').getTime();
+
+  // 決賽當天 08:00 後 · 直接跳到 finals-submit.html
+  if (Date.now() >= FINALS_OPEN_AT) {
+    location.replace('finals-submit.html');
+  }
+
+  // radio-tile 視覺 active
+  document.querySelectorAll('#modeRow .radio-tile').forEach(tile => {
+    tile.addEventListener('click', () => {
+      document.querySelectorAll('#modeRow .radio-tile').forEach(t => t.classList.remove('on'));
+      tile.classList.add('on');
+    });
+  });
+
+  const form = document.getElementById('registerForm');
+  const statusBox = document.getElementById('statusBox');
+  const submitBtn = document.getElementById('submitBtn');
+
+  function showStatus(msg, type) {
+    const icon = type === 'ok' ? 'check-circle-2' : 'x-circle';
+    statusBox.className = 'status-box show ' + type;
+    statusBox.innerHTML = '<i data-lucide="' + icon + '"></i><span>' + msg + '</span>';
+    if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    submitBtn.disabled = true;
+    statusBox.classList.remove('show');
+    try {
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'register-submit', data: data })
+      });
+      const result = await res.json();
+      if (result.ok) {
+        document.getElementById('registerCard').style.display = 'none';
+        const panel = document.getElementById('successPanel');
+        panel.classList.add('show');
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        showStatus(result.message || '送出失敗 · 請重試', 'err');
+        submitBtn.disabled = false;
+      }
+    } catch (err) {
+      showStatus('連線失敗：' + err.message, 'err');
+      submitBtn.disabled = false;
+    }
+  });
+
+  window.lucide && window.lucide.createIcons && window.lucide.createIcons();
+
+  /* Language Toggle */
+  (function () {
+    const STORAGE_KEY = 'site-lang';
+    const btn = document.getElementById('langBtn');
+    function applyLang(lang) {
+      document.documentElement.lang = (lang === 'en') ? 'en' : 'zh-Hant';
+      document.querySelectorAll('[data-en]').forEach(function (el) {
+        if (el.dataset.zh === undefined) el.dataset.zh = el.innerHTML;
+        el.innerHTML = (lang === 'en') ? el.dataset.en : el.dataset.zh;
+      });
+      btn.textContent = (lang === 'en') ? '中文' : 'EN';
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+      if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+    }
+    btn.addEventListener('click', () => {
+      const cur = localStorage.getItem(STORAGE_KEY) || 'zh';
+      applyLang(cur === 'en' ? 'zh' : 'en');
+    });
+    applyLang(localStorage.getItem(STORAGE_KEY) || 'zh');
+  })();
+</script>
+</body>
+</html>
