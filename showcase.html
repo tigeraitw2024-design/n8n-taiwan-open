@@ -55,7 +55,11 @@
     gap: 10px;
     text-decoration: none;
     color: var(--gray-800);
+    transition: opacity 0.15s;
   }
+  .nav-brand:hover { opacity: 0.7; }
+  .nav-brand-home { width: 16px; height: 16px; color: var(--gray-500); }
+  .nav-brand:hover .nav-brand-home { color: var(--pink-deep); }
   .nav-brand-pill {
     padding: 4px 10px;
     border-radius: 100px;
@@ -458,7 +462,8 @@
 <body>
 
 <nav class="nav-bar">
-  <a href="index.html" class="nav-brand">
+  <a href="index.html" class="nav-brand" title="回活動首頁">
+    <i data-lucide="home" class="nav-brand-home" aria-hidden="true"></i>
     <span class="nav-brand-pill" data-en="Showcase">作品展示</span>
     <span class="nav-brand-text">n8n Taiwan Open 2026</span>
   </a>
