@@ -1155,7 +1155,7 @@
     $('#membersList').innerHTML = members.map((m, i) => `
       <div class="member-item" data-idx="${i}">
         <div class="member-head">
-          <span class="member-num">${i === 0 ? '隊長（Member 1）' : 'Member ' + (i + 1)}</span>
+          <span class="member-num">${i === 0 ? '隊長' : '成員 ' + (i + 1)}</span>
           ${i >= 1 ? `<button type="button" class="btn-remove-member" onclick="removeMember(${i})"><i data-lucide="x"></i><span>移除</span></button>` : ''}
         </div>
         <div class="row row-2">

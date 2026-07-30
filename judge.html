@@ -873,7 +873,7 @@
       return;
     }
     if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.startsWith('REPLACE')) {
-      showAuthError('Google Sign-In 尚未設定 · 請聯絡主辦方部署 OAuth Client ID');
+      showAuthError('Google 登入尚未設定 · 請聯絡主辦方');
       return;
     }
     try {
@@ -888,7 +888,7 @@
         { theme: 'outline', size: 'large', text: 'signin_with', shape: 'rectangular', width: 300 }
       );
     } catch (e) {
-      showAuthError('Google Sign-In 初始化失敗：' + e.message);
+      showAuthError('Google 登入初始化失敗：' + e.message);
     }
   }
 
