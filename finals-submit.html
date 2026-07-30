@@ -838,9 +838,9 @@
     $('#signedEmail').textContent = session.email;
     $('#signedAvatar').textContent = (session.name || '?').slice(0, 1);
 
-    // Initialize with 2 empty members
+    // Initialize with 1 empty member (隊長)
     if (members.length === 0) {
-      members = [{ name: '', school: '', dept: '', year: '', email: '' }, { name: '', school: '', dept: '', year: '', email: '' }];
+      members = [{ name: '', school: '', dept: '', year: '', email: '' }];
     }
 
     $('#app').innerHTML = `
@@ -934,7 +934,7 @@
             <div class="section-num">3</div>
             <div>
               <div class="section-title">隊員名單</div>
-              <div class="section-desc">含隊長共 2-4 人 · 每位都需通過 Level 1 認證</div>
+              <div class="section-desc">含隊長 1-4 人皆可（1 人也能參賽）· 每位都需通過 Level 1 認證</div>
             </div>
           </div>
           <div id="membersList"></div>
@@ -1156,7 +1156,7 @@
       <div class="member-item" data-idx="${i}">
         <div class="member-head">
           <span class="member-num">${i === 0 ? '隊長（Member 1）' : 'Member ' + (i + 1)}</span>
-          ${i >= 2 ? `<button type="button" class="btn-remove-member" onclick="removeMember(${i})"><i data-lucide="x"></i><span>移除</span></button>` : ''}
+          ${i >= 1 ? `<button type="button" class="btn-remove-member" onclick="removeMember(${i})"><i data-lucide="x"></i><span>移除</span></button>` : ''}
         </div>
         <div class="row row-2">
           <div><label class="label">姓名 <span class="req">*</span></label><input class="input m-name" value="${escAttr(m.name)}"></div>
@@ -1188,7 +1188,8 @@
     renderMembers();
   }
   window.removeMember = function(i) {
-    if (i < 2) return;
+    // 至少留 1 位（隊長）
+    if (i < 1 || members.length <= 1) return;
     members.splice(i, 1);
     renderMembers();
   };
@@ -1317,7 +1318,7 @@
     if (!data.title) return showErr('請填作品標題');
     if (!data.leader.name || !data.leader.school || !data.leader.email || !data.leader.phone) return showErr('請完整填寫隊長資訊');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.leader.email)) return showErr('隊長 Email 格式不對');
-    if (data.members.filter(m => m.name).length < 2) return showErr('至少要有 2 位成員');
+    if (data.members.filter(m => m.name).length < 1) return showErr('至少要有 1 位成員（隊長）');
     if (certs.length < data.members.filter(m => m.name).length) return showErr(`證照張數應與隊員數相符（${certs.length} 張 / ${data.members.filter(m => m.name).length} 人）`);
     if (workflows.length === 0) return showErr('至少要上傳 1 份 n8n 流程檔');
     if (!data.videoUrl) return showErr('請填作品展示影片連結');
