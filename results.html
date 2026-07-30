@@ -321,18 +321,51 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 72px;
-    height: 72px;
+    width: 88px;
+    height: 88px;
     border-radius: 50%;
     margin-bottom: 20px;
-    font-family: var(--font-display);
-    font-size: 32px;
-    font-weight: 900;
-    color: var(--black);
+    color: var(--white);
   }
-  .podium-gold .podium-medal { background: linear-gradient(135deg, #FFE082 0%, var(--gold) 100%); }
-  .podium-silver .podium-medal { background: linear-gradient(135deg, #E5E7EB 0%, var(--silver) 100%); }
-  .podium-bronze .podium-medal { background: linear-gradient(135deg, #D4A574 0%, var(--bronze) 100%); color: var(--white); }
+  .podium-medal svg {
+    width: 40px;
+    height: 40px;
+    color: var(--white);
+    stroke-width: 2;
+  }
+  .podium-gold .podium-medal {
+    width: 104px;
+    height: 104px;
+    background: linear-gradient(135deg, #FFE082 0%, var(--gold) 100%);
+    box-shadow: 0 12px 32px rgba(232, 169, 60, 0.4);
+  }
+  .podium-gold .podium-medal svg { width: 48px; height: 48px; }
+  .podium-silver .podium-medal {
+    background: linear-gradient(135deg, #E5E7EB 0%, var(--silver) 100%);
+    box-shadow: 0 8px 24px rgba(168, 176, 186, 0.35);
+  }
+  .podium-bronze .podium-medal {
+    background: linear-gradient(135deg, #D4A574 0%, var(--bronze) 100%);
+    box-shadow: 0 8px 24px rgba(184, 115, 51, 0.35);
+  }
+
+  /* 內嵌 YouTube 影片 */
+  .podium-video {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 */
+    margin: 4px 0 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(0,0,0,0.4);
+  }
+  .podium-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
   .podium-rank {
     font-family: var(--font-display);
     font-size: 14px;
@@ -712,8 +745,18 @@
       lucide.createIcons();
       return;
     }
+    const toEmbed = (url) => {
+      if (!url) return '';
+      const m = String(url).match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([A-Za-z0-9_-]{10,15})/);
+      return m ? `https://www.youtube.com/embed/${m[1]}` : '';
+    };
+    const videoBlock = (obj) => {
+      const embed = toEmbed(obj.video);
+      return embed
+        ? `<div class="podium-video"><iframe src="${embed}" title="得獎作品影片" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
+        : '';
+    };
     const linkBtns = (obj) => `
-      ${obj.video ? `<a href="${obj.video}" target="_blank" rel="noopener" class="btn-podium"><i data-lucide="play"></i><span>影片</span></a>` : ''}
       ${obj.repo ? `<a href="${obj.repo}" target="_blank" rel="noopener" class="btn-podium"><i data-lucide="external-link"></i><span>作品連結</span></a>` : ''}
     `;
     $('#app').innerHTML = `
@@ -725,32 +768,35 @@
 
         <div class="podium">
           <div class="podium-card podium-silver">
-            <div class="podium-medal">2</div>
+            <div class="podium-medal"><i data-lucide="medal"></i></div>
             <div class="podium-rank">亞軍</div>
             <div class="podium-team">${escape(w.silver.team)}</div>
             <div class="podium-school">${escape(w.silver.school)}</div>
             <div class="podium-theme-chip">${escape(w.silver.theme)}</div>
             <div class="podium-title">${escape(w.silver.title)}</div>
+            ${videoBlock(w.silver)}
             <div class="podium-links">${linkBtns(w.silver)}</div>
           </div>
 
           <div class="podium-card podium-gold">
-            <div class="podium-medal">1</div>
+            <div class="podium-medal"><i data-lucide="trophy"></i></div>
             <div class="podium-rank">總冠軍</div>
             <div class="podium-team">${escape(w.grand.team)}</div>
             <div class="podium-school">${escape(w.grand.school)}</div>
             <div class="podium-theme-chip">${escape(w.grand.theme)}</div>
             <div class="podium-title">${escape(w.grand.title)}</div>
+            ${videoBlock(w.grand)}
             <div class="podium-links">${linkBtns(w.grand)}</div>
           </div>
 
           <div class="podium-card podium-bronze">
-            <div class="podium-medal">3</div>
+            <div class="podium-medal"><i data-lucide="award"></i></div>
             <div class="podium-rank">季軍</div>
             <div class="podium-team">${escape(w.bronze.team)}</div>
             <div class="podium-school">${escape(w.bronze.school)}</div>
             <div class="podium-theme-chip">${escape(w.bronze.theme)}</div>
             <div class="podium-title">${escape(w.bronze.title)}</div>
+            ${videoBlock(w.bronze)}
             <div class="podium-links">${linkBtns(w.bronze)}</div>
           </div>
         </div>
