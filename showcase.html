@@ -521,6 +521,12 @@
   <p>n8n Taiwan Open Hackathon 2026 · 主辦：虎智科技 TigerAI</p>
   <p>共同主辦：博碩文化 × 臺科大創新育成中心 · 贊助：AMD × TUL × Zeabur</p>
   <p style="margin-top:12px;"><a href="index.html">回活動首頁</a> · <a href="results.html">看得獎名單</a></p>
+  <p style="margin-top:20px; font-size:10px; opacity:0.4; letter-spacing:0.05em;">
+    主辦方控制 ·
+    <a href="#" onclick="event.preventDefault(); toggleShowcase(true);" style="color:inherit; text-decoration:underline;">開啟展示</a>
+    ·
+    <a href="#" onclick="event.preventDefault(); toggleShowcase(false);" style="color:inherit; text-decoration:underline;">關閉展示</a>
+  </p>
 </div>
 
 <script>
@@ -715,6 +721,21 @@
   }
 
   init();
+
+  /* 主辦方小按鈕：切換 showcase 是否公開 */
+  async function toggleShowcase(on) {
+    if (!confirm(on ? '確定「開啟作品展示頁」（所有人都能看得到已提交作品）？' : '確定「關閉作品展示頁」·頁面會變空？')) return;
+    try {
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'admin-simple-showcase', value: on ? 'TRUE' : 'FALSE' })
+      });
+      const data = await res.json();
+      if (data.ok) location.reload();
+      else alert('失敗：' + (data.message || '未知錯誤'));
+    } catch (e) { alert('連線錯誤：' + e.message); }
+  }
+  window.toggleShowcase = toggleShowcase;
 
   /* Language Toggle */
   (function () {

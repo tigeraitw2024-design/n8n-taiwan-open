@@ -570,6 +570,12 @@
   <p>n8n Taiwan Open Hackathon 2026 · 主辦：虎智科技 TigerAI</p>
   <p>共同主辦：博碩文化 × 臺科大創新育成中心 · 贊助：AMD × TUL × Zeabur</p>
   <p style="margin-top:12px;"><a href="index.html">回活動首頁</a></p>
+  <p style="margin-top:20px; font-size:10px; opacity:0.4; letter-spacing:0.05em;">
+    主辦方控制 ·
+    <a href="#" onclick="event.preventDefault(); toggleReveal(true);" style="color:inherit; text-decoration:underline;">公布</a>
+    ·
+    <a href="#" onclick="event.preventDefault(); toggleReveal(false);" style="color:inherit; text-decoration:underline;">收回</a>
+  </p>
 </div>
 
 <script>
@@ -812,58 +818,21 @@
   }
 
   /* -----------------------------------------------------
-     Admin 面板：URL 帶 ?admin=<adminToken> 才顯示
+     主辦方小按鈕（頁面底部）· 沒有 URL 參數也顯示
      ----------------------------------------------------- */
-  (function () {
-    const adminToken = new URLSearchParams(location.search).get('admin');
-    if (!adminToken) return;
-
-    const panel = document.createElement('div');
-    panel.className = 'admin-panel';
-    panel.innerHTML = `
-      <div class="admin-panel-title">主辦方控制台</div>
-      <div class="admin-panel-sub">此按鈕不會出現在一般使用者頁面（需 ?admin= 參數）</div>
-      <button type="button" class="admin-panel-btn" id="btnReveal">立即公布得獎名單</button>
-      <button type="button" class="admin-panel-btn secondary" id="btnHide">收回公布 · 回到倒數</button>
-      <div class="admin-panel-status" id="adminStatus"></div>
-    `;
-    document.body.appendChild(panel);
-
-    async function callAdmin(revealed) {
-      const status = panel.querySelector('#adminStatus');
-      status.className = 'admin-panel-status';
-      status.textContent = '處理中⋯';
-      try {
-        const res = await fetch(GAS_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'admin-reveal',
-            adminToken: adminToken,
-            revealed: revealed ? 'TRUE' : 'FALSE'
-          })
-        });
-        const data = await res.json();
-        if (data.ok) {
-          status.className = 'admin-panel-status ok';
-          status.textContent = revealed ? '已公布 · 3 秒後刷新' : '已收回 · 3 秒後刷新';
-          setTimeout(() => location.reload(), 3000);
-        } else {
-          status.className = 'admin-panel-status err';
-          status.textContent = '失敗：' + (data.message || '未知錯誤');
-        }
-      } catch (e) {
-        status.className = 'admin-panel-status err';
-        status.textContent = '連線錯誤：' + e.message;
-      }
-    }
-
-    panel.querySelector('#btnReveal').addEventListener('click', () => {
-      if (confirm('確定立即公布得獎名單？\n（請先確認 Awards 分頁已填入得獎隊 ID）')) callAdmin(true);
-    });
-    panel.querySelector('#btnHide').addEventListener('click', () => {
-      if (confirm('確定收回公布？頁面會回到倒數狀態')) callAdmin(false);
-    });
-  })();
+  async function toggleReveal(on) {
+    if (!confirm(on ? '確定「立即公布得獎名單」？' : '確定「收回公布」·回到倒數狀態？')) return;
+    try {
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'admin-simple-reveal', value: on ? 'TRUE' : 'FALSE' })
+      });
+      const data = await res.json();
+      if (data.ok) location.reload();
+      else alert('失敗：' + (data.message || '未知錯誤'));
+    } catch (e) { alert('連線錯誤：' + e.message); }
+  }
+  window.toggleReveal = toggleReveal;
 
   init();
 
