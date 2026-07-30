@@ -210,6 +210,58 @@
   .btn-success { background: var(--green); color: #fff; }
   .btn-ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--border); }
 
+  /* 開關 switch */
+  .switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .switch input { display: none; }
+  .switch-track {
+    position: relative;
+    width: 52px;
+    height: 30px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .switch-track::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    background: var(--text-dim);
+    border-radius: 50%;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .switch input:checked + .switch-track {
+    background: rgba(52,199,89,0.2);
+    border-color: var(--green);
+  }
+  .switch input:checked + .switch-track::after {
+    transform: translateX(22px);
+    background: var(--green);
+  }
+  .switch-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .switch-label .state {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-dim);
+    margin-left: 6px;
+  }
+  .switch input:checked ~ .switch-label .state {
+    color: var(--green);
+  }
+
   .loader {
     text-align: center;
     padding: 40px;
@@ -322,11 +374,7 @@
 
   <header>
     <h1>決賽得獎名單設定</h1>
-    <div class="subtitle">
-      n8n Taiwan Open Hackathon 2026 · 主辦方後台
-      <span>得獎名單 <span id="revealStatus" class="status-pill off">尚未公布</span></span>
-      <span style="margin-left:8px;">作品展示 <span id="showcaseStatus" class="status-pill off">未開啟</span></span>
-    </div>
+    <div class="subtitle">n8n Taiwan Open Hackathon 2026 · 主辦方後台</div>
   </header>
 
   <section>
@@ -373,16 +421,21 @@
 
   <div class="action-bar">
     <button class="btn btn-primary" onclick="saveAwards()">儲存得獎名單</button>
-    <button class="btn btn-success" onclick="toggleReveal(true)">公布得獎</button>
-    <button class="btn btn-ghost"   onclick="toggleReveal(false)">收回公布</button>
+    <label class="switch">
+      <input type="checkbox" id="revealSwitch" onchange="onRevealChange(this)">
+      <span class="switch-track"></span>
+      <span class="switch-label">公布得獎名單<span class="state" id="revealState">尚未公布</span></span>
+    </label>
     <div style="flex:1"></div>
     <a href="results.html" class="btn btn-ghost" style="text-decoration:none; display:inline-flex; align-items:center;">看得獎頁 →</a>
   </div>
 
   <div class="action-bar" style="margin-top:0;">
-    <div style="font-size:13px; color:var(--text-dim); align-self:center; margin-right:8px;">作品展示頁（學生作品公開頁）</div>
-    <button class="btn btn-success" onclick="toggleShowcase(true)">開啟展示</button>
-    <button class="btn btn-ghost"   onclick="toggleShowcase(false)">關閉展示</button>
+    <label class="switch">
+      <input type="checkbox" id="showcaseSwitch" onchange="onShowcaseChange(this)">
+      <span class="switch-track"></span>
+      <span class="switch-label">開啟作品展示頁<span class="state" id="showcaseState">尚未開啟</span></span>
+    </label>
     <div style="flex:1"></div>
     <a href="showcase.html" class="btn btn-ghost" style="text-decoration:none; display:inline-flex; align-items:center;">看作品展示 →</a>
   </div>
@@ -456,14 +509,12 @@
   }
 
   function setRevealPill(on) {
-    const pill = document.getElementById('revealStatus');
-    pill.textContent = on ? '已公布' : '尚未公布';
-    pill.className = 'status-pill ' + (on ? 'on' : 'off');
+    document.getElementById('revealSwitch').checked = on;
+    document.getElementById('revealState').textContent = on ? '已公布' : '尚未公布';
   }
   function setShowcasePill(on) {
-    const pill = document.getElementById('showcaseStatus');
-    pill.textContent = on ? '已開啟' : '未開啟';
-    pill.className = 'status-pill ' + (on ? 'on' : 'off');
+    document.getElementById('showcaseSwitch').checked = on;
+    document.getElementById('showcaseState').textContent = on ? '已開啟' : '尚未開啟';
   }
 
   async function loadBoard() {
@@ -607,11 +658,12 @@
     } catch (e) { toast('連線錯誤：' + e.message, 'error'); }
   }
 
-  async function toggleReveal(on) {
+  async function onRevealChange(el) {
+    const on = el.checked;
     const msg = on
       ? '確定「立即公布得獎名單」？\n記得先按過「儲存得獎名單」'
       : '確定「收回公布」·回到倒數狀態？';
-    if (!confirm(msg)) return;
+    if (!confirm(msg)) { el.checked = !on; return; }
     try {
       const res = await fetch(GAS_URL, {
         method: 'POST',
@@ -623,15 +675,20 @@
         setRevealPill(on);
       } else {
         toast('失敗：' + (data.message || ''), 'error');
+        el.checked = !on;
       }
-    } catch (e) { toast('連線錯誤：' + e.message, 'error'); }
+    } catch (e) {
+      toast('連線錯誤：' + e.message, 'error');
+      el.checked = !on;
+    }
   }
 
-  async function toggleShowcase(on) {
+  async function onShowcaseChange(el) {
+    const on = el.checked;
     const msg = on
       ? '確定「開啟作品展示頁」？\n所有人都能到 showcase.html 看到已提交的作品'
       : '確定「關閉作品展示頁」？\n頁面會變空';
-    if (!confirm(msg)) return;
+    if (!confirm(msg)) { el.checked = !on; return; }
     try {
       const res = await fetch(GAS_URL, {
         method: 'POST',
@@ -643,8 +700,12 @@
         setShowcasePill(on);
       } else {
         toast('失敗：' + (data.message || ''), 'error');
+        el.checked = !on;
       }
-    } catch (e) { toast('連線錯誤：' + e.message, 'error'); }
+    } catch (e) {
+      toast('連線錯誤：' + e.message, 'error');
+      el.checked = !on;
+    }
   }
 
   function escapeHtml(s) {
