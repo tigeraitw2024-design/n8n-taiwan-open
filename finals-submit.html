@@ -1386,7 +1386,7 @@
     if (!data.leader.name || !data.leader.school || !data.leader.email || !data.leader.phone) return showErr('請完整填寫隊長資訊');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.leader.email)) return showErr('隊長 Email 格式不對');
     if (data.members.filter(m => m.name).length < 1) return showErr('至少要有 1 位成員（隊長）');
-    if (certs.length < data.members.filter(m => m.name).length) return showErr(`證照張數應與隊員數相符（${certs.length} 張 / ${data.members.filter(m => m.name).length} 人）`);
+    if (certs.length < 1) return showErr('每隊至少需上傳 1 張 n8n Level 1 認證證照 PNG（隊中至少 1 位持有即可）');
     if (workflows.length === 0) return showErr('至少要上傳 1 份 n8n 流程檔');
     if (!data.videoUrl) return showErr('請填作品展示影片連結');
     if (!data.cloudUrl) return showErr('請填 Learning 流程網址（所有作品都必須在 Learning 上跑）');
