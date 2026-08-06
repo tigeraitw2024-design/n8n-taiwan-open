@@ -756,7 +756,7 @@
   const GOOGLE_CLIENT_ID = '794891982865-sbf7ums0an6ptl0ki0j3fubk304ohkvs.apps.googleusercontent.com';
 
   // 決賽日時間閘：08:00 之前禁止上傳 · 14:30 之後也禁止
-  const FINALS_OPEN_AT  = new Date('2026-08-07T08:00:00+08:00').getTime();
+  const FINALS_OPEN_AT  = new Date('2026-01-01T00:00:00+08:00').getTime();   // 已提前開放 · 原 2026-08-07T08:00
   const FINALS_CLOSE_AT = new Date('2026-08-07T14:30:00+08:00').getTime();
   (function gateFinalsSubmit() {
     const now = Date.now();
