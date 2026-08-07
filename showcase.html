@@ -271,6 +271,55 @@
     color: var(--gray-400);
   }
   .work-video-placeholder svg { width: 40px; height: 40px; }
+
+  /* 外部影片卡（Drive / OneDrive 等 · 不 embed · 點才跳新分頁） */
+  a.work-video-external {
+    position: absolute;
+    inset: 0;
+    display: block;
+    text-decoration: none;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    overflow: hidden;
+  }
+  a.work-video-external:hover .work-video-play svg { transform: scale(1.15); }
+  a.work-video-external:hover .work-video-poster { filter: brightness(0.55); }
+  .work-video-poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+    transition: filter 0.2s ease;
+  }
+  .work-video-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    color: #fff;
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5));
+  }
+  .work-video-play svg {
+    width: 64px; height: 64px;
+    transition: transform 0.2s ease;
+  }
+  .work-video-source-tag {
+    position: absolute;
+    left: 12px; bottom: 12px;
+    z-index: 2;
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .work-video-source-tag svg { width: 12px; height: 12px; }
   .work-video-link-btn {
     position: absolute;
     right: 12px;
@@ -707,23 +756,27 @@
     });
   }
 
-  // 將影片 URL 轉為可 embed 的格式 · 同時保留原連結供「開新分頁」用
-  // 支援：YouTube · Google Drive · 直接 embed URL
+  // 分析影片 URL · 決定用 embed 還是「點擊開新分頁」的縮圖卡
+  // - YouTube: 直接 embed (免權限, 可正常播)
+  // - Google Drive: 顯示縮圖卡 · 因為多數學生忘了設公開分享 · embed 會 403
+  //                 (若 Drive 縮圖 API 能吐圖, 表示至少縮圖權限 OK)
+  // - OneDrive / SharePoint / 1drv.ms: 顯示縮圖卡 · 微軟禁 iframe embed
+  // - 其他 URL: 顯示縮圖卡 · 開新分頁
   function toEmbedInfo(rawUrl) {
-    if (!rawUrl) return { embed: '', external: '' };
+    if (!rawUrl) return { type: 'none' };
     const url = String(rawUrl).trim();
 
-    // YouTube (watch / shorts / youtu.be / embed)
     const ytMatch = url.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([A-Za-z0-9_-]{10,15})/);
     if (ytMatch) {
       return {
+        type: 'youtube',
         embed: 'https://www.youtube.com/embed/' + ytMatch[1],
-        external: 'https://www.youtube.com/watch?v=' + ytMatch[1]
+        external: 'https://www.youtube.com/watch?v=' + ytMatch[1],
+        poster: 'https://img.youtube.com/vi/' + ytMatch[1] + '/hqdefault.jpg',
+        source: 'YouTube'
       };
     }
 
-    // Google Drive
-    // 格式：/file/d/FILE_ID/... · /open?id=FILE_ID · /uc?id=FILE_ID
     let driveId = null;
     const m1 = url.match(/\/file\/d\/([A-Za-z0-9_-]+)/);
     const m2 = url.match(/[?&]id=([A-Za-z0-9_-]+)/);
@@ -731,28 +784,45 @@
     else if (m2 && /drive\.google\.com/.test(url)) driveId = m2[1];
     if (driveId) {
       return {
-        embed: 'https://drive.google.com/file/d/' + driveId + '/preview',
-        external: 'https://drive.google.com/file/d/' + driveId + '/view'
+        type: 'drive',
+        external: 'https://drive.google.com/file/d/' + driveId + '/view',
+        poster: 'https://drive.google.com/thumbnail?id=' + driveId + '&sz=w800',
+        source: 'Google Drive'
       };
     }
 
-    // 其他 · 已經是 embed URL 或未知格式 · 直接放 iframe · external 用原 URL
-    return { embed: url, external: url };
+    if (/onedrive|1drv\.ms|sharepoint/i.test(url)) {
+      return { type: 'onedrive', external: url, poster: null, source: 'OneDrive' };
+    }
+
+    return { type: 'other', external: url, poster: null, source: '外部影片' };
   }
 
   function renderCard(w) {
     const award = w.award ? AWARDS[w.award] : null;
     const v = toEmbedInfo(w.video);
-    const linkBtn = v.external
-      ? `<a class="work-video-link-btn" href="${esc(v.external)}" target="_blank" rel="noopener" title="若影片無法播放,點此在新分頁開啟"><i data-lucide="external-link"></i><span>開啟</span></a>`
-      : '';
-    const videoEmbed = v.embed
-      ? `<div class="work-video"><iframe src="${v.embed}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>${linkBtn}</div>`
-      : `<div class="work-video"><div class="work-video-placeholder"><i data-lucide="film"></i></div></div>`;
+
+    let videoBlock;
+    if (v.type === 'none') {
+      videoBlock = `<div class="work-video"><div class="work-video-placeholder"><i data-lucide="film"></i></div></div>`;
+    } else if (v.type === 'youtube') {
+      videoBlock = `<div class="work-video">
+        <iframe src="${v.embed}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <a class="work-video-link-btn" href="${esc(v.external)}" target="_blank" rel="noopener"><i data-lucide="external-link"></i><span>開啟</span></a>
+      </div>`;
+    } else {
+      videoBlock = `<div class="work-video">
+        <a class="work-video-external" href="${esc(v.external)}" target="_blank" rel="noopener" title="點擊在新分頁觀看作品影片">
+          ${v.poster ? `<img class="work-video-poster" src="${v.poster}" alt="" onerror="this.style.display='none'">` : ''}
+          <div class="work-video-play"><i data-lucide="play-circle"></i></div>
+          <span class="work-video-source-tag"><i data-lucide="external-link"></i>${v.source} · 點擊觀看</span>
+        </a>
+      </div>`;
+    }
     return `
       <article class="work-card">
         ${award ? `<div class="work-award-badge ${award.cls}"><span>${award.label}${w.awardTitle ? ' · ' + esc(w.awardTitle) : ''}</span></div>` : ''}
-        ${videoEmbed}
+        ${videoBlock}
         <div class="work-body">
           <div class="work-meta-row">
             <span class="work-theme-chip">${THEMES[w.theme] || '—'}</span>
