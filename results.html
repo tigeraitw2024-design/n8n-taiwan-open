@@ -769,10 +769,19 @@
       lucide.createIcons();
       return;
     }
+    // 支援 YouTube + Google Drive · 其他直接當 embed URL 用
     const toEmbed = (url) => {
       if (!url) return '';
-      const m = String(url).match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([A-Za-z0-9_-]{10,15})/);
-      return m ? `https://www.youtube.com/embed/${m[1]}` : '';
+      const s = String(url).trim();
+      const yt = s.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([A-Za-z0-9_-]{10,15})/);
+      if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
+      let driveId = null;
+      const m1 = s.match(/\/file\/d\/([A-Za-z0-9_-]+)/);
+      const m2 = s.match(/[?&]id=([A-Za-z0-9_-]+)/);
+      if (m1) driveId = m1[1];
+      else if (m2 && /drive\.google\.com/.test(s)) driveId = m2[1];
+      if (driveId) return `https://drive.google.com/file/d/${driveId}/preview`;
+      return s;
     };
     const videoBlock = (obj) => {
       const embed = toEmbed(obj.video);
