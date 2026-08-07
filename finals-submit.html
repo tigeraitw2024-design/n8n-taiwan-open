@@ -758,7 +758,7 @@
 
   // 決賽日時間閘：08:00 之前禁止上傳 · 14:30 之後也禁止
   const FINALS_OPEN_AT  = new Date('2026-01-01T00:00:00+08:00').getTime();   // 已提前開放 · 原 2026-08-07T08:00
-  const FINALS_CLOSE_AT = new Date('2026-08-07T14:30:00+08:00').getTime();
+  const FINALS_CLOSE_AT = new Date('2027-01-01T00:00:00+08:00').getTime();   // 完全開放 · 決賽結束後再改回 2026-08-07T14:30
   (function gateFinalsSubmit() {
     const now = Date.now();
     if (now >= FINALS_OPEN_AT && now <= FINALS_CLOSE_AT) return;   // 開放中 · 正常執行
@@ -924,7 +924,7 @@
           <i data-lucide="info"></i>
           <div>
             <strong>提交前請準備好：</strong>
-            隊員 n8n Level 1 認證圖（PNG，每人一張）· n8n 流程檔（JSON，可多份）· 作品展示影片連結（YouTube 未公開連結或 Google 雲端硬碟連結）· 作品簡報連結 · <strong>虎智科技 Learning 流程網址</strong>（所有作品必須在 Learning 上跑，評審才能實測）。
+            n8n Level 1 認證證照（隊中至少 1 位持有 · 檔案格式不限）· n8n 流程檔或相關檔案（可多份 · 檔案格式不限）· 作品展示影片連結（YouTube 未公開連結或 Google 雲端硬碟連結）· 作品簡報連結 · <strong>虎智科技 Learning 流程網址</strong>（所有作品必須在 Learning 上跑，評審才能實測）· README 說明文件（選填）。
             <br><strong>可重新提交：</strong>用同一個隊長信箱重新上傳，就會覆蓋前一次的資料。
           </div>
         </div>
@@ -1045,14 +1045,14 @@
             <div class="section-num">5</div>
             <div>
               <div class="section-title" data-en="n8n Level 1 Certification">n8n Level 1 認證證照</div>
-              <div class="section-desc" data-en="Each team must upload at least 1 Level 1 cert PNG · up to ${MAX_CERTS} files · ≤ ${MAX_CERT_MB}MB each">每隊至少上傳 1 張 Level 1 認證證照 PNG（隊中至少 1 位持有）· 最多 ${MAX_CERTS} 張 · 每張 ≤ ${MAX_CERT_MB}MB</div>
+              <div class="section-desc" data-en="Each team must upload at least 1 Level 1 cert file · any format · up to ${MAX_CERTS} files · ≤ ${MAX_CERT_MB}MB each">每隊至少上傳 1 張 Level 1 認證證照（隊中至少 1 位持有 · 檔案格式不限）· 最多 ${MAX_CERTS} 份 · 每份 ≤ ${MAX_CERT_MB}MB</div>
             </div>
           </div>
           <label class="upload-zone" id="certUpload">
-            <input type="file" id="certInput" accept="image/png,image/jpeg" multiple style="display:none;">
+            <input type="file" id="certInput" multiple style="display:none;">
             <i data-lucide="image-plus" class="upload-zone-icon"></i>
-            <div class="upload-zone-title">點此上傳，或把 PNG 拖進來</div>
-            <div class="upload-zone-desc">PNG / JPG · 每張 ≤ ${MAX_CERT_MB}MB</div>
+            <div class="upload-zone-title">點此上傳，或把檔案拖進來</div>
+            <div class="upload-zone-desc">任意檔案格式 · 每份 ≤ ${MAX_CERT_MB}MB</div>
           </label>
           <div class="cert-grid" id="certList"></div>
         </section>
@@ -1063,14 +1063,14 @@
             <div class="section-num">6</div>
             <div>
               <div class="section-title" data-en="n8n Workflow Files">n8n 流程檔</div>
-              <div class="section-desc" data-en="JSON files · multiple allowed (e.g. main + sub-workflow)">JSON 檔案 · 可上傳多份（例如主流程 + 子流程）</div>
+              <div class="section-desc" data-en="Any file format · multiple allowed (e.g. main + sub-workflow)">流程檔或相關檔案 · 檔案格式不限 · 可上傳多份（例如主流程 + 子流程）</div>
             </div>
           </div>
           <label class="upload-zone" id="workflowUpload">
-            <input type="file" id="workflowInput" accept=".json,application/json" multiple style="display:none;">
+            <input type="file" id="workflowInput" multiple style="display:none;">
             <i data-lucide="file-plus-2" class="upload-zone-icon"></i>
-            <div class="upload-zone-title">點此上傳，或把 JSON 拖進來</div>
-            <div class="upload-zone-desc">JSON · 每份 ≤ ${MAX_WORKFLOW_MB}MB · 最多 ${MAX_WORKFLOWS} 份</div>
+            <div class="upload-zone-title">點此上傳，或把檔案拖進來</div>
+            <div class="upload-zone-desc">任意檔案格式 · 每份 ≤ ${MAX_WORKFLOW_MB}MB · 最多 ${MAX_WORKFLOWS} 份</div>
           </label>
           <div class="file-list" id="workflowList"></div>
 
@@ -1083,10 +1083,10 @@
               Markdown / PDF · 說明所需 credentials、環境變數、觸發方式 · 讓評審快速看懂你的作品
             </div>
             <label class="upload-zone" id="readmeUpload">
-              <input type="file" id="readmeInput" accept=".md,.markdown,.txt,.pdf,text/markdown,text/plain,application/pdf" multiple style="display:none;">
+              <input type="file" id="readmeInput" multiple style="display:none;">
               <i data-lucide="file-text" class="upload-zone-icon"></i>
               <div class="upload-zone-title">點此上傳，或把 README.md 拖進來</div>
-              <div class="upload-zone-desc">MD / TXT / PDF · 每份 ≤ ${MAX_README_MB}MB · 最多 ${MAX_READMES} 份</div>
+              <div class="upload-zone-desc">任意檔案格式 · 每份 ≤ ${MAX_README_MB}MB · 最多 ${MAX_READMES} 份</div>
             </label>
             <div class="file-list" id="readmeList"></div>
           </div>
@@ -1185,7 +1185,7 @@
           <label class="check-row">
             <input type="checkbox" id="consent1">
             <span>
-              我確認本隊<strong>至少 1 位成員已通過 n8n Level 1 國際認證</strong>，並已於上一步上傳該成員的證照 PNG。
+              我確認本隊<strong>至少 1 位成員已通過 n8n Level 1 國際認證</strong>，並已於上一步上傳該成員的證照檔案。
             </span>
           </label>
           <label class="check-row" style="margin-top:10px;">
@@ -1334,13 +1334,18 @@
   }
 
   function renderFileLists() {
-    $('#certList').innerHTML = certs.map((c, i) => `
+    $('#certList').innerHTML = certs.map((c, i) => {
+      const isImg = (c.file.type || '').startsWith('image/');
+      const preview = isImg
+        ? `<img class="cert-thumb" src="${c.dataUrl}" alt="${escAttr(c.file.name)}">`
+        : `<div class="cert-thumb" style="display:flex;align-items:center;justify-content:center;background:var(--gray-100);color:var(--text-dim);"><i data-lucide="file-check-2" style="width:32px;height:32px;"></i></div>`;
+      return `
       <div class="cert-tile">
-        <img class="cert-thumb" src="${c.dataUrl}" alt="${escAttr(c.file.name)}">
+        ${preview}
         <button type="button" class="file-item-remove" onclick="removeFile('certs', ${i})"><i data-lucide="x"></i></button>
         <div class="cert-tile-name">${esc(c.file.name)}</div>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
     $('#workflowList').innerHTML = workflows.map((w, i) => `
       <div class="file-item">
         <i data-lucide="file-code-2"></i>
