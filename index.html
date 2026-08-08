@@ -1655,11 +1655,21 @@
           '<button type="button" class="recap-arrow recap-arrow-right" aria-label="下一張"><i data-lucide="chevron-right"></i></button>'
         : '';
 
+      // 側翼預覽 · 只在有多張時才有意義
+      const peeks = photos.length > 1
+        ? '<div class="recap-peek recap-peek-prev" aria-hidden="true"><img id="recapPeekPrevImg" alt=""></div>' +
+          '<div class="recap-peek recap-peek-next" aria-hidden="true"><img id="recapPeekNextImg" alt=""></div>'
+        : '';
+
       container.innerHTML =
-        slides +
-        '<div class="recap-counter"><span id="recapNow">1</span> / ' + photos.length + '</div>' +
-        '<div class="recap-loading recap-slide-loading" id="recapSlideLoading"><div class="recap-spinner"></div></div>' +
-        arrows + dots;
+        peeks +
+        '<div class="recap-hero">' +
+          slides +
+          '<div class="recap-counter"><span id="recapNow">1</span> / ' + photos.length + '</div>' +
+          '<div class="recap-loading recap-slide-loading" id="recapSlideLoading"><div class="recap-spinner"></div></div>' +
+          arrows +
+        '</div>' +
+        dots;
 
       if (window.lucide) lucide.createIcons();
 
@@ -1669,8 +1679,21 @@
       const dotEls = container.querySelectorAll('.recap-dot');
       const counter = document.getElementById('recapNow');
       const loadingEl = document.getElementById('recapSlideLoading');
+      const peekPrevImg = document.getElementById('recapPeekPrevImg');
+      const peekNextImg = document.getElementById('recapPeekNextImg');
       const loaded = new Set();       // 已完成的 slide 索引
       const loading = new Set();      // 正在載入的 slide 索引
+
+      // 側翼預覽用小尺寸(thumbLow) · 載得快 · 反正有模糊
+      function updatePeeks() {
+        if (!peekPrevImg || !peekNextImg) return;
+        const prev = photos[(current - 1 + photos.length) % photos.length];
+        const next = photos[(current + 1) % photos.length];
+        const prevSrc = prev.thumbLow || prev.thumb;
+        const nextSrc = next.thumbLow || next.thumb;
+        if (peekPrevImg.src !== prevSrc) peekPrevImg.src = prevSrc;
+        if (peekNextImg.src !== nextSrc) peekNextImg.src = nextSrc;
+      }
 
       // 用 JS 幫某張 slide 掛實際的 <img>(帶 load / error 事件)
       function loadSlide(i) {
@@ -1718,6 +1741,7 @@
           else loadingEl.classList.add('show');
         }
         ensureLoadedAround(current);
+        updatePeeks();
       }
       function next() { goTo(current + 1); }
       function prev() { goTo(current - 1); }
@@ -1729,6 +1753,7 @@
 
       // 首張立刻載 · 相鄰兩張排隊預載
       ensureLoadedAround(current);
+      updatePeeks();
       if (loadingEl && !loaded.has(current)) loadingEl.classList.add('show');
 
       dotEls.forEach(d => d.addEventListener('click', () => {

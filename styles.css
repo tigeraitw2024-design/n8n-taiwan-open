@@ -3540,12 +3540,60 @@ body.modal-open {
 .recap-slideshow {
   position: relative;
   max-width: 1080px;
-  margin: 0 auto;
+  margin: 0 auto 20px;
   aspect-ratio: 16 / 10;
+  /* overflow visible · 讓左右側翼可以露出到主容器外 */
+}
+/* 主圖容器 · 只有這層裁圓角 · 才不會蓋掉側翼 */
+.recap-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   border-radius: 20px;
   overflow: hidden;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+}
+/* 左右側翼預覽 · 只是視覺 · pointer-events:none · 不會擋操作 */
+.recap-peek {
+  position: absolute;
+  top: 50%;
+  width: 48%;
+  aspect-ratio: 16 / 10;
+  border-radius: 18px;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.58;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  will-change: transform, opacity;
+}
+.recap-peek img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(3px) brightness(0.72) saturate(0.9);
+  transition: opacity 0.4s ease;
+}
+.recap-peek::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 40%, rgba(0,0,0,0.15) 100%);
+  pointer-events: none;
+}
+.recap-peek-prev {
+  left: -20%;
+  transform: translateY(-50%) rotate(-7deg) scale(0.92);
+}
+.recap-peek-next {
+  right: -20%;
+  transform: translateY(-50%) rotate(7deg) scale(0.92);
 }
 .recap-loading {
   position: absolute;
@@ -3681,11 +3729,20 @@ body.modal-open {
 }
 
 @media (max-width: 768px) {
-  .recap-slideshow { aspect-ratio: 4 / 3; border-radius: 14px; }
+  .recap-slideshow { aspect-ratio: 4 / 3; }
+  .recap-hero { border-radius: 14px; }
   .recap-arrow { width: 36px; height: 36px; }
   .recap-arrow-left  { left: 12px; }
   .recap-arrow-right { right: 12px; }
   .recap-controls { bottom: 12px; padding: 6px 10px; }
   .recap-dot { width: 6px; height: 6px; }
   .recap-dot.active { width: 18px; }
+  /* 手機側翼變小 + 更淡 · 避免搶主圖 */
+  .recap-peek { width: 40%; opacity: 0.4; border-radius: 12px; }
+  .recap-peek-prev { left: -18%; transform: translateY(-50%) rotate(-5deg) scale(0.85); }
+  .recap-peek-next { right: -18%; transform: translateY(-50%) rotate(5deg) scale(0.85); }
+}
+@media (max-width: 480px) {
+  /* 手機直式 · 側翼幾乎藏起來 · 只留一點暗示 */
+  .recap-peek { opacity: 0.28; width: 35%; }
 }
