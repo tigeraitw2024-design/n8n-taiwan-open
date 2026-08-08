@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 評審報告 · n8n Taiwan Open Hackathon 2026</title>
+<meta name="description" content="n8n Taiwan Open Hackathon 2026 · Claude AI 為 14 隊決賽作品撰寫的完整技術評論 · 33 支 workflow · 626 節點 · 100% 實機匯入通過">
+<meta property="og:title" content="AI 評審報告 · n8n Taiwan Open Hackathon 2026">
+<meta property="og:description" content="Claude AI 逐隊審閱 workflow · 100% 實機匯入通過 · 14 隊完整技術評論公開">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://n8n-taiwanopen.pages.dev/ai-review.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    --pink: #F0648C;
+    --pink-deep: #EA4B71;
+    --pink-soft: #FFF5F5;
+    --gold: #E8A93C;
+    --black: #0D0D0D;
+    --white: #FFFFFF;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --gray-900: #111827;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-strong: rgba(255, 255, 255, 0.18);
+    --card: rgba(255, 255, 255, 0.04);
+    --card-hover: rgba(255, 255, 255, 0.07);
+    --font-display: 'Satoshi', 'Noto Sans TC', -apple-system, system-ui, sans-serif;
+    --font-body: 'Noto Sans TC', 'Satoshi', -apple-system, system-ui, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--black);
+    color: var(--white);
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  .bg-gradient {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse 800px 600px at top left, rgba(240,100,140,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse 700px 500px at 30% 40%, rgba(232,169,60,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse 600px 400px at bottom right, rgba(240,100,140,0.10) 0%, transparent 50%),
+      var(--black);
+    pointer-events: none;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* ============ NAV ============ */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13, 13, 13, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+  }
+  .nav-logo-dot { color: var(--pink); }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    font-size: 14px;
+  }
+  .nav-links a:hover { color: var(--pink); }
+  .nav-cta {
+    padding: 8px 16px;
+    background: var(--pink);
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+  .nav-cta:hover { background: var(--pink-deep); transform: translateY(-1px); }
+  .nav-cta svg { width: 14px; height: 14px; }
+  @media (max-width: 768px) {
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+  }
+  .hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(240, 100, 140, 0.12);
+    border: 1px solid rgba(240, 100, 140, 0.3);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--pink);
+    margin-bottom: 24px;
+  }
+  .hero-kicker svg { width: 14px; height: 14px; }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+  .hero-title-accent {
+    background: linear-gradient(135deg, var(--pink) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 2vw, 18px);
+    color: var(--gray-300);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .hero-meta {
+    margin-top: 24px;
+    color: var(--gray-500);
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .hero-meta svg { width: 14px; height: 14px; }
+
+  /* ============ STATS ============ */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 900px;
+    margin: 40px auto 0;
+  }
+  .stat {
+    padding: 24px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: var(--gray-400);
+    letter-spacing: 0.03em;
+  }
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ============ SECTION ============ */
+  .section {
+    padding: 80px 0;
+  }
+  .section-head {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .section-kicker {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--pink);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .section-sub {
+    color: var(--gray-400);
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: 15px;
+  }
+
+  /* ============ METHOD ============ */
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .method-step {
+    padding: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: all 0.2s ease;
+  }
+  .method-step:hover { border-color: var(--border-strong); background: var(--card-hover); }
+  .method-step-num {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--pink);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .method-step-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+  .method-step-desc {
+    font-size: 13px;
+    color: var(--gray-400);
+    line-height: 1.55;
+  }
+  @media (max-width: 900px) {
+    .method-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ============ CONTROLS ============ */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .search-box {
+    flex: 1;
+    min-width: 240px;
+    position: relative;
+  }
+  .search-box svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--gray-500);
+  }
+  .search-box input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--white);
+    font-size: 14px;
+    font-family: var(--font-body);
+    outline: none;
+    transition: all 0.15s ease;
+  }
+  .search-box input:focus { border-color: var(--pink); background: var(--card-hover); }
+  .search-box input::placeholder { color: var(--gray-500); }
+  .theme-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .theme-chip {
+    padding: 10px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--gray-300);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: var(--font-body);
+  }
+  .theme-chip:hover { background: var(--card-hover); border-color: var(--border-strong); color: var(--white); }
+  .theme-chip.active {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: var(--white);
+  }
+
+  /* ============ TEAM CARDS ============ */
+  .team-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .team-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+  .team-card:hover { border-color: var(--border-strong); }
+  .team-card.expanded { background: var(--card-hover); border-color: rgba(240, 100, 140, 0.35); }
+  .team-head {
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+  }
+  .team-id {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 10px;
+    background: rgba(240, 100, 140, 0.12);
+    color: var(--pink);
+    border-radius: 6px;
+    letter-spacing: 0.05em;
+  }
+  .team-title {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .team-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.3;
+    color: var(--white);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .team-work {
+    font-size: 13px;
+    color: var(--gray-400);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .team-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--gray-500);
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .team-theme-badge {
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--gray-800);
+    color: var(--gray-300);
+    letter-spacing: 0.03em;
+  }
+  .team-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gray-800);
+    color: var(--gray-300);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .team-card.expanded .team-toggle { background: var(--pink); color: var(--white); transform: rotate(180deg); }
+  .team-toggle svg { width: 18px; height: 18px; }
+  .team-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .team-card.expanded .team-body { max-height: 3000px; }
+  .team-body-inner {
+    padding: 8px 24px 28px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+  .team-section { margin-top: 22px; }
+  .team-section-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--pink);
+    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .team-section-title svg { width: 14px; height: 14px; }
+  .team-section p {
+    color: var(--gray-200);
+    font-size: 14.5px;
+    line-height: 1.75;
+  }
+  .team-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  .team-section ul li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    color: var(--gray-200);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .team-section ul li::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 12px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--pink);
+  }
+  .team-section strong { color: var(--white); font-weight: 700; }
+  .team-section code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    padding: 1px 6px;
+    background: var(--gray-800);
+    border-radius: 4px;
+    color: var(--gold);
+  }
+  .team-highlight {
+    background: linear-gradient(135deg, rgba(240,100,140,0.08) 0%, rgba(232,169,60,0.06) 100%);
+    border: 1px solid rgba(240, 100, 140, 0.2);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 12px;
+  }
+  .team-highlight .team-section-title { color: var(--gold); }
+
+  @media (max-width: 700px) {
+    .team-head { grid-template-columns: auto 1fr auto; padding: 16px; gap: 12px; }
+    .team-meta { display: none; }
+    .team-body-inner { padding: 8px 16px 20px; }
+    .team-name { font-size: 15px; }
+  }
+
+  /* ============ OBSERVATIONS ============ */
+  .obs-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .obs-card {
+    padding: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+  .obs-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--gold) 100%);
+    color: var(--white);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+  .obs-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+  .obs-body {
+    font-size: 14px;
+    color: var(--gray-300);
+    line-height: 1.7;
+  }
+  .obs-body strong { color: var(--white); font-weight: 700; }
+  .obs-body code {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    padding: 1px 6px;
+    background: var(--gray-800);
+    border-radius: 4px;
+    color: var(--gold);
+  }
+  @media (max-width: 800px) {
+    .obs-list { grid-template-columns: 1fr; }
+  }
+
+  /* ============ CLOSING ============ */
+  .closing {
+    padding: 60px 0 40px;
+    text-align: center;
+  }
+  .closing-title {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .closing-sub {
+    color: var(--gray-400);
+    max-width: 600px;
+    margin: 0 auto 32px;
+    font-size: 15px;
+  }
+  .closing-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 26px;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    font-family: var(--font-body);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-deep) 100%);
+    color: var(--white);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(240,100,140,0.35); }
+  .btn-ghost {
+    background: var(--card);
+    color: var(--white);
+    border: 1px solid var(--border-strong);
+  }
+  .btn-ghost:hover { background: var(--card-hover); }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    padding: 40px 0 60px;
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+  .footer a { color: var(--gray-300); }
+  .footer a:hover { color: var(--pink); }
+  .footer-links { margin-top: 12px; }
+  .footer-links a { margin: 0 10px; }
+</style>
+</head>
+<body>
+<div class="bg-gradient"></div>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      n8n<span class="nav-logo-dot">·</span>Taiwan Open
+    </a>
+    <div class="nav-links">
+      <a href="results.html">得獎名單</a>
+      <a href="showcase.html">作品展示</a>
+      <a href="index.html#recap">現場花絮</a>
+      <a href="showcase.html" class="nav-cta">
+        <span>探索作品</span>
+        <i data-lucide="arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-kicker">
+      <i data-lucide="sparkles"></i>
+      <span>AI 評審報告 · 2026 首屆</span>
+    </div>
+    <h1 class="hero-title">
+      Claude 為 14 隊<br>
+      寫了完整的<span class="hero-title-accent">技術評論</span>
+    </h1>
+    <p class="hero-sub">
+      從 workflow JSON 到 README · 逐隊審閱 · 實機匯入驗證 ·<br>
+      這是全台第一場以 AI 對每一隊做完整技術評論的黑客松。
+    </p>
+    <div class="hero-meta">
+      <span><i data-lucide="calendar"></i> 2026 / 08 / 08 發布</span>
+      <span><i data-lucide="cpu"></i> Claude 逐隊審閱</span>
+      <span><i data-lucide="check-check"></i> 100% 實機驗證通過</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">14</div>
+        <div class="stat-label">參賽隊伍</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">33</div>
+        <div class="stat-label">workflow 檔</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">626</div>
+        <div class="stat-label">節點總數</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">100<span style="font-size:0.6em">%</span></div>
+        <div class="stat-label">實機匯入通過</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ METHOD ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-kicker">METHODOLOGY · 審閱方法</div>
+      <h2 class="section-title">4 步驗證 · 從語法到實機</h2>
+      <p class="section-sub">評分不是看 demo 影片就結束 · 而是把每一支 workflow 檔案打開、跑進真實的 n8n 引擎。</p>
+    </div>
+    <div class="method-grid">
+      <div class="method-step">
+        <div class="method-step-num">01</div>
+        <div class="method-step-title">JSON 格式驗證</div>
+        <p class="method-step-desc">解析結構、必要欄位、n8n schema、觸發器存在性 · 全部自動化。</p>
+      </div>
+      <div class="method-step">
+        <div class="method-step-num">02</div>
+        <div class="method-step-title">連線圖走訪</div>
+        <p class="method-step-desc">從觸發器出發走遍全圖 · 找孤兒節點與斷鏈 · LangChain 子節點反向掛載正確處理。</p>
+      </div>
+      <div class="method-step">
+        <div class="method-step-num">03</div>
+        <div class="method-step-title">表達式引用檢查</div>
+        <p class="method-step-desc">所有 <code>{{ }}</code> · <code>$node["…"]</code> · <code>$('…')</code> 引用的節點是否存在。</p>
+      </div>
+      <div class="method-step">
+        <div class="method-step-num">04</div>
+        <div class="method-step-title">實機匯入</div>
+        <p class="method-step-desc">用 n8n 官方 REST API 逐支匯入本機 self-hosted n8n · 由引擎做最終 schema 把關。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAMS ============ -->
+<section class="section" id="teams">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-kicker">TEAM-BY-TEAM · 14 隊完整評論</div>
+      <h2 class="section-title">點開每一隊 · 看 Claude 怎麼說</h2>
+      <p class="section-sub">按題目類別篩選 · 用隊名 / 作品名搜尋 · 點卡片展開完整評論。</p>
+    </div>
+
+    <div class="controls">
+      <div class="search-box">
+        <i data-lucide="search"></i>
+        <input type="text" id="searchInput" placeholder="搜尋隊名 · 作品名 · 學校…">
+      </div>
+      <div class="theme-chips" id="themeChips">
+        <button type="button" class="theme-chip active" data-theme="all">全部</button>
+        <button type="button" class="theme-chip" data-theme="1">校園自動化</button>
+        <button type="button" class="theme-chip" data-theme="2">商業 AI 助手</button>
+        <button type="button" class="theme-chip" data-theme="3">創作工作流</button>
+        <button type="button" class="theme-chip" data-theme="4">公益社會影響</button>
+      </div>
+    </div>
+
+    <div class="team-list" id="teamList"></div>
+  </div>
+</section>
+
+<!-- ============ OBSERVATIONS ============ -->
+<section class="section" style="background: linear-gradient(180deg, transparent 0%, rgba(240,100,140,0.03) 50%, transparent 100%);">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-kicker">FIELD NOTES · 全場技術觀察</div>
+      <h2 class="section-title">給所有隊伍的共同筆記</h2>
+      <p class="section-sub">看過 33 支 workflow 之後 · 這是 Claude 想跟全場說的 6 件事。</p>
+    </div>
+    <div class="obs-list" id="obsList"></div>
+  </div>
+</section>
+
+<!-- ============ CLOSING ============ -->
+<section class="closing">
+  <div class="container">
+    <h2 class="closing-title">33 支 workflow · 100% 全通過</h2>
+    <p class="closing-sub">
+      恭喜全部 14 隊 · 你們交出的都是真正能跑的作品。<br>
+      這份回饋裡的每一條建議 · 都是通往「作品變產品」的路標。
+    </p>
+    <div class="closing-cta">
+      <a href="results.html" class="btn btn-primary">
+        <i data-lucide="trophy"></i>
+        <span>看得獎名單</span>
+      </a>
+      <a href="showcase.html" class="btn btn-ghost">
+        <i data-lucide="sparkles"></i>
+        <span>探索所有作品</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container">
+    <div>© 2026 TigerAI Co., Ltd. · n8n Taiwan Open Hackathon</div>
+    <div class="footer-links">
+      <a href="index.html">活動首頁</a>·
+      <a href="results.html">得獎名單</a>·
+      <a href="showcase.html">作品展示</a>·
+      <a href="https://drive.google.com/drive/folders/1zso_vVybr5Jo-qDwJbyiT89x-mgYSZl0" target="_blank" rel="noopener">現場照片</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ============ 14 隊完整評論資料 ============
+  // 從 STUDENT_FEEDBACK_v02.md 抽出來 · 一改文件就同步這裡即可
+  const THEME_LABELS = { 1: '校園自動化', 2: '商業 AI 助手', 3: '創作工作流', 4: '公益社會影響' };
+
+  const TEAMS = [
+    {
+      id: 'T001', name: '新手上路', work: 'Panasonic 家電導購訂單助手',
+      theme: 2, workflows: 3, nodes: 52, school: '',
+      summary: '使用者以口語描述生活情境(「我有點熱」「最近容易過敏」),系統經 LLM 結構化語意理解 → pgvector 語意檢索 → SQL 過濾報價 → 建立訂單 → LINE/Email/Notion 通知,是一條從導購到履約的完整鏈路。',
+      points: [
+        '主流程 34 節點 · 搭配獨立的 RAG Import(7 節點)與 RAG Query(6 節點) · 「資料準備」與「線上服務」拆開 · 是正確的管線設計。',
+        'AI 層採 <strong>OpenAI/Gemini 雙 provider 熱切換</strong> · 搭配 Information Extractor + JSON Schema 驗證節點 · 結構化輸出有雙重保險。',
+        '<strong>「LLM 只理解意圖 · 不生成型號與價格」</strong> · 所有商品、耗材、相容性、價格一律查資料庫 · 從架構層面杜絕幻覺 · 這是企業級 AI 系統的核心原則。',
+        '錯誤處理:<code>onError</code> ×3 · <code>retryOnFail</code> ×6 · 加上「AI 低信心→本機規則」「向量失敗→關鍵字搜尋」兩層業務級 fallback。',
+        '工程配套:100 項自動測試、Docker/compose 一鍵重現、<code>.env.example</code>、隱私文件、機器可讀的提交 manifest · 這一套交付紀律放在業界也是高標。'
+      ],
+      highlight: '全場工程完備度標竿 · 防幻覺架構教科書 · 測試覆蓋與可重現性無出其右。',
+      suggest: '商品型錄 schema 抽象化即可多品牌化 · AI 用量/ROI 儀表板可獨立成模組銷售 · webhook 對外合約(路徑/payload)已文件化 · 若再附 Postman collection 會更利於整合夥伴。'
+    },
+    {
+      id: 'T002', name: 'Good Flow', work: 'ReFood Link 即期物資公益媒合',
+      theme: 4, workflows: 2, nodes: 75, school: '',
+      summary: '以 LINE 為介面串聯公益單位、合作店家與受助者:身分驗證 → 物資上架 → 同地區即時通知 → 預約 → 領取碼核銷 → 庫存管理 · 並由 AI 產生食品保存建議。',
+      points: [
+        '主流程 73 節點 · 以 <code>if</code> ×13 · <code>switch</code> ×3 構成<strong>三角色(admin/store/user)狀態機</strong> · 涵蓋申請、驗證碼發放/核銷、上架、預約、領取全生命週期 · 用純 n8n 節點做出這種複雜度的業務狀態機 · 全場少見。',
+        '<code>splitInBatches</code> 迴圈對同地區使用者逐一推播 · 每日排程歸零預約次數 · 批次與排程運用正確。',
+        '128 個表達式引用<strong>零斷鏈</strong> · 在這個節點規模下展現了細心。',
+        '設有<strong>專用 Error Workflow</strong>(errorTrigger → 通知) · 主流程異常有集中出口。',
+        'AI 層:LangChain Agent + 大會 API(以 <strong>n8n Credentials 掛載 · 金鑰零外洩</strong> · 是全場憑證管理示範) · system prompt 限制 20 字、保守食安原則、禁止捏造保存期限 · 小功能也有治理意識。',
+        '實地訪談里辦公室驗證需求 · 把工程建立在真實場景上。'
+      ],
+      highlight: '業務狀態機工程量與完成度 · 憑證管理示範 · 真實訪談。',
+      suggest: '以 Execute Workflow 拆分角色子流程 · 可維護性更高 · 專案書內容極佳 · 建議日後隨作品第一時間提交 · 付費方可鎖定區公所/社會局的社區照顧補助案。'
+    },
+    {
+      id: 'T003', name: '萬事皆可串', work: 'Academic Nexus 學術資料管線',
+      theme: 2, workflows: 5, nodes: 29, school: '',
+      summary: '針對學位論文資料(NDLTD)建立擷取、去重、查詢、報告的自動化管線 · 對外提供主題檢索與教授報告 API。',
+      points: [
+        '五支 workflow 各司其職:Result Ingest(去重寫入)、Manual Cleanup(手動清理)、AI parsing(結果接收)、Topic Search API、Professor Report API · <strong>單一職責原則</strong>執行得很好。',
+        'API 設計採 <code>webhook → 處理 → respondToWebhook</code> 成對模式 · 且<strong>成功/錯誤分別回應</strong>(Respond success/Respond error) · 是正確的 API 語意。',
+        '活用 <strong>n8n Data Tables</strong> 做持久化(2026 年的新功能 · 全場只有兩隊採用) · 搭配 PostgreSQL 做排序查詢 · 選型務實。',
+        '去重邏輯(No Duplicate Append)以 Code 節點實作 · 配合手動清理流程 · 展現對資料品質的重視。'
+      ],
+      highlight: 'API-first 架構 · 新功能採用 · 資料品質意識。',
+      suggest: '在報告端加 AI 摘要/主題分類 · 讓「學術資料的智慧層」成為賣點 · 補 README(架構圖+觸發方式+憑證清單) · 為 API 加上簡單的金鑰驗證即可對外開放試用。'
+    },
+    {
+      id: 'T004', name: '智流引擎', work: '學生獎懲通知系統',
+      theme: 1, workflows: 1, nodes: 23, school: '',
+      summary: 'Google 表單登記獎懲後 · 自動查學生資料、AI 產生客製化通知 · 同時以 Email 與 LINE 推播家長與學生 · 並內建 LINE 帳號綁定流程。',
+      points: [
+        '23 節點雙流程:<strong>LINE 綁定狀態機</strong>(webhook → 格式驗證 → 學號+驗證碼比對 → 角色分流寫回)與<strong>獎懲通知</strong>(Sheets 輪詢觸發 → 查資料 → AI 生成 → 四路發送) · 用驗證碼把 LINE userId 綁回學籍資料 · 這個帳號關聯設計思路清晰。',
+        'AI 呼叫要求<strong>只回傳純 JSON</strong>(家長信/學生信/推播文三組內容一次生成) · 並在解析失敗時帶入預設備援文字 · 「不寄出 undefined」的防呆展現了對終端使用者的體貼。',
+        'README 含完整節點類型對照表與外部依賴清單 · 透明度高 · 資安注意事項主動揭露並附處理教學 · 是負責任的工程態度。'
+      ],
+      highlight: '綁定狀態機 · AI 輸出防呆 · 文件誠實透明。',
+      suggest: '金鑰全面改由 n8n Credentials 管理 · Sheets 輪詢改為表單端 webhook 主動觸發即可即時通知 · 包裝成「校務 LINE 通知模組」賣給校務系統商會比直售學校更快落地。'
+    },
+    {
+      id: 'T005', name: 'FoodBridge Amsterdam', work: '剩食媒合系統',
+      theme: 4, workflows: 1, nodes: 3, school: '',
+      summary: '面向阿姆斯特丹的剩食捐贈與分配系統:接收(店家輸入/飯店 PMS 預測)→ 可食性分類 → 營養計算與區域分配 → 處理廠分派 · 前端 Cloudflare Pages、後端 Workers + KV · AI 決策經 Claude。',
+      points: [
+        'Cloudflare 全家桶(Pages/Workers/KV/Secrets)的<strong>零維運、近零成本</strong>架構 · 對社福場景是非常務實的選型 · OAuth 框架預留(PMS 串接)展現前瞻性。',
+        '即時資料整合有巧思:Open Food Facts 查營養(失敗退回靜態表)、Open-Meteo 天氣調整預測 · <strong>AI 額度用盡自動降級規則分配</strong> · 備援層次完整。',
+        '真實/模擬資料逐項標註來源(人口統計有引用、隱私以比例估算) · 資料誠信度高。',
+        'n8n 端提交了報表匯出流程(Manual Trigger → 資料整理 → CSV) · 系統核心管線目前實作於 Workers 內。'
+      ],
+      highlight: '零成本架構 · 多層備援 · 資料來源誠信 · 給非技術接手者的交接說明親切。',
+      suggest: '把 intake→分類→營養計算→分配這條核心管線改以 n8n 編排(Workers 保留為 API 端點) · n8n 的視覺化流程對社福志工的可理解性正是這個題目最需要的 · 以本作品的成熟度 · 完成這一步就是非常有競爭力的參賽作。'
+    },
+    {
+      id: 'T006', name: '為什麼我在這裡', work: 'CampusVoice 校園服務入口',
+      theme: 1, workflows: 3, nodes: 100, school: '',
+      summary: '以 LINE 為統一入口的校園服務平台:報修、失物招領、活動查詢、課表推播 · 含 Gemini 影像辨識 · 在 learning.n8n.tw 有 Active 的 live 環境。',
+      points: [
+        '主流程 91 節點、Code 節點 ×28 · 以 5 條 webhook 通道處理不同事件 · 是全場規模最大的單一 workflow · LINE 事件解析、Session 管理、影像下載與 Gemini 判讀全在流程內完成。',
+        '<strong>三 workflow 分層</strong>:主入口(即時)、排程通知(定時呼叫主流程的 notify webhook · 用 webhook 做內部介面 · 模組化思維正確)、<strong>獨立錯誤處理中心</strong>(errorTrigger 集中收斂異常)。',
+        '交件工程化:匯出前清空 runtime <code>staticData</code> 避免個資與檔案膨脹、README 說明評審匯入注意事項、live demo 與離線檢視檔分離 · 這套匯出紀律很專業。'
+      ],
+      highlight: '規模與完成度 · 錯誤治理分層 · 交件規範 · 實際上線運作。',
+      suggest: '以 Execute Workflow 把報修/失物/活動/課表拆成子流程 · 主入口只做路由 · 維護性會大幅提升 · 金鑰全面改 n8n Credentials 收乾淨 · Gemini 影像入口可再擴充到「拍照報修自動分類派工」 · 是很好的下一步。'
+    },
+    {
+      id: 'T007', name: 'N♾️N', work: '政府標案 AI 獵人',
+      theme: 2, workflows: 2, nodes: 48, school: '',
+      summary: '企業填寫專長檔案後 · 系統每日自動抓取政府標案、AI 語意配對出前三名、計算 ROI、生成投標草稿並寄送客製化報告 · 含表單即時與每日排程雙流程。',
+      points: [
+        '雙流程架構:<strong>On-Demand</strong>(Form Trigger → 防重複 → 抓標案 → AI 配對 → Gmail)與 <strong>Scheduled</strong>(每日批量一對多配對) · 同一配對核心服務兩種節奏 · 設計經濟。',
+        '<strong>資料源 failover</strong>:政府公開 API 主路 + Google Sheets 備援庫(過濾有效期內標案) · 外部依賴的不確定性有預案 · 這是很多正式系統都缺的韌性設計。',
+        'AI 層:Gemini Agent + <strong>Structured Output Parser</strong> 原生節點組合 · 配對評分/推薦理由/投標草稿一次結構化產出 · <code>onError</code> ×5 · <code>retryOnFail</code> 皆有設定。',
+        '<strong>ROI 量化內建於產品輸出</strong>(掃描標案數、省下工時、換算人力成本) · 把價值主張直接寫進每封通知信 · 技術與商業敘事的結合全場最佳。'
+      ],
+      highlight: 'failover 韌性 · 結構化 AI 輸出 · ROI 內建 · 商業論述完整。',
+      suggest: '加入投標結果回饋迴路(得標與否回寫權重)讓配對越用越準 · 建立標案配對評測集以量測推薦品質 · 政府 API 條款與資料授權在商業化前先行確認。'
+    },
+    {
+      id: 'T008', name: '7-days', work: 'FlowMart 智慧電商營運平台',
+      theme: 2, workflows: 4, nodes: 50, school: '',
+      summary: 'Next.js 電商平台(FlowShop)搭配 n8n 事件後處理與 RAG 客服:商品描述生成、推薦、客服問答、KPI 儀表板、訂單事件處理。',
+      points: [
+        '<strong>資料分工原則</strong>是本作最大亮點:即時價格/庫存/訂單一律 PostgreSQL(Prisma) · 文件知識(配送/退換貨/保固)走 Qdrant RAG · 「向量庫不負責即時事實」與企業實務完全一致。',
+        'n8n 端 4 支 workflow、9 個 AI 節點:RAG API(vector store + memory + embeddings 完整 agent 配置)、訂單事件(WF_01)、KPI(WF_05)、整合版 · RAG 服務以內部 DNS <code>http://rag-service</code> 呼叫 · 顯示<strong>容器化服務間通訊</strong>的正確做法。',
+        '平台側技術棧完整:Prisma model 涵蓋庫存異動歷史、對話、AI 用量紀錄、API client scope · Zod 驗證、Vitest 測試、smoke 指令齊備。'
+      ],
+      highlight: '資料權威分層 · 容器化 RAG 服務 · 全棧完成度。',
+      suggest: '整合版中的 WF01–WF05 拆成獨立 workflow 各自觸發 · 除錯與部署粒度會更好 · n8n 端補 onError/Error Workflow · 商業上建議把「訂單事件後處理模組」單獨產品化 · 切入既有開店平台生態。'
+    },
+    {
+      id: 'T009', name: 'VA403', work: '智學雲點名通知',
+      theme: 1, workflows: 1, nodes: 20, school: '',
+      summary: '面向教學場景的簽到與家長通知系統:學生簽到、新增學生、補登、標記四種表單入口 · 搭配 webhook API 與 Google Sheets 資料層。',
+      points: [
+        '20 節點單一 workflow 內組織了 <strong>4 個 Form Trigger + 2 個 Webhook</strong> 的多入口設計 · 以 Code 節點統一資料處理後寫入 Sheets(×9 節點涵蓋讀寫查) · 入口與資料層的對應關係清楚。',
+        'Form Trigger 的原生表單能力運用得宜 · 不需要自建前端就有可用的操作介面 · 是 n8n 快速交付的正確姿勢。',
+        'webhook + respondToWebhook 成對回應 · API 語意正確。'
+      ],
+      highlight: '多入口設計 · 零前端快速交付 · 輕量易導入。',
+      suggest: '加 LINE 推播與「AI 缺勤週報摘要」 · 家長端價值會立刻放大 · 補習班市場對此付費意願不低 · 補 README(表單欄位與試算表結構) · 簽到資料累積後可長出出勤分析儀表板 · 是自然的第二階段。'
+    },
+    {
+      id: 'T010', name: '師半功倍', work: 'Criterion Lite 多模態批改系統',
+      theme: 1, workflows: 5, nodes: 158, school: '',
+      summary: '以 n8n 為流程核心、Supabase 為權威資料庫的 AI 作業批改系統:老師上傳評分規則與學生作業(程式碼/文字/圖片/PDF) · 系統整批批改、提供證據與建議分數、支援教師複核與匯出。',
+      points: [
+        '<strong>五支 workflow 的職責架構如成熟產品團隊</strong>:Setup & Auth(中央授權:JWT/班級 membership/route capability)、Rubric Management(草稿→發布→<strong>不可覆寫的 revision</strong>)、Grading API(批次編排)、Grade Worker(單一學生批改)、Error Handler(集中錯誤) · API/Worker 分離讓併發與重試的粒度落在單一學生 · <strong>wave 切分、單人失敗不中止全班</strong> · 這是分散式批次的正確設計。',
+        '<strong>「AI 建議、程式裁決」</strong>:Vertex AI Gemini 讀規則與作業提出逐項建議分 · Code 節點驗證、限制並重算正式總分 · AI 只輔助而非終審的治理架構 · 全場典範。',
+        '韌性數據:<code>onError</code> ×26 · <code>retryOnFail</code> ×10 · 主/備援模型切換、模型成本估算、批次歷史與教師複核紀錄 · 可觀測性與可追溯性完整。',
+        '多模態附件(PNG/JPEG/WebP/PDF/程式碼/混合)與「每生一資料夾」的批次輸入約定 · 工程與使用者體驗兼顧 · 20 張 sticky note 流程內文件化 · README 連版本號(0.17.9)都有。'
+      ],
+      highlight: '產品級架構分層 · AI 治理觀念 · 批次韌性 · 完整可追溯。',
+      suggest: '先攻補教市場(決策快) · 學校隨案例跟進 · 「每分都有出處」的批改證據鏈包裝成家長溝通功能 · 是付費轉換的鉤子 · Supabase RLS 政策可附一頁測試矩陣 · 對企業客戶的資安審查會非常加分。'
+    },
+    {
+      id: 'T011', name: '野援', work: '桃園野鳥救傷通報系統',
+      theme: 4, workflows: 1, nodes: 13, school: '',
+      summary: '民眾透過 LINE 通報受傷野鳥:GPS 與訊息解析 → 防呆與禁食衛教推播 → 照片存證 → 計程車物流派單 → 自動寫入後台 · 替救傷單位省下逐筆追問與建檔的人力。',
+      points: [
+        '13 節點流程涵蓋 webhook 接收、LINE Content API 照片下載、Wait 節點控制節奏、Sheets 建檔 · 節點以編號+功能命名(1. 報案入口→11. 完成回報) · <strong>流程自文件化</strong>做得漂亮 · <code>onError</code> ×3。',
+        '「黃金時間禁食推播」把領域知識(野鳥救傷常識)direct 編進流程 · 是自動化與專業知識結合的好例子。',
+        '<strong>兩份文件是全場亮點</strong>:證據紀錄逐項標註「可支持/不可推出」的克制 · 部署手冊含版本號、P0–P2 上線前準備清單、帳號權限需求 · 這種交接成熟度多數業界團隊都做不到。',
+        '實際聯繫桃園市野鳥學會並獲回覆 · 是全場唯一走出教室驗證需求的隊伍。'
+      ],
+      highlight: '真實需求驗證 · 交接文件專業 · 領域知識融入 · 流程自文件化。',
+      suggest: '照片浮水印目前產生文字 metadata · 下一步把時間/GPS 真正合成進影像 · 存證功能就名實相符 · 導入實際的影像辨識節點(物種/傷勢初判)讓系統名稱中的 AI 落地 · 金鑰改 n8n Credentials(手冊已自列 · 執行即可) · 以「縣市動保處標案+NPO 使用」的模式推進商業化。'
+    },
+    {
+      id: 'T012', name: '恩八恩', work: '活動推廣自動化',
+      theme: 3, workflows: 2, nodes: 15, school: '',
+      summary: '活動文件上傳後 AI 自動抽取活動資訊並發布推廣 · 搭配排程提醒流程對報名者寄送通知。',
+      points: [
+        'Event Promotion:Form Trigger → Extract From File → <strong>Information Extractor</strong>(Gemini ×2 + Chain LLM)→ 推播 · 「非結構化文件進、結構化資料出」的 AI 節點選型正確 · 這是 n8n AI 能力的正宗用法。',
+        'Event Reminder:Schedule Trigger → Sheets 讀取 → 條件過濾 → Gmail · 雙 workflow 職責分離清楚。',
+        '15 節點的精簡實作把一條完整的「文件→抽取→發布→提醒」價值鏈走通了。'
+      ],
+      highlight: 'Information Extractor 正確運用 · 流程職責分離 · 價值鏈完整。',
+      suggest: '把這條鏈抽象成「活動行銷模板」(任何活動文件丟進來即自動生成多渠道推廣) · 通用性與商業空間都會打開 · 補操作 README · 金鑰改 n8n Credentials · 可再加一支「報名數據彙整」workflow 形成活動閉環。'
+    },
+    {
+      id: 'T013', name: '減速帶', work: '保險推薦助手',
+      theme: 2, workflows: 1, nodes: 28, school: '',
+      summary: '三條流程構成的保險諮詢系統:客戶表單→RAG 客製建議→Gmail 回覆 · 官網對話框 Chat API · Google Drive 保險文件→向量化入庫。',
+      points: [
+        '<strong>AI/RAG 節點運用全場最深</strong>(12 個 LangChain 節點):Agent ×2 · Supabase Vector Store ×3 · Gemini Embeddings ×3 · Structured Output Parser · 並把 <strong>Google Sheets 作為 Agent Tool</strong> 掛載 · agent-with-tools 的進階用法。',
+        '<strong>防幻覺三原則</strong>寫進 system prompt:資料源 100% 來自向量庫、查無資料禁止推測(改回「專人聯繫」)、輸出強制 JSON · 對金融場景嚴謹性的理解 · 放在業界也是正確答案。',
+        '錯誤處理:onError + retry + 錯誤通知信 · 4 張 sticky note 流程內說明 · README 憑證表與三種觸發方式文件完整。',
+        'Chat API 以 webhook 提供官網嵌入 · request/response 範例都寫在 README · 對接友善。'
+      ],
+      highlight: 'RAG 深度運用 · 防幻覺治理 · 文件完整。',
+      suggest: '知識庫匯入段補上觸發器(排程或手動)並接入主圖 · 匯出檔即可開箱即跑 · 輸出端加一道法遵檢核(免責聲明/禁用語) · 會是對保經客戶的殺手級賣點 · 向量庫可加 metadata 過濾(險種/年期)提升檢索精準度。'
+    },
+    {
+      id: 'T014', name: '東海資工HUAN', work: 'ALICE Memory Firewall',
+      theme: 2, workflows: 2, nodes: 12, school: '',
+      summary: 'Policy-based 的 AI 記憶治理層:企業對話進來後由 LLM 判斷 · 依政策分流為 STORE(長期記憶)/EXPIRE(帶 TTL)/TASK(待辦)/REJECT(敏感拒存)/REVIEW(人工複核) · 並保留資料最小化的稽核紀錄。',
+      points: [
+        '<strong>題目選在 AI 落地的最前沿</strong>:記憶污染、隱私誤存、長短期資訊混雜 · 這是所有導入 AI 的企業都會撞上的問題 · 對照 2,000+ 支社群 workflow 語料找不到同類作品。',
+        '治理鏈環環相扣:JSON 格式驗證 → <strong>Action 白名單</strong> → 信心門檻 0.65 以下自動降級 REVIEW → 敏感原文遮蔽後才寫稽核 · 每一層都是防呆 · 低信心不硬猜的設計尤其成熟。',
+        '<strong>TTL 記憶由獨立排程 workflow 每小時清理</strong> · 把「遺忘」做成系統能力 · 是記憶治理的完整閉環。',
+        '活用 n8n <strong>Data Tables</strong> ×4(Memory Store/Task Queue/Review Queue/Audit Log)做原型資料層 · 並明確設計為「正式環境可替換 CRM/SQL」的三層架構。',
+        '憑證紀律:README 明定 API Key 只存 Credential、不得出現在 JSON/簡報/影片 · 實際檔案零外洩 · 限制聲明誠實列舉 · 工程成熟度超齡。'
+      ],
+      highlight: '前沿題目 · 治理鏈完整 · 遺忘機制 · 憑證紀律 · 誠實的邊界聲明。',
+      suggest: '把 Policy 從流程移到 Data Table 做成可配置介面 · 即從 prototype 走向「企業可自訂的治理產品」 · LLM 端點抽換為商用 API 選項讓校外可導入 · 補 Error Workflow 與重試後就是完整的企業級方案 · 這個題目值得投 AI 治理/資安領域的展會與加速器。'
+    }
+  ];
+
+  const OBSERVATIONS = [
+    {
+      title: 'AI 採用率 11 / 14',
+      body: '其中原生 LangChain 節點(Agent/Extractor/Parser)與 HTTP 直呼各半 · 原生節點能吃到 n8n 的 credential 管理與版本演進 · <strong>建議優先</strong>。全場原生 AI 節點共 39 個 · RAG 完整實作(embeddings+vector store)有 4 隊。'
+    },
+    {
+      title: '錯誤治理是最大的分水嶺',
+      body: '設有專用 Error Workflow(errorTrigger)的只有 3 隊(T002/T006/T010) · 節點級 onError/retry 有 6 隊。n8n 的錯誤處理只需三步:節點設 onError → 建一支 errorTrigger workflow → 在 settings 指定 errorWorkflow · <strong>投資十分鐘 · 系統可靠度跳一級</strong>。'
+    },
+    {
+      title: '憑證管理兩種世界',
+      body: '把金鑰放進 n8n Credentials 的隊伍(T002/T014 為代表) · workflow 檔案可以放心分享 · 直接寫在節點參數裡的 · 檔案一離手金鑰就等於公開。<strong>賽後請所有在 JSON 裡出現過金鑰的隊伍立即到對應後台重新發行</strong> · 這與名次無關 · 是保護你們自己的帳號。'
+    },
+    {
+      title: 'n8n Data Tables · 新武器',
+      body: 'n8n 2026 年的新功能已有 2 隊搶先採用(T003/T014) · 適合原型期的持久化 · 量大後再遷 PostgreSQL。用 Data Tables 做 MVP 資料層 · 是本屆技術嗅覺最靈敏的選型之一。'
+    },
+    {
+      title: '大 workflow vs 多 workflow',
+      body: '90+ 節點的單體(T006)與 5 支分工(T010/T003)各有取捨 · 單體直觀、分工好維護。經驗法則:<strong>超過 40 節點或出現第二個觸發場景 · 就考慮 Execute Workflow 拆分</strong>。'
+    },
+    {
+      title: '文件即戰力',
+      body: '這次評審中 · README/交接手冊完整的隊伍 · 作品理解成本低、亮點全部被看見 · 反之許多好設計得靠逐節點考古才發現。<strong>工程師的作品會說話 · 但文件讓它說得又快又完整</strong>。'
+    }
+  ];
+
+  // ============ RENDER TEAMS ============
+  function renderTeams(filter = { theme: 'all', q: '' }) {
+    const list = document.getElementById('teamList');
+    const q = filter.q.trim().toLowerCase();
+    const visible = TEAMS.filter(t => {
+      if (filter.theme !== 'all' && String(t.theme) !== filter.theme) return false;
+      if (!q) return true;
+      return (t.name + ' ' + t.work + ' ' + t.school + ' ' + t.id).toLowerCase().includes(q);
+    });
+
+    if (!visible.length) {
+      list.innerHTML = '<div style="text-align:center; padding:60px 24px; color:var(--gray-500); border:1px dashed var(--border); border-radius:16px;">沒有符合條件的隊伍</div>';
+      return;
+    }
+
+    list.innerHTML = visible.map(t => `
+      <article class="team-card" data-id="${t.id}">
+        <div class="team-head" onclick="toggleTeam('${t.id}')">
+          <div class="team-id">${t.id}</div>
+          <div class="team-title">
+            <div class="team-name">${t.name}</div>
+            <div class="team-work">${t.work}</div>
+          </div>
+          <div class="team-meta">
+            <span class="team-theme-badge">${THEME_LABELS[t.theme]}</span>
+            <span>${t.workflows} flows · ${t.nodes} nodes</span>
+          </div>
+          <div class="team-toggle"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <div class="team-body">
+          <div class="team-body-inner">
+            <div class="team-section">
+              <div class="team-section-title"><i data-lucide="file-text"></i>作品概要</div>
+              <p>${t.summary}</p>
+            </div>
+            <div class="team-section">
+              <div class="team-section-title"><i data-lucide="cpu"></i>技術評論</div>
+              <ul>${t.points.map(p => `<li>${p}</li>`).join('')}</ul>
+            </div>
+            <div class="team-highlight">
+              <div class="team-section-title"><i data-lucide="star"></i>亮點</div>
+              <p>${t.highlight}</p>
+            </div>
+            <div class="team-section">
+              <div class="team-section-title"><i data-lucide="lightbulb"></i>建議 · 下一步</div>
+              <p>${t.suggest}</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    `).join('');
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  window.toggleTeam = function(id) {
+    const card = document.querySelector('.team-card[data-id="' + id + '"]');
+    if (card) card.classList.toggle('expanded');
+  };
+
+  // ============ RENDER OBSERVATIONS ============
+  function renderObservations() {
+    document.getElementById('obsList').innerHTML = OBSERVATIONS.map((o, i) => `
+      <div class="obs-card">
+        <div class="obs-num">${String(i + 1).padStart(2, '0')}</div>
+        <div class="obs-title">${o.title}</div>
+        <div class="obs-body">${o.body}</div>
+      </div>
+    `).join('');
+  }
+
+  // ============ FILTERS ============
+  const state = { theme: 'all', q: '' };
+  document.getElementById('themeChips').addEventListener('click', (e) => {
+    const btn = e.target.closest('.theme-chip');
+    if (!btn) return;
+    document.querySelectorAll('.theme-chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    state.theme = btn.dataset.theme;
+    renderTeams(state);
+  });
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    state.q = e.target.value;
+    renderTeams(state);
+  });
+
+  // ============ INIT ============
+  renderTeams(state);
+  renderObservations();
+  lucide.createIcons();
+</script>
+
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "3a09e9d6d3aa4859a95c5ce065987dce"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
