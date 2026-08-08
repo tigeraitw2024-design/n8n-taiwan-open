@@ -1644,11 +1644,8 @@
         '<div class="recap-slide' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '"></div>'
       ).join('');
 
-      const dots = photos.length > 1
-        ? '<div class="recap-controls">' +
-            photos.map((_, i) => '<button type="button" class="recap-dot' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '" aria-label="第 ' + (i+1) + ' 張"></button>').join('') +
-          '</div>'
-        : '';
+      // 200+ 張照片時圓點會排成長條爆出去 · 移除圓點導覽 · 保留計數器 + 左右箭頭就夠
+      const dots = '';
 
       const arrows = photos.length > 1
         ? '<button type="button" class="recap-arrow recap-arrow-left" aria-label="上一張"><i data-lucide="chevron-left"></i></button>' +
