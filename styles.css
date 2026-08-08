@@ -3083,9 +3083,9 @@ body.modal-open {
 
 .final-cta-buttons {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -3205,7 +3205,13 @@ body.modal-open {
   stroke-width: 2.5;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
+  .final-cta-buttons {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
+  }
+}
+@media (max-width: 680px) {
   .final-cta-buttons {
     grid-template-columns: 1fr;
     gap: 16px;
