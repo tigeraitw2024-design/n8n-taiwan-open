@@ -47,7 +47,7 @@
 
       <ul class="nav-menu" id="navMenu">
         <li><a href="#about" data-en="About">關於活動</a></li>
-        <li><a href="#funnel" data-en="Format">三階段</a></li>
+        <li><a href="#recap" data-en="Recap">現場花絮</a></li>
         <li><a href="#prizes" data-en="Prizes">獎項</a></li>
         <li><a href="#judges" data-en="Judges">評審</a></li>
         <li><a href="#sponsors" data-en="Partners">合作夥伴</a></li>
@@ -56,7 +56,7 @@
 
       <button type="button" class="nav-lang" id="navLang" aria-label="Switch language">EN</button>
 
-      <a href="finals-submit.html" class="btn btn-primary nav-cta"><span data-en="Upload your project">上傳作品</span> <i data-lucide="arrow-right"></i></a>
+      <a href="showcase.html" class="btn btn-primary nav-cta"><span data-en="Explore projects">探索作品</span> <i data-lucide="arrow-right"></i></a>
 
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -94,7 +94,7 @@
         </p>
 
         <div class="hero-cta">
-          <a href="finals-submit.html" class="btn btn-primary btn-lg"><span data-en="Upload your finals project">上傳決賽作品</span> <i data-lucide="arrow-right"></i></a>
+          <a href="showcase.html" class="btn btn-primary btn-lg"><span data-en="Explore all finals projects">探索所有決賽作品</span> <i data-lucide="arrow-right"></i></a>
           <a href="#funnel" class="btn btn-secondary btn-lg" data-en="Explore the 3-stage format">了解三階段賽制</a>
         </div>
 
@@ -487,9 +487,37 @@
             <p data-en="Full challenge brief released 2 weeks prior">賽前兩週公布完整題目</p>
             <p data-en="Showcase × Judging × Awards × Industry matchmaking">展示 × 評審 × 頒獎 × 企業媒合</p>
           </div>
-          <a href="finals-submit.html" class="btn btn-primary btn-full"><i data-lucide="upload"></i> <span data-en="Upload your finals project">上傳決賽作品</span> <i data-lucide="arrow-right"></i></a>
-          <p class="funnel-ended-note" data-en="Submit team info, Level 1 cert PNG, workflow JSON, Demo video · deadline 8/7 14:30">上傳團隊資訊、Level 1 認證、workflow、Demo 影片 · 截止 8/7 14:30</p>
+          <a href="showcase.html" class="btn btn-primary btn-full"><i data-lucide="sparkles"></i> <span data-en="Explore finals projects">探索決賽作品</span> <i data-lucide="arrow-right"></i></a>
+          <p class="funnel-ended-note" data-en="Finals concluded · all projects, videos and team info are on the showcase page">決賽已圓滿結束 · 所有作品、影片、團隊資訊都在作品展示頁</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ EVENT RECAP (現場花絮輪播) ============ -->
+  <section id="recap" class="section section-alt reveal">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-kicker">EVENT RECAP · 現場花絮</div>
+        <h2 class="section-title" data-en="Finals Day · 8/7 in Photos">決賽當日 · 8/7 現場精彩瞬間</h2>
+        <p class="section-subtitle" data-en="Every photo below is straight from the official album — feel free to save and share">下方每張都是主辦方拍的官方照片 · 歡迎自由下載、分享 · 標記 @tigerai.tw</p>
+      </div>
+
+      <!-- 輪播主容器 · 從 GAS list-event-photos 端點抓 · 抓不到就顯示備援 CTA -->
+      <div id="recapSlideshow" class="recap-slideshow">
+        <div class="recap-loading">
+          <div class="recap-spinner"></div>
+          <span>正在讀取現場照片…</span>
+        </div>
+      </div>
+
+      <div class="recap-cta">
+        <a href="https://drive.google.com/drive/folders/1zso_vVybr5Jo-qDwJbyiT89x-mgYSZl0" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">
+          <i data-lucide="images"></i>
+          <span>看完整官方相簿（Google Drive）</span>
+          <i data-lucide="external-link"></i>
+        </a>
       </div>
     </div>
   </section>
@@ -1181,28 +1209,28 @@
   <!-- ============ FINAL CTA ============ -->
   <section id="register" class="final-cta reveal">
     <div class="container">
-      <h2 class="final-cta-title" data-en="Ready to compete<br>with your project?">準備好用你的作品<br>決勝負了嗎？</h2>
-      <p class="final-cta-sub" data-en="Teams need at least 1 Level 1 certified member · 8/7 Taipei finals · On-site or remote — both eligible for prizes">每隊至少 1 位持 n8n Level 1 認證即可參賽 · 8/7 台北決賽 · 現場或遠端皆可爭取獎項</p>
+      <h2 class="final-cta-title" data-en="The finals are over.<br>The projects live on.">決賽已圓滿落幕<br>作品持續發光</h2>
+      <p class="final-cta-sub" data-en="8/7 Taipei · Nationwide university teams built AI workflows in 4.5 hours · All projects now open for the public">2026/8/7 台北決賽 · 全台大專隊伍 4.5 小時完成 AI 自動化作品 · 全部作品已對外公開</p>
 
       <div class="final-cta-buttons">
-        <a href="#rules" class="final-cta-card final-cta-ended">
-          <div class="final-cta-card-icon"><i data-lucide="book-open"></i></div>
-          <div class="final-cta-card-label" data-en="Handbook">參賽手冊</div>
-          <div class="final-cta-card-title" data-en="Read the rules first">先看比賽規則</div>
-          <div class="final-cta-card-desc" data-en="Handbook, challenge brief, judging rubric — all downloadable">簡章、題本、評分標準<br>都在 #rules 可下載 PDF</div>
+        <a href="results.html" class="final-cta-card final-cta-ended">
+          <div class="final-cta-card-icon"><i data-lucide="trophy"></i></div>
+          <div class="final-cta-card-label" data-en="Winners">得獎名單</div>
+          <div class="final-cta-card-title" data-en="See the 2026 winners">看 2026 首屆得獎隊伍</div>
+          <div class="final-cta-card-desc" data-en="Grand · Silver · Bronze · Special awards — congrats to all winning teams">冠軍、亞軍、季軍、特別獎<br>恭喜所有得獎隊伍</div>
           <div class="final-cta-card-arrow"><i data-lucide="arrow-right"></i></div>
         </a>
 
-        <a href="finals-submit.html" class="final-cta-card final-cta-teacher-ws">
-          <div class="final-cta-card-icon"><i data-lucide="upload"></i></div>
-          <div class="final-cta-card-label" data-en="Upload">上傳作品</div>
-          <div class="final-cta-card-title" data-en="Upload your 8/7 finals project">上傳 8/7 決賽作品</div>
-          <div class="final-cta-card-desc" data-en="Team info · Level 1 cert · workflow · Demo video · deadline 8/7 14:30">團隊資訊、Level 1 認證、workflow、Demo 影片<br>截止 8/7 14:30 · 現場或遠端皆可</div>
+        <a href="showcase.html" class="final-cta-card final-cta-teacher-ws">
+          <div class="final-cta-card-icon"><i data-lucide="sparkles"></i></div>
+          <div class="final-cta-card-label" data-en="Explore">探索作品</div>
+          <div class="final-cta-card-title" data-en="All finals projects, open to explore">全部決賽作品 · 公開探索</div>
+          <div class="final-cta-card-desc" data-en="Every team's project · Demo video · workflow · one-click import to your own n8n">每組作品 · Demo 影片 · workflow<br>一鍵匯入到你的 n8n</div>
           <div class="final-cta-card-arrow"><i data-lucide="arrow-right"></i></div>
         </a>
       </div>
 
-      <p class="final-cta-note" data-en="Submission deadline: 8/7 14:30 · AI first-round 14:30–15:00 · Winners announced 16:50">作品提交截止：8/7 14:30 · AI 初審 14:30–15:00 · 得獎名單 16:50 現場公布</p>
+      <p class="final-cta-note" data-en="Official photos & videos album (open for judges, media, schools, sponsors)">📸 官方現場照片相簿 · 評審、媒體、校方、贊助商皆可自由取用 · <a href="https://drive.google.com/drive/folders/1zso_vVybr5Jo-qDwJbyiT89x-mgYSZl0" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline;">Google Drive 相簿</a></p>
     </div>
   </section>
 
@@ -1260,11 +1288,9 @@
       </div>
 
       <div style="margin-top:16px; font-size:10px; opacity:0.35; letter-spacing:0.05em; text-align:center;">
-        <a href="register.html"      style="color:inherit; text-decoration:none; margin:0 6px;">立即報名</a>·
-        <a href="finals-submit.html" style="color:inherit; text-decoration:none; margin:0 6px;">上傳決賽作品</a>·
-        <a href="judge.html"         style="color:inherit; text-decoration:none; margin:0 6px;">評審評分</a>·
         <a href="results.html"       style="color:inherit; text-decoration:none; margin:0 6px;">得獎名單</a>·
         <a href="showcase.html"      style="color:inherit; text-decoration:none; margin:0 6px;">作品展示</a>·
+        <a href="judge.html"         style="color:inherit; text-decoration:none; margin:0 6px;">評審評分</a>·
         <a href="admin-awards.html"  style="color:inherit; text-decoration:none; margin:0 6px;">主辦方後台</a>
       </div>
     </div>
@@ -1586,6 +1612,110 @@
   <script>lucide.createIcons();</script>
 
   <script src="script.js"></script>
+
+  <!-- ============ 現場花絮輪播 · 從 GAS 抓 Drive 相簿內圖片 ============ -->
+  <script>
+  (function initEventRecap() {
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxgSAroD9N2Bs3-kKj5WV2oyFuMpznthbyujiRa3Q9SV3qH2PfdwgP2mx3wEMFLjgj7TQ/exec';
+    const FOLDER_URL = 'https://drive.google.com/drive/folders/1zso_vVybr5Jo-qDwJbyiT89x-mgYSZl0';
+    const AUTO_ADVANCE_MS = 4500;
+    const container = document.getElementById('recapSlideshow');
+    if (!container) return;
+
+    function showFallback(msg) {
+      container.innerHTML =
+        '<div class="recap-fallback">' +
+          '<i data-lucide="images"></i>' +
+          '<h3>現場精彩瞬間</h3>' +
+          '<p>' + (msg || '照片還沒同步進來 · 你可以直接看官方相簿') + '</p>' +
+          '<a href="' + FOLDER_URL + '" target="_blank" rel="noopener" style="padding:10px 20px; background:#fff; color:#0D0D0D; border-radius:8px; text-decoration:none; font-weight:700; font-size:13px;">前往 Google Drive 相簿 →</a>' +
+        '</div>';
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderSlideshow(photos) {
+      if (!photos || photos.length === 0) {
+        showFallback('相簿目前是空的 · 請稍後再回來看看');
+        return;
+      }
+
+      const slides = photos.map((p, i) =>
+        '<div class="recap-slide' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '">' +
+          '<img src="' + p.thumb + '" alt="' + (p.name || '現場照片') + '" loading="' + (i < 2 ? 'eager' : 'lazy') + '" onerror="this.style.display=\'none\'">' +
+        '</div>'
+      ).join('');
+
+      const dots = photos.length > 1
+        ? '<div class="recap-controls">' +
+            photos.map((_, i) => '<button type="button" class="recap-dot' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '" aria-label="第 ' + (i+1) + ' 張"></button>').join('') +
+          '</div>'
+        : '';
+
+      const arrows = photos.length > 1
+        ? '<button type="button" class="recap-arrow recap-arrow-left" aria-label="上一張"><i data-lucide="chevron-left"></i></button>' +
+          '<button type="button" class="recap-arrow recap-arrow-right" aria-label="下一張"><i data-lucide="chevron-right"></i></button>'
+        : '';
+
+      container.innerHTML =
+        slides +
+        '<div class="recap-counter"><span id="recapNow">1</span> / ' + photos.length + '</div>' +
+        arrows + dots;
+
+      if (window.lucide) lucide.createIcons();
+
+      if (photos.length <= 1) return;
+
+      let current = 0;
+      let timer = null;
+      const slideEls = container.querySelectorAll('.recap-slide');
+      const dotEls = container.querySelectorAll('.recap-dot');
+      const counter = document.getElementById('recapNow');
+
+      function goTo(next) {
+        slideEls[current].classList.remove('active');
+        dotEls[current] && dotEls[current].classList.remove('active');
+        current = (next + photos.length) % photos.length;
+        slideEls[current].classList.add('active');
+        dotEls[current] && dotEls[current].classList.add('active');
+        if (counter) counter.textContent = String(current + 1);
+      }
+      function next() { goTo(current + 1); }
+      function prev() { goTo(current - 1); }
+      function restartTimer() {
+        if (timer) clearInterval(timer);
+        timer = setInterval(next, AUTO_ADVANCE_MS);
+      }
+
+      dotEls.forEach(d => d.addEventListener('click', () => {
+        goTo(Number(d.dataset.idx));
+        restartTimer();
+      }));
+      const leftBtn  = container.querySelector('.recap-arrow-left');
+      const rightBtn = container.querySelector('.recap-arrow-right');
+      if (leftBtn)  leftBtn.addEventListener('click',  () => { prev(); restartTimer(); });
+      if (rightBtn) rightBtn.addEventListener('click', () => { next(); restartTimer(); });
+
+      container.addEventListener('mouseenter', () => timer && clearInterval(timer));
+      container.addEventListener('mouseleave', restartTimer);
+
+      restartTimer();
+    }
+
+    fetch(GAS_URL + '?action=list-event-photos', { method: 'GET' })
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.ok && Array.isArray(data.photos)) {
+          renderSlideshow(data.photos);
+        } else {
+          showFallback(data && data.message ? '暫時讀不到照片 · ' + data.message : null);
+        }
+      })
+      .catch(err => {
+        console.error('recap load failed', err);
+        showFallback('連線暫時有點問題 · 你可以直接前往官方相簿');
+      });
+  })();
+  </script>
 
   <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "3a09e9d6d3aa4859a95c5ce065987dce"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
