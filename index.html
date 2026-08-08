@@ -1639,10 +1639,9 @@
         return;
       }
 
+      // 每張 slide 先掛空白 · 圖用 JS 動態 set src(才能追蹤 load 事件 + 預載)
       const slides = photos.map((p, i) =>
-        '<div class="recap-slide' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '">' +
-          '<img src="' + p.thumb + '" alt="' + (p.name || '現場照片') + '" loading="' + (i < 2 ? 'eager' : 'lazy') + '" onerror="this.style.display=\'none\'">' +
-        '</div>'
+        '<div class="recap-slide' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '"></div>'
       ).join('');
 
       const dots = photos.length > 1
@@ -1659,17 +1658,52 @@
       container.innerHTML =
         slides +
         '<div class="recap-counter"><span id="recapNow">1</span> / ' + photos.length + '</div>' +
+        '<div class="recap-loading recap-slide-loading" id="recapSlideLoading"><div class="recap-spinner"></div></div>' +
         arrows + dots;
 
       if (window.lucide) lucide.createIcons();
-
-      if (photos.length <= 1) return;
 
       let current = 0;
       let timer = null;
       const slideEls = container.querySelectorAll('.recap-slide');
       const dotEls = container.querySelectorAll('.recap-dot');
       const counter = document.getElementById('recapNow');
+      const loadingEl = document.getElementById('recapSlideLoading');
+      const loaded = new Set();       // 已完成的 slide 索引
+      const loading = new Set();      // 正在載入的 slide 索引
+
+      // 用 JS 幫某張 slide 掛實際的 <img>(帶 load / error 事件)
+      function loadSlide(i) {
+        if (loaded.has(i) || loading.has(i)) return;
+        loading.add(i);
+        const p = photos[i];
+        const img = new Image();
+        img.alt = p.name || '現場照片';
+        img.decoding = 'async';
+        img.onload = () => {
+          loaded.add(i);
+          loading.delete(i);
+          // 只有還沒放進 DOM 才 append
+          if (!slideEls[i].querySelector('img')) slideEls[i].appendChild(img);
+          if (i === current && loadingEl) loadingEl.classList.remove('show');
+        };
+        img.onerror = () => {
+          loading.delete(i);
+          if (i === current && loadingEl) loadingEl.classList.remove('show');
+        };
+        img.src = p.thumb;
+      }
+
+      // 進入某張 slide 時 · 順便預載前後 2 張
+      function ensureLoadedAround(i) {
+        const targets = [
+          i,
+          (i + 1) % photos.length,
+          (i + 2) % photos.length,
+          (i - 1 + photos.length) % photos.length
+        ];
+        targets.forEach(loadSlide);
+      }
 
       function goTo(next) {
         slideEls[current].classList.remove('active');
@@ -1678,13 +1712,24 @@
         slideEls[current].classList.add('active');
         dotEls[current] && dotEls[current].classList.add('active');
         if (counter) counter.textContent = String(current + 1);
+        // 當前那張還沒好 · 顯示 spinner
+        if (loadingEl) {
+          if (loaded.has(current)) loadingEl.classList.remove('show');
+          else loadingEl.classList.add('show');
+        }
+        ensureLoadedAround(current);
       }
       function next() { goTo(current + 1); }
       function prev() { goTo(current - 1); }
       function restartTimer() {
         if (timer) clearInterval(timer);
+        if (photos.length <= 1) return;
         timer = setInterval(next, AUTO_ADVANCE_MS);
       }
+
+      // 首張立刻載 · 相鄰兩張排隊預載
+      ensureLoadedAround(current);
+      if (loadingEl && !loaded.has(current)) loadingEl.classList.add('show');
 
       dotEls.forEach(d => d.addEventListener('click', () => {
         goTo(Number(d.dataset.idx));
@@ -1695,8 +1740,9 @@
       if (leftBtn)  leftBtn.addEventListener('click',  () => { prev(); restartTimer(); });
       if (rightBtn) rightBtn.addEventListener('click', () => { next(); restartTimer(); });
 
-      container.addEventListener('mouseenter', () => timer && clearInterval(timer));
-      container.addEventListener('mouseleave', restartTimer);
+      // 只有滑鼠實際在幻燈片上才暫停 · pointer 事件對觸控更友善
+      container.addEventListener('pointerenter', () => timer && clearInterval(timer));
+      container.addEventListener('pointerleave', restartTimer);
 
       restartTimer();
     }
