@@ -179,16 +179,13 @@
   }
   .cert-role-badge {
     display: inline-block;
-    margin-left: 10px;
-    padding: 3px 10px;
-    border-radius: 100px;
-    font-size: 11px;
-    font-weight: 700;
-    background: var(--pink);
-    color: #fff;
-    vertical-align: 10px;
-    letter-spacing: 0.05em;
+    margin-left: 14px;
     font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    letter-spacing: 0.15em;
+    vertical-align: 14px;
   }
   .cert-school {
     font-family: var(--font-body);
@@ -567,7 +564,7 @@ function renderCert(cert) {
               <div class="cert-tzh">茲 證 明</div>
               <div class="cert-name-wrap">
                 <span class="cert-name">${esc(cert.recipientName)}</span>
-                ${cert.isLeader ? '<span class="cert-role-badge">隊長</span>' : ''}
+                <span class="cert-role-badge">${cert.isLeader ? '隊長' : '隊員'}</span>
               </div>
               ${cert.school ? `<div class="cert-school">${esc(cert.school)}</div>` : ''}
             </section>
