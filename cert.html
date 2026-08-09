@@ -64,17 +64,18 @@
   .topbar a:hover { color: var(--pink-deep); }
   .topbar svg { width: 14px; height: 14px; }
 
-  /* ============ CERT WRAP · 固定尺寸 · 小螢幕等比縮 ============ */
+  /* ============ CERT WRAP · 完全固定尺寸 · 版型不隨螢幕變 ============ */
   .cert-wrap {
-    max-width: var(--cert-w);
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
+    /* 小螢幕產生水平捲軸 · 證書維持原尺寸 · 保證每人看到的一模一樣 */
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0;
+    -webkit-overflow-scrolling: touch;
   }
   .cert-scaler {
     width: var(--cert-w);
     height: var(--cert-h);
-    transform-origin: top center;
+    margin: 0 auto;
   }
   .cert {
     width: var(--cert-w);
@@ -446,9 +447,10 @@
   .error p { color: var(--ink-light); font-size: 14px; margin-bottom: 20px; }
   .error code { font-family: var(--font-mono); background: var(--paper-soft); padding: 2px 8px; border-radius: 4px; }
 
-  /* ============ PRINT · A4 直式一頁裝下 ============ */
+  /* ============ PRINT · 用固定 px 頁面尺寸 · 瀏覽器等比縮到 A4 · 不切頁不變形 ============ */
   @page {
-    size: A4 portrait;
+    /* 頁面尺寸就是證書設計尺寸 · 瀏覽器會等比縮到你選的紙(A4)· 一頁完整印出 */
+    size: 800px 1131px;
     margin: 0;
   }
   @media print {
@@ -456,25 +458,23 @@
       background: #fff !important;
       padding: 0 !important;
       margin: 0 !important;
-      width: 210mm;
-      height: 297mm;
     }
     .topbar, .actions, .resume-blurb { display: none !important; }
-    .cert-wrap { max-width: none !important; }
-    .cert-scaler {
-      width: 210mm !important;
-      height: 297mm !important;
-      transform: none !important;
+    .cert-wrap {
+      overflow: visible !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      max-width: none !important;
     }
-    .cert {
-      width: 210mm !important;
-      height: 297mm !important;
+    .cert-scaler, .cert {
       box-shadow: none !important;
-      page-break-after: avoid;
-      page-break-inside: avoid;
+      margin: 0 !important;
+      page-break-after: avoid !important;
+      page-break-inside: avoid !important;
     }
-    .cert-inner {
-      padding: 12mm 14mm 10mm !important;
+    .cert::before, .cert::after {
+      /* 列印時金邊往內縮 · 避免被印表機邊界切掉 */
+      top: 12px !important; left: 12px !important; right: 12px !important; bottom: 12px !important;
     }
   }
 </style>
@@ -694,7 +694,6 @@ function renderCert(cert) {
   `;
 
   if (window.lucide) lucide.createIcons();
-  fitCert();
 }
 
 window.copyLink = async function() {
@@ -706,24 +705,6 @@ window.copyLink = async function() {
     prompt('請複製這個網址', url);
   }
 };
-
-function fitCert() {
-  const scaler = document.getElementById('certScaler');
-  if (!scaler) return;
-  const CERT_W = 800;
-  const CERT_H = 1131;
-  const MARGIN = 40;
-  const avail = window.innerWidth - MARGIN;
-  if (avail >= CERT_W) {
-    scaler.style.transform = '';
-    scaler.style.height = CERT_H + 'px';
-  } else {
-    const scale = avail / CERT_W;
-    scaler.style.transform = 'scale(' + scale + ')';
-    scaler.style.height = (CERT_H * scale) + 'px';
-  }
-}
-window.addEventListener('resize', fitCert);
 
 const certId = getParam('id');
 if (!certId) {
