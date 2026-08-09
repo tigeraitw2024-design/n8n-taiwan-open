@@ -8,11 +8,10 @@
 <meta property="og:title" content="n8n Taiwan Open Hackathon 2026 · 參賽證明書">
 <meta property="og:description" content="首屆 n8n 台灣官方黑客松參賽證明 · 由 AI 評審團實機驗證作品 · 官方發放、可線上驗真">
 <meta property="og:type" content="article">
-<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest" onerror="window.lucideFailed=true"></script>
 <style>
   :root {
@@ -24,34 +23,33 @@
     --ink-soft: #4a4a4a;
     --ink-light: #7a7a7a;
     --paper: #FFFFFF;
-    --paper-warm: #F8F5EC;
+    --paper-soft: #FAFAF7;
     --line: #E8E2D0;
-    --line-strong: #C9A961;
-    /* 字型全部走「英文用系統原生英文字型 · 中文用系統原生中文字型」的雙軌
-       就算 Google Fonts 全掛 · 任何 Mac / Windows / Linux 都有可用字型 */
-    --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Helvetica Neue', Arial,
-                    'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
-    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Helvetica Neue', Arial,
-                 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
-    --font-serif: Georgia, 'Times New Roman', 'Songti TC', 'PMingLiU', 'Noto Serif TC', serif;
+    /* 全頁單一字型堆 · 英文優先 Inter/系統原生 · 中文自動落到 PingFang/JhengHei */
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial,
+            'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
     --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'Courier New', monospace;
+    /* 固定證書尺寸 · A4 橫式(297mm × 210mm)@ 3.6px/mm → 1069×756 · 這樣一頁列得下 */
+    --cert-w: 1069px;
+    --cert-h: 756px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: var(--font); }
   body {
-    font-family: var(--font-body);
-    background: #f0efe9;
+    background: #ECEBE6;
     color: var(--ink);
-    line-height: 1.7;
+    line-height: 1.6;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
-    padding: 40px 20px;
+    padding: 24px 20px;
   }
   a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
 
   /* ============ TOP BAR ============ */
   .topbar {
-    max-width: 900px;
-    margin: 0 auto 20px;
+    max-width: var(--cert-w);
+    margin: 0 auto 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -61,405 +59,363 @@
   .topbar a:hover { color: var(--pink-deep); }
   .topbar svg { width: 14px; height: 14px; }
 
-  /* ============ CERT PAPER ============ */
-  .cert {
-    max-width: 900px;
+  /* ============ CERT WRAP · 固定尺寸 · 小螢幕自動等比縮 ============ */
+  .cert-wrap {
+    max-width: var(--cert-w);
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+  .cert-scaler {
+    width: var(--cert-w);
+    height: var(--cert-h);
+    transform-origin: top center;
+    /* JS 會在小螢幕動態設 transform: scale · 讓證書等比縮小不變形 */
+  }
+  .cert {
+    width: var(--cert-w);
+    height: var(--cert-h);
     background: var(--paper);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
-    border-radius: 4px;
     position: relative;
     overflow: hidden;
   }
-  /* 底紋 · 淡淡的雙層邊框 */
+  /* 金色雙邊框裝飾 */
   .cert::before {
     content: '';
     position: absolute;
-    top: 24px; left: 24px; right: 24px; bottom: 24px;
+    top: 18px; left: 18px; right: 18px; bottom: 18px;
     border: 2px solid var(--gold);
     pointer-events: none;
   }
   .cert::after {
     content: '';
     position: absolute;
-    top: 32px; left: 32px; right: 32px; bottom: 32px;
+    top: 24px; left: 24px; right: 24px; bottom: 24px;
     border: 1px solid var(--gold);
     pointer-events: none;
   }
   .cert-inner {
     position: relative;
-    padding: 72px 72px 56px;
-  }
-  @media (max-width: 640px) {
-    .cert-inner { padding: 48px 32px 40px; }
-    .cert::before { top: 16px; left: 16px; right: 16px; bottom: 16px; }
-    .cert::after { top: 22px; left: 22px; right: 22px; bottom: 22px; }
+    padding: 36px 56px 28px;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto auto;
+    gap: 10px;
+    height: 100%;
   }
 
   /* ============ HEADER ============ */
   .cert-header {
     text-align: center;
-    padding-bottom: 32px;
+    padding-bottom: 4px;
   }
   .cert-brand {
-    font-family: var(--font-display);
     font-weight: 900;
-    font-size: 16px;
+    font-size: 14px;
     color: var(--pink-deep);
-    margin-bottom: 8px;
+    margin-bottom: 3px;
   }
   .cert-brand-cn {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--ink-light);
-    margin-bottom: 40px;
+    margin-bottom: 10px;
   }
   .cert-title-en {
-    font-family: var(--font-display);
-    font-size: 14px;
+    font-size: 12px;
     color: var(--gold-deep);
-    margin-bottom: 10px;
     font-weight: 600;
+    margin-bottom: 4px;
+    letter-spacing: 0.02em;
   }
   .cert-title {
-    font-family: var(--font-serif);
-    font-size: clamp(32px, 5vw, 44px);
+    font-size: 32px;
     font-weight: 900;
     color: var(--ink);
-    line-height: 1.2;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
   }
   .cert-title-mark {
-    display: inline-block;
-    margin: 20px 0 0;
+    display: block;
+    margin-top: 6px;
     color: var(--gold);
-    font-size: 24px;
+    font-size: 14px;
+    letter-spacing: 0.5em;
+  }
+
+  /* ============ RECIPIENT ============ */
+  .cert-recipient {
+    text-align: center;
+  }
+  .cert-tzh {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    letter-spacing: 0.2em;
+  }
+  .cert-name-wrap {
+    display: inline-block;
+    padding: 8px 40px 6px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    min-width: 300px;
+  }
+  .cert-name {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.08em;
+    display: inline-block;
+  }
+  .cert-role-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 9px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--pink);
+    color: #fff;
+    vertical-align: 6px;
+    letter-spacing: 0.05em;
+  }
+  .cert-school {
+    font-size: 13px;
+    color: var(--ink-light);
+    margin-top: 6px;
+    letter-spacing: 0.05em;
   }
 
   /* ============ BODY ============ */
   .cert-body {
-    padding: 8px 0 24px;
-    text-align: center;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+    align-items: start;
   }
-  .cert-tzh {
-    font-family: var(--font-serif);
-    font-size: 16px;
-    color: var(--ink-soft);
-    letter-spacing: 0.15em;
-    margin-bottom: 24px;
-  }
-  .cert-name {
-    font-family: var(--font-serif);
-    font-size: clamp(30px, 5vw, 42px);
-    font-weight: 700;
-    color: var(--ink);
-    letter-spacing: 0.1em;
-    padding: 20px 0 16px;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    display: inline-block;
-    min-width: 320px;
-    max-width: 100%;
-    position: relative;
-  }
-  .cert-school {
-    font-size: 14px;
-    color: var(--ink-light);
-    letter-spacing: 0.1em;
-    margin-top: 12px;
-  }
-  .cert-role-badge {
-    display: inline-block;
-    margin-left: 10px;
-    padding: 2px 10px;
-    border-radius: 100px;
-    font-size: 11px;
-    font-weight: 700;
-    background: var(--pink);
-    color: #fff;
-    vertical-align: middle;
-    letter-spacing: 0.05em;
-  }
-
   .cert-statement {
-    max-width: 620px;
-    margin: 40px auto 0;
-    text-align: left;
-    font-family: var(--font-serif);
-    font-size: 16px;
-    line-height: 2;
+    font-size: 13px;
+    line-height: 1.9;
     color: var(--ink);
+    text-align: justify;
   }
-  .cert-statement p { margin-bottom: 12px; }
   .cert-statement strong { font-weight: 900; color: var(--pink-deep); }
-  .cert-statement em {
-    font-style: normal;
-    font-family: var(--font-body);
-    font-weight: 600;
-    padding: 0 4px;
-  }
-
-  /* ============ FACTS TABLE ============ */
   .cert-facts {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px 32px;
-    max-width: 620px;
-    margin: 32px auto 0;
-    padding: 20px 24px;
-    background: var(--paper-warm);
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+    padding: 12px 16px;
+    background: var(--paper-soft);
     border-left: 3px solid var(--gold);
   }
   .cert-fact { display: flex; flex-direction: column; gap: 2px; }
   .cert-fact-label {
-    font-size: 11px;
-    letter-spacing: 0.15em;
+    font-size: 9px;
+    letter-spacing: 0.12em;
     color: var(--ink-light);
-    text-transform: uppercase;
-    font-family: var(--font-display);
     font-weight: 700;
   }
   .cert-fact-value {
-    font-family: var(--font-serif);
-    font-size: 15px;
+    font-size: 13px;
     color: var(--ink);
     font-weight: 700;
   }
   .cert-fact-value.mono {
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 12px;
     color: var(--gold-deep);
   }
-  @media (max-width: 640px) {
-    .cert-facts { grid-template-columns: 1fr; gap: 10px; padding: 16px 18px; }
+
+  /* ============ WITNESSES · 業界評審 ============ */
+  .cert-witnesses {
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    padding: 8px 16px;
+    background: linear-gradient(180deg, transparent 0%, rgba(201, 169, 97, 0.04) 100%);
+  }
+  .cert-witnesses-label {
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .cert-witnesses-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .cert-witness { text-align: center; }
+  .cert-witness-name {
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+  .cert-witness-role {
+    font-size: 9px;
+    color: var(--ink-light);
+    line-height: 1.35;
   }
 
   /* ============ SIGNATURES ============ */
   .cert-sigs {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    margin-top: 48px;
-    padding-top: 24px;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 24px;
+    align-items: flex-end;
+    padding-top: 4px;
   }
   .cert-sig { text-align: center; }
-  .cert-sig-sign {
-    font-family: 'Brush Script MT', 'Segoe Script', 'Noto Serif TC', cursive;
-    font-size: 28px;
-    color: var(--pink-deep);
-    font-weight: 700;
-    padding-bottom: 8px;
-    border-bottom: 1.5px solid var(--ink);
-    margin: 0 auto 8px;
-    max-width: 220px;
-    letter-spacing: 0.05em;
-    font-style: italic;
-    transform: rotate(-2deg);
+  .cert-sig-image {
+    height: 48px;
+    max-width: 200px;
+    margin: 0 auto 4px;
+    object-fit: contain;
+    display: block;
+  }
+  .cert-sig-image.tigerai-logo { height: 42px; max-width: 180px; }
+  .cert-sig-line {
+    height: 1.5px;
+    background: var(--ink);
+    max-width: 200px;
+    margin: 0 auto 6px;
   }
   .cert-sig-role {
-    font-size: 12px;
+    font-size: 10px;
     color: var(--ink-light);
-    letter-spacing: 0.1em;
     line-height: 1.5;
   }
-  .cert-sig-role strong { color: var(--ink); font-weight: 700; }
-  @media (max-width: 640px) {
-    .cert-sigs { grid-template-columns: 1fr; gap: 24px; }
+  .cert-sig-role strong { color: var(--ink); font-weight: 700; font-size: 11px; }
+
+  /* QR + serial 塞在第 3 欄 */
+  .cert-verify {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .cert-qr {
+    background: #fff;
+    padding: 3px;
+    border: 1px solid var(--line);
+  }
+  .cert-qr img { width: 72px; height: 72px; display: block; }
+  .cert-qr-label {
+    font-size: 8px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    font-weight: 600;
   }
 
-  /* ============ FOOTER · SERIAL + QR ============ */
-  .cert-footer {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px dashed var(--line);
+  /* ============ FOOTER STRIP · 序號 + 贊助 logo ============ */
+  .cert-footstrip {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 24px;
+    gap: 16px;
     align-items: center;
+    padding-top: 8px;
+    border-top: 1px dashed var(--line);
   }
-  .cert-meta { font-size: 11px; color: var(--ink-light); line-height: 1.8; }
+  .cert-meta {
+    font-size: 9px;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
   .cert-meta strong { color: var(--ink-soft); font-weight: 700; }
   .cert-meta code {
     font-family: var(--font-mono);
-    background: var(--paper-warm);
-    padding: 2px 6px;
+    background: var(--paper-soft);
+    padding: 1px 5px;
     border-radius: 3px;
     color: var(--gold-deep);
-    font-size: 11px;
-  }
-  .cert-qr-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-  .cert-qr { background: #fff; padding: 4px; border: 1px solid var(--line); }
-  .cert-qr img { display: block; width: 96px; height: 96px; }
-  .cert-qr-label {
     font-size: 9px;
-    color: var(--ink-light);
-    letter-spacing: 0.1em;
-    text-align: center;
   }
-  @media (max-width: 640px) {
-    .cert-footer { grid-template-columns: 1fr; text-align: center; }
-    .cert-qr-box { margin: 0 auto; }
-  }
-
-  /* ============ 業界評審共同見證 ============ */
-  .cert-witnesses {
-    margin: 32px auto 0;
-    padding: 20px 24px;
-    max-width: 720px;
-    background: linear-gradient(180deg, transparent 0%, rgba(201, 169, 97, 0.05) 100%);
-    border-top: 1px solid var(--gold);
-    border-bottom: 1px solid var(--gold);
-  }
-  .cert-witnesses-label {
-    text-align: center;
-    font-family: var(--font-display);
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: var(--gold-deep);
-    font-weight: 700;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-  }
-  .cert-witnesses-list {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-  }
-  .cert-witness { text-align: center; }
-  .cert-witness-name {
-    font-family: var(--font-serif);
-    font-weight: 700;
-    font-size: 13px;
-    color: var(--ink);
-    line-height: 1.3;
-    margin-bottom: 3px;
-  }
-  .cert-witness-role {
-    font-size: 10px;
-    color: var(--ink-light);
-    line-height: 1.4;
-  }
-  @media (max-width: 720px) {
-    .cert-witnesses-list { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-    .cert-witness-name { font-size: 14px; }
-    .cert-witness-role { font-size: 11px; }
-  }
-
-  /* ============ 贊助 LOGO 帶 ============ */
   .cert-sponsors {
-    margin-top: 32px;
-    padding-top: 20px;
-    border-top: 1px solid var(--line);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .cert-sponsors-tier {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .cert-sponsors-label {
-    font-family: var(--font-display);
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    color: var(--ink-light);
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  .cert-sponsors-logos {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 28px;
-    flex-wrap: wrap;
+    gap: 18px;
   }
-  .cert-sponsors-logos img {
-    height: 36px;
-    max-width: 130px;
+  .cert-sponsors img {
+    height: 22px;
+    max-width: 80px;
     object-fit: contain;
+    filter: grayscale(1) contrast(1.05);
+    opacity: 0.72;
   }
-  @media (max-width: 640px) {
-    .cert-sponsors-logos { gap: 18px; }
-    .cert-sponsors-logos img { height: 26px; max-width: 100px; }
+
+  /* ============ 自適 · 小螢幕不擠壓 · 只等比縮 ============ */
+  @media (max-width: 1120px) {
+    body { padding: 16px 10px; }
+    .topbar { padding: 0 4px; }
   }
 
   /* ============ ACTIONS BAR ============ */
   .actions {
-    max-width: 900px;
-    margin: 24px auto 0;
+    max-width: var(--cert-w);
+    margin: 20px auto 0;
     display: flex;
-    gap: 12px;
+    gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
   }
   .btn {
-    padding: 12px 22px;
+    padding: 11px 20px;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-    font-family: var(--font-body);
+    font-family: var(--font);
     cursor: pointer;
     border: none;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     transition: all 0.15s ease;
-  }
-  .btn svg { width: 16px; height: 16px; }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-deep) 100%);
-    color: #fff;
-  }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(240,100,140,0.35); }
-  .btn-ghost {
-    background: #fff;
     color: var(--ink);
-    border: 1px solid var(--line);
   }
-  .btn-ghost:hover { background: var(--paper-warm); border-color: var(--gold); }
+  .btn svg { width: 14px; height: 14px; }
+  .btn-primary { background: linear-gradient(135deg, var(--pink) 0%, var(--pink-deep) 100%); color: #fff; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(240,100,140,0.35); }
+  .btn-ghost { background: #fff; border: 1px solid var(--line); }
+  .btn-ghost:hover { background: var(--paper-soft); border-color: var(--gold); }
 
   .resume-blurb {
-    max-width: 900px;
-    margin: 32px auto 0;
-    padding: 24px;
+    max-width: var(--cert-w);
+    margin: 24px auto 0;
+    padding: 20px;
     background: #fff;
     border: 1px solid var(--line);
     border-radius: 12px;
   }
   .resume-blurb h3 {
-    font-family: var(--font-display);
-    font-size: 15px;
-    margin-bottom: 12px;
+    font-size: 14px;
+    margin-bottom: 10px;
     color: var(--ink);
     display: flex;
     align-items: center;
     gap: 8px;
   }
-  .resume-blurb h3 svg { width: 16px; height: 16px; color: var(--pink); }
+  .resume-blurb h3 svg { width: 15px; height: 15px; color: var(--pink); }
   .resume-blurb-body {
-    background: var(--paper-warm);
-    padding: 16px;
+    background: var(--paper-soft);
+    padding: 14px;
     border-radius: 8px;
     font-family: var(--font-mono);
-    font-size: 13px;
-    line-height: 1.9;
+    font-size: 12px;
+    line-height: 1.85;
     color: var(--ink);
     white-space: pre-wrap;
   }
   .resume-blurb-hint {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--ink-light);
-    margin-top: 10px;
+    margin-top: 8px;
   }
 
   /* ============ STATES ============ */
   .loading, .error {
-    max-width: 640px;
+    max-width: 560px;
     margin: 80px auto;
     padding: 60px 40px;
     background: #fff;
@@ -470,17 +426,40 @@
   .loading svg { width: 40px; height: 40px; color: var(--pink); animation: spin 1s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .error svg { width: 48px; height: 48px; color: #d94a4a; margin-bottom: 12px; }
-  .error h2 { font-family: var(--font-display); font-size: 22px; color: var(--ink); margin-bottom: 8px; }
+  .error h2 { font-size: 22px; color: var(--ink); margin-bottom: 8px; }
   .error p { color: var(--ink-light); font-size: 14px; margin-bottom: 20px; }
-  .error code { font-family: var(--font-mono); background: var(--paper-warm); padding: 2px 8px; border-radius: 4px; }
+  .error code { font-family: var(--font-mono); background: var(--paper-soft); padding: 2px 8px; border-radius: 4px; }
 
-  /* ============ PRINT ============ */
+  /* ============ PRINT · A4 landscape 一頁裝下 ============ */
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
   @media print {
-    body { background: #fff; padding: 0; }
+    html, body {
+      background: #fff !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 297mm;
+      height: 210mm;
+    }
     .topbar, .actions, .resume-blurb { display: none !important; }
-    .cert { max-width: 100%; box-shadow: none; page-break-inside: avoid; }
-    .cert-inner { padding: 48px 56px; }
-    @page { size: A4; margin: 12mm; }
+    .cert-wrap { max-width: none !important; }
+    .cert-scaler {
+      width: 297mm !important;
+      height: 210mm !important;
+      transform: none !important;
+    }
+    .cert {
+      width: 297mm !important;
+      height: 210mm !important;
+      box-shadow: none !important;
+      page-break-after: avoid;
+      page-break-inside: avoid;
+    }
+    .cert-inner {
+      padding: 12mm 16mm 10mm !important;
+    }
   }
 </style>
 </head>
@@ -503,7 +482,7 @@
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbxgSAroD9N2Bs3-kKj5WV2oyFuMpznthbyujiRa3Q9SV3qH2PfdwgP2mx3wEMFLjgj7TQ/exec';
 
-// 隊伍層級的作品統計 · 與 ai-review.html 同源 · 一改兩邊都要改
+// 與 ai-review.html 同源 · 一改兩邊都要改
 const TEAM_STATS = {
   T001: { workflows: 3, nodes: 52 },  T002: { workflows: 2, nodes: 75 },
   T003: { workflows: 5, nodes: 29 },  T004: { workflows: 1, nodes: 23 },
@@ -518,7 +497,6 @@ const MODE_LABEL = { onsite: '現場出席', remote: '遠端連線' };
 function getParam(name) {
   return new URLSearchParams(location.search).get(name) || '';
 }
-
 function esc(s) {
   return String(s || '').replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -533,8 +511,7 @@ function renderError(msg, certId) {
       <p>${esc(msg)}</p>
       ${certId ? `<p>查詢的證書 ID: <code>${esc(certId)}</code></p>` : ''}
       <a href="index.html" class="btn btn-primary" style="margin-top:8px; text-decoration:none;">
-        <i data-lucide="home"></i>
-        <span>回活動首頁</span>
+        <i data-lucide="home"></i><span>回活動首頁</span>
       </a>
     </div>
   `;
@@ -546,161 +523,148 @@ function renderCert(cert) {
   const modeLabel = MODE_LABEL[cert.mode] || '現場出席';
   const certUrl = location.origin + location.pathname + '?id=' + cert.id;
   const aiReviewUrl = location.origin + '/ai-review.html';
+  const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=0&data=' + encodeURIComponent(certUrl);
+  const qrFallback = 'https://chart.googleapis.com/chart?cht=qr&chs=180x180&chld=M|0&chl=' + encodeURIComponent(certUrl);
 
   document.title = `${cert.recipientName} · 參賽證明書 · n8n Taiwan Open 2026`;
 
   document.getElementById('app').innerHTML = `
-    <article class="cert">
-      <div class="cert-inner">
-        <!-- HEADER -->
-        <header class="cert-header">
-          <div class="cert-brand">n8n · TAIWAN OPEN HACKATHON</div>
-          <div class="cert-brand-cn">2026 首屆 · 全台大專院校 n8n 自動化黑客松</div>
-          <div class="cert-title-en">CERTIFICATE OF PARTICIPATION</div>
-          <h1 class="cert-title">決賽參賽證明書</h1>
-          <div class="cert-title-mark">◆ ◆ ◆</div>
-        </header>
+    <div class="cert-wrap">
+      <div class="cert-scaler" id="certScaler">
+        <article class="cert">
+          <div class="cert-inner">
 
-        <!-- BODY -->
-        <section class="cert-body">
-          <div class="cert-tzh">茲 證 明</div>
-          <div class="cert-name">
-            ${esc(cert.recipientName)}
-            ${cert.isLeader ? '<span class="cert-role-badge">隊長</span>' : ''}
-          </div>
-          ${cert.school ? `<div class="cert-school">${esc(cert.school)}</div>` : ''}
+            <!-- HEADER -->
+            <header class="cert-header">
+              <div class="cert-brand">n8n · TAIWAN OPEN HACKATHON</div>
+              <div class="cert-brand-cn">2026 首屆 · 全台大專院校 n8n 自動化黑客松</div>
+              <div class="cert-title-en">CERTIFICATE OF PARTICIPATION</div>
+              <h1 class="cert-title">決賽參賽證明書</h1>
+              <span class="cert-title-mark">◆ ◆ ◆</span>
+            </header>
 
-          <div class="cert-statement">
-            <p>
-              於 <strong>2026 年 8 月 7 日</strong> · 於 <strong>t.Hub Taipei 內科創新育成基地</strong> ·
-              參與 <em>n8n Taiwan Open Hackathon 2026</em> 首屆決賽 ·
-              所屬「<strong>${esc(cert.teamName)}</strong>」以《${esc(cert.workTitle)}》為題 ·
-              於 4.5 小時內完成 <strong>${stats.workflows}</strong> 支 workflow · 共 <strong>${stats.nodes}</strong> 個節點的 AI 自動化作品 ·
-              並通過主辦方 <strong>AI 評審團(Claude · Codex · Gemini)</strong>
-              四步驗證(JSON 格式 / 連線圖走訪 / 表達式引用 / n8n 官方 REST API 實機匯入) · <strong>100% 實機驗證通過</strong> ·
-              特此證明。
-            </p>
-          </div>
+            <!-- RECIPIENT -->
+            <section class="cert-recipient">
+              <div class="cert-tzh">茲 證 明</div>
+              <div class="cert-name-wrap">
+                <span class="cert-name">${esc(cert.recipientName)}</span>
+                ${cert.isLeader ? '<span class="cert-role-badge">隊長</span>' : ''}
+              </div>
+              ${cert.school ? `<div class="cert-school">${esc(cert.school)}</div>` : ''}
+            </section>
 
-          <!-- FACTS -->
-          <div class="cert-facts">
-            <div class="cert-fact">
-              <div class="cert-fact-label">題目類別 · CATEGORY</div>
-              <div class="cert-fact-value">${esc(cert.themeLabel)}</div>
-            </div>
-            <div class="cert-fact">
-              <div class="cert-fact-label">參賽方式 · MODE</div>
-              <div class="cert-fact-value">${esc(modeLabel)}</div>
-            </div>
-            <div class="cert-fact">
-              <div class="cert-fact-label">隊伍規模 · TEAM SIZE</div>
-              <div class="cert-fact-value">${cert.memberCount} 人</div>
-            </div>
-            <div class="cert-fact">
-              <div class="cert-fact-label">隊伍代號 · TEAM ID</div>
-              <div class="cert-fact-value mono">${esc(cert.teamId)}</div>
-            </div>
-          </div>
+            <!-- BODY · 左 statement · 右 facts -->
+            <section class="cert-body">
+              <p class="cert-statement">
+                於 <strong>2026 年 8 月 7 日</strong> · 於 <strong>t.Hub Taipei 內科創新育成基地</strong> ·
+                參與 n8n Taiwan Open Hackathon 2026 首屆決賽 ·
+                所屬「<strong>${esc(cert.teamName)}</strong>」以《${esc(cert.workTitle)}》為題 ·
+                於 4.5 小時內完成 <strong>${stats.workflows}</strong> 支 workflow · 共 <strong>${stats.nodes}</strong> 個節點的 AI 自動化作品 ·
+                並通過主辦方 <strong>AI 評審團(Claude · Codex · Gemini)</strong>
+                四步驗證 · <strong>100% 實機驗證通過</strong> · 特此證明。
+              </p>
+              <div class="cert-facts">
+                <div class="cert-fact">
+                  <div class="cert-fact-label">題目類別 · CATEGORY</div>
+                  <div class="cert-fact-value">${esc(cert.themeLabel)}</div>
+                </div>
+                <div class="cert-fact">
+                  <div class="cert-fact-label">參賽方式 · MODE</div>
+                  <div class="cert-fact-value">${esc(modeLabel)}</div>
+                </div>
+                <div class="cert-fact">
+                  <div class="cert-fact-label">隊伍規模 · TEAM SIZE</div>
+                  <div class="cert-fact-value">${cert.memberCount} 人</div>
+                </div>
+                <div class="cert-fact">
+                  <div class="cert-fact-label">隊伍代號 · TEAM ID</div>
+                  <div class="cert-fact-value mono">${esc(cert.teamId)}</div>
+                </div>
+              </div>
+            </section>
 
-          <!-- SIGNATURES -->
-          <div class="cert-sigs">
-            <div class="cert-sig">
-              <div class="cert-sig-sign">Morris Lu</div>
-              <div class="cert-sig-role">
-                <strong>Morris 盧業興</strong><br>
-                n8n 台灣首位官方 Ambassador<br>
-                TigerAI 虎智科技 執行長
+            <!-- WITNESSES -->
+            <section class="cert-witnesses">
+              <div class="cert-witnesses-label">業界評審共同見證 · CO-WITNESSED BY THE JUDGING PANEL</div>
+              <div class="cert-witnesses-list">
+                <div class="cert-witness">
+                  <div class="cert-witness-name">欒斌 教授</div>
+                  <div class="cert-witness-role">臺科大企管系 · 教育部師鐸獎</div>
+                </div>
+                <div class="cert-witness">
+                  <div class="cert-witness-name">游文賢 理事長</div>
+                  <div class="cert-witness-role">中華亞太智慧物聯發展協會</div>
+                </div>
+                <div class="cert-witness">
+                  <div class="cert-witness-name">陳鵬如</div>
+                  <div class="cert-witness-role">撼訊集團 總經理特助</div>
+                </div>
+                <div class="cert-witness">
+                  <div class="cert-witness-name">林穎彥</div>
+                  <div class="cert-witness-role">AMD 軟體開發工程師</div>
+                </div>
+                <div class="cert-witness">
+                  <div class="cert-witness-name">林毓晟</div>
+                  <div class="cert-witness-role">晟景科技</div>
+                </div>
               </div>
-            </div>
-            <div class="cert-sig">
-              <div class="cert-sig-sign">TigerAI</div>
-              <div class="cert-sig-role">
-                <strong>虎智科技股份有限公司</strong><br>
-                n8n Taiwan Open Hackathon 主辦單位<br>
-                統一編號 · 93489997
-              </div>
-            </div>
-          </div>
+            </section>
 
-          <!-- 業界評審共同見證 -->
-          <div class="cert-witnesses">
-            <div class="cert-witnesses-label">業界評審共同見證 · CO-WITNESSED BY THE JUDGING PANEL</div>
-            <div class="cert-witnesses-list">
-              <div class="cert-witness">
-                <div class="cert-witness-name">欒斌 教授</div>
-                <div class="cert-witness-role">臺科大企管系 · 教育部師鐸獎</div>
+            <!-- SIGNATURES + QR -->
+            <section class="cert-sigs">
+              <div class="cert-sig">
+                <img class="cert-sig-image" src="assets/signatures/morris.jpg" alt="Morris 盧業興 簽名">
+                <div class="cert-sig-line"></div>
+                <div class="cert-sig-role">
+                  <strong>Morris 盧業興</strong><br>
+                  n8n 台灣首位官方 Ambassador · TigerAI 執行長
+                </div>
               </div>
-              <div class="cert-witness">
-                <div class="cert-witness-name">游文賢 理事長</div>
-                <div class="cert-witness-role">中華亞太智慧物聯發展協會</div>
+              <div class="cert-sig">
+                <img class="cert-sig-image tigerai-logo" src="assets/logos/tigerai.png" alt="TigerAI">
+                <div class="cert-sig-line"></div>
+                <div class="cert-sig-role">
+                  <strong>虎智科技股份有限公司</strong><br>
+                  n8n Taiwan Open Hackathon 主辦單位 · 統一編號 93489997
+                </div>
               </div>
-              <div class="cert-witness">
-                <div class="cert-witness-name">陳鵬如</div>
-                <div class="cert-witness-role">撼訊集團 總經理特助</div>
+              <div class="cert-verify">
+                <div class="cert-qr">
+                  <img id="qrImg" alt="Verify QR" width="72" height="72"
+                       src="${qrSrc}"
+                       onerror="this.onerror=null;this.src='${qrFallback}'">
+                </div>
+                <div class="cert-qr-label">SCAN TO VERIFY</div>
               </div>
-              <div class="cert-witness">
-                <div class="cert-witness-name">林穎彥</div>
-                <div class="cert-witness-role">AMD 軟體開發工程師</div>
-              </div>
-              <div class="cert-witness">
-                <div class="cert-witness-name">林毓晟</div>
-                <div class="cert-witness-role">晟景科技</div>
-              </div>
-            </div>
-          </div>
+            </section>
 
-          <!-- FOOTER · SERIAL + QR -->
-          <div class="cert-footer">
-            <div class="cert-meta">
-              <div><strong>證書序號</strong> · <code>${esc(cert.id)}</code></div>
-              <div><strong>頒發日期</strong> · 2026 年 8 月 8 日</div>
-              <div><strong>線上驗證</strong> · <span style="color:var(--pink-deep);">${esc(certUrl)}</span></div>
-              <div style="margin-top:4px;">此證書由虎智科技 TigerAI 官方發放 · 掃碼即可驗證真偽</div>
-            </div>
-            <div class="cert-qr-box">
-              <div class="cert-qr">
-                <img id="qrImg" alt="Verify QR" width="96" height="96">
+            <!-- FOOTER STRIP · 序號 + 贊助 -->
+            <section class="cert-footstrip">
+              <div class="cert-meta">
+                <div><strong>證書序號</strong> · <code>${esc(cert.id)}</code> · <strong>頒發日期</strong> · 2026 年 8 月 8 日</div>
+                <div><strong>線上驗證</strong> · ${esc(certUrl)}</div>
               </div>
-              <div class="cert-qr-label">SCAN TO VERIFY</div>
-            </div>
-          </div>
-
-          <!-- SPONSORS · LOGO 帶 -->
-          <div class="cert-sponsors">
-            <div class="cert-sponsors-tier">
-              <div class="cert-sponsors-label">共同主辦 · CO-HOSTS</div>
-              <div class="cert-sponsors-logos">
-                <img src="assets/logos/tigerai.png" alt="TigerAI 虎智科技">
+              <div class="cert-sponsors" title="共同主辦 · 技術 · 硬體 · 雲端 · 協辦">
                 <img src="assets/logos/drmaster.png" alt="博碩文化">
                 <img src="assets/logos/ntust-incubator.png" alt="臺科大創新育成中心">
-              </div>
-            </div>
-            <div class="cert-sponsors-tier">
-              <div class="cert-sponsors-label">技術・硬體・雲端合作 · PARTNERS</div>
-              <div class="cert-sponsors-logos">
                 <img src="assets/logos/n8n.svg" alt="n8n">
                 <img src="assets/logos/amd.png" alt="AMD">
-                <img src="assets/logos/tul.png" alt="TUL 撼訊科技">
+                <img src="assets/logos/tul.png" alt="TUL">
                 <img src="assets/logos/zeabur.svg" alt="Zeabur">
-              </div>
-            </div>
-            <div class="cert-sponsors-tier">
-              <div class="cert-sponsors-label">協辦・場地 · CO-ORGANIZERS &amp; VENUE</div>
-              <div class="cert-sponsors-logos">
                 <img src="assets/logos/aiot-association.jpg" alt="中華亞太智慧物聯發展協會">
-                <img src="assets/logos/t-hub-taipei.png" alt="t.Hub Taipei 內科創新育成基地">
+                <img src="assets/logos/t-hub-taipei.png" alt="t.Hub Taipei">
               </div>
-            </div>
-          </div>
+            </section>
 
-        </section>
+          </div>
+        </article>
       </div>
-    </article>
+    </div>
 
     <!-- ACTIONS -->
     <div class="actions">
       <button type="button" class="btn btn-primary" onclick="window.print()">
-        <i data-lucide="printer"></i><span>列印 / 存 PDF</span>
+        <i data-lucide="printer"></i><span>列印 / 存 PDF · A4 橫式</span>
       </button>
       <button type="button" class="btn btn-ghost" onclick="copyLink()">
         <i data-lucide="link"></i><span>複製證書連結</span>
@@ -716,32 +680,17 @@ function renderCert(cert) {
     <!-- RESUME BLURB -->
     <div class="resume-blurb">
       <h3><i data-lucide="clipboard-copy"></i>履歷可直接複製這段</h3>
-      <div class="resume-blurb-body" id="resumeText">2026 · n8n Taiwan Open Hackathon 決賽入圍(全台首屆 n8n 官方黑客松)
+      <div class="resume-blurb-body">2026 · n8n Taiwan Open Hackathon 決賽入圍(全台首屆 n8n 官方黑客松)
 · 4.5 小時內以團隊完成 ${stats.workflows} 支 workflow · ${stats.nodes} 個節點的 AI 自動化作品《${cert.workTitle}》
 · 作品通過主辦方 AI 評審團(Claude / Codex / Gemini)四步驗證 · n8n 官方 REST API 100% 實機匯入通過
 · 官方參賽證明:${certUrl}
 · 完整技術評論:${aiReviewUrl}#${cert.teamId}</div>
-      <div class="resume-blurb-hint">
-        <i data-lucide="lightbulb" style="width:12px; height:12px; display:inline; vertical-align:-2px;"></i>
-        建議放在履歷「競賽經歷」段落 · 讓 HR 掃 QR 或點連結即可驗真
-      </div>
+      <div class="resume-blurb-hint">建議放在履歷「競賽經歷」段落 · 讓 HR 掃 QR 或點連結即可驗真</div>
     </div>
   `;
 
-  // QR code · 用純圖片 · 免任何 JS 依賴 · 主用 qrserver · 掛掉時 fallback 到 Google Charts
-  try {
-    const qrImg = document.getElementById('qrImg');
-    if (qrImg) {
-      const encoded = encodeURIComponent(certUrl);
-      qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=0&data=' + encoded;
-      qrImg.onerror = () => {
-        qrImg.onerror = null;
-        qrImg.src = 'https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=M|0&chl=' + encoded;
-      };
-    }
-  } catch (e) { console.warn('QR render failed', e); }
-
   if (window.lucide) lucide.createIcons();
+  fitCert();
 }
 
 window.copyLink = async function() {
@@ -753,6 +702,25 @@ window.copyLink = async function() {
     prompt('請複製這個網址', url);
   }
 };
+
+// 小螢幕自動等比縮 · 不擠不變形
+function fitCert() {
+  const scaler = document.getElementById('certScaler');
+  if (!scaler) return;
+  const CERT_W = 1069;
+  const CERT_H = 756;
+  const MARGIN = 40;
+  const avail = window.innerWidth - MARGIN;
+  if (avail >= CERT_W) {
+    scaler.style.transform = '';
+    scaler.style.height = CERT_H + 'px';
+  } else {
+    const scale = avail / CERT_W;
+    scaler.style.transform = 'scale(' + scale + ')';
+    scaler.style.height = (CERT_H * scale) + 'px';
+  }
+}
+window.addEventListener('resize', fitCert);
 
 // ============ INIT ============
 const certId = getParam('id');
@@ -775,7 +743,7 @@ if (!certId) {
     });
 }
 
-lucide.createIcons();
+if (window.lucide) lucide.createIcons();
 </script>
 
 </body>
