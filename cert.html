@@ -22,7 +22,7 @@
     --ink: #1a1a1a;
     --ink-soft: #4a4a4a;
     --ink-light: #7a7a7a;
-    --paper: #FDFCF8;
+    --paper: #FFFFFF;
     --paper-warm: #F8F5EC;
     --line: #E8E2D0;
     --line-strong: #C9A961;
@@ -99,25 +99,19 @@
   .cert-brand {
     font-family: var(--font-display);
     font-weight: 900;
-    letter-spacing: -0.02em;
-    font-size: 15px;
+    font-size: 16px;
     color: var(--pink-deep);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
     margin-bottom: 8px;
   }
   .cert-brand-cn {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--ink-light);
-    letter-spacing: 0.3em;
     margin-bottom: 40px;
   }
   .cert-title-en {
     font-family: var(--font-display);
     font-size: 14px;
-    letter-spacing: 0.35em;
     color: var(--gold-deep);
-    text-transform: uppercase;
     margin-bottom: 10px;
     font-weight: 600;
   }
@@ -125,7 +119,6 @@
     font-family: var(--font-serif);
     font-size: clamp(32px, 5vw, 44px);
     font-weight: 900;
-    letter-spacing: 0.15em;
     color: var(--ink);
     line-height: 1.2;
   }
@@ -381,20 +374,13 @@
     flex-wrap: wrap;
   }
   .cert-sponsors-logos img {
-    height: 32px;
-    max-width: 120px;
+    height: 36px;
+    max-width: 130px;
     object-fit: contain;
-    filter: grayscale(1) contrast(1.05);
-    opacity: 0.75;
-    transition: opacity 0.2s ease, filter 0.2s ease;
   }
-  .cert-sponsors-logos img:hover { filter: grayscale(0); opacity: 1; }
   @media (max-width: 640px) {
     .cert-sponsors-logos { gap: 18px; }
-    .cert-sponsors-logos img { height: 24px; max-width: 90px; }
-  }
-  @media print {
-    .cert-sponsors-logos img { filter: grayscale(1) !important; opacity: 0.85 !important; }
+    .cert-sponsors-logos img { height: 26px; max-width: 100px; }
   }
 
   /* ============ ACTIONS BAR ============ */
