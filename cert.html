@@ -10,9 +10,10 @@
 <meta property="og:type" content="article">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest" onerror="window.lucideFailed=true"></script>
 <style>
   :root {
     --pink: #F0648C;
@@ -26,10 +27,14 @@
     --paper-warm: #F8F5EC;
     --line: #E8E2D0;
     --line-strong: #C9A961;
-    --font-display: 'Satoshi', 'Noto Sans TC', -apple-system, system-ui, sans-serif;
-    --font-serif: 'Noto Serif TC', Georgia, serif;
-    --font-body: 'Noto Sans TC', -apple-system, system-ui, sans-serif;
-    --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    /* 字型全部走「英文用系統原生英文字型 · 中文用系統原生中文字型」的雙軌
+       就算 Google Fonts 全掛 · 任何 Mac / Windows / Linux 都有可用字型 */
+    --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Helvetica Neue', Arial,
+                    'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Helvetica Neue', Arial,
+                 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+    --font-serif: Georgia, 'Times New Roman', 'Songti TC', 'PMingLiU', 'Noto Serif TC', serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'Courier New', monospace;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
