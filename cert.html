@@ -285,14 +285,22 @@
     padding: 4px 8px 0;
   }
   .cert-sig { text-align: center; }
+  /* 固定高度圖框 · 圖片對齊底部 · 這樣不論簽名圖或 logo 高度多少 · 下方橫線都齊 */
+  .cert-sig-image-slot {
+    height: 60px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
   .cert-sig-image {
-    height: 56px;
+    max-height: 60px;
     max-width: 220px;
-    margin: 0 auto 6px;
-    object-fit: contain;
+    width: auto;
+    height: auto;
     display: block;
   }
-  .cert-sig-image.tigerai-logo { height: 48px; max-width: 200px; }
+  .cert-sig-image.tigerai-logo { max-width: 200px; }
   .cert-sig-line {
     height: 1.5px;
     background: var(--ink);
@@ -620,7 +628,9 @@ function renderCert(cert) {
 
             <section class="cert-sigs">
               <div class="cert-sig">
-                <img class="cert-sig-image" src="assets/signatures/morris.jpg" alt="Morris 盧業興 簽名">
+                <div class="cert-sig-image-slot">
+                  <img class="cert-sig-image" src="assets/signatures/morris.jpg" alt="Morris 盧業興 簽名">
+                </div>
                 <div class="cert-sig-line"></div>
                 <div class="cert-sig-role">
                   <strong>Morris 盧業興</strong><br>
@@ -628,7 +638,9 @@ function renderCert(cert) {
                 </div>
               </div>
               <div class="cert-sig">
-                <img class="cert-sig-image tigerai-logo" src="assets/logos/tigerai.png" alt="TigerAI">
+                <div class="cert-sig-image-slot">
+                  <img class="cert-sig-image tigerai-logo" src="assets/logos/tigerai.png" alt="TigerAI">
+                </div>
                 <div class="cert-sig-line"></div>
                 <div class="cert-sig-role">
                   <strong>虎智科技股份有限公司</strong><br>
