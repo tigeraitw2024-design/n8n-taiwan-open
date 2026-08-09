@@ -270,9 +270,11 @@
   }
   .cert-witness-role {
     font-family: var(--font-body);
-    font-size: 10px;
+    font-size: 9.5px;
     color: var(--ink-light);
     line-height: 1.4;
+    white-space: nowrap;
+    text-wrap: pretty;   /* 現代瀏覽器 · 若真的太窄要換行 · 也不留孤字 */
   }
 
   /* ============ SIGNATURES + QR ============ */
