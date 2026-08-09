@@ -11,7 +11,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest" onerror="window.lucideFailed=true"></script>
 <style>
   :root {
@@ -25,16 +25,21 @@
     --paper: #FFFFFF;
     --paper-soft: #FAFAF7;
     --line: #E8E2D0;
-    /* 全頁單一字型堆 · 英文優先 Inter/系統原生 · 中文自動落到 PingFang/JhengHei */
-    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial,
-            'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+    /* 英文一致用 Inter/系統原生 · 中文分兩種 · 有無 serif */
+    --font-en: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    --font-cn: 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+    --font-cn-serif: 'Noto Serif TC', 'Songti TC', 'PMingLiU', 'MingLiU', serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial,
+                 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+    --font-title: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial,
+                  'Noto Serif TC', 'Songti TC', 'PMingLiU', 'MingLiU', serif;
     --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'Courier New', monospace;
-    /* 固定證書尺寸 · A4 橫式(297mm × 210mm)@ 3.6px/mm → 1069×756 · 這樣一頁列得下 */
-    --cert-w: 1069px;
-    --cert-h: 756px;
+    /* 固定直式證書尺寸 · A4 直式 210x297mm @ ~3.78px/mm 對應 794x1123 · 加點內距 */
+    --cert-w: 800px;
+    --cert-h: 1131px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { font-family: var(--font); }
+  html, body { font-family: var(--font-body); }
   body {
     background: #ECEBE6;
     color: var(--ink);
@@ -59,7 +64,7 @@
   .topbar a:hover { color: var(--pink-deep); }
   .topbar svg { width: 14px; height: 14px; }
 
-  /* ============ CERT WRAP · 固定尺寸 · 小螢幕自動等比縮 ============ */
+  /* ============ CERT WRAP · 固定尺寸 · 小螢幕等比縮 ============ */
   .cert-wrap {
     max-width: var(--cert-w);
     margin: 0 auto;
@@ -70,7 +75,6 @@
     width: var(--cert-w);
     height: var(--cert-h);
     transform-origin: top center;
-    /* JS 會在小螢幕動態設 transform: scale · 讓證書等比縮小不變形 */
   }
   .cert {
     width: var(--cert-w);
@@ -80,7 +84,6 @@
     position: relative;
     overflow: hidden;
   }
-  /* 金色雙邊框裝飾 */
   .cert::before {
     content: '';
     position: absolute;
@@ -97,46 +100,49 @@
   }
   .cert-inner {
     position: relative;
-    padding: 36px 56px 28px;
-    display: grid;
-    grid-template-rows: auto auto 1fr auto auto auto;
-    gap: 10px;
+    padding: 48px 56px 32px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
   }
 
   /* ============ HEADER ============ */
   .cert-header {
     text-align: center;
-    padding-bottom: 4px;
   }
   .cert-brand {
+    font-family: var(--font-body);
     font-weight: 900;
-    font-size: 14px;
+    font-size: 15px;
     color: var(--pink-deep);
-    margin-bottom: 3px;
+    margin-bottom: 4px;
   }
   .cert-brand-cn {
-    font-size: 11px;
+    font-family: var(--font-cn);
+    font-size: 12px;
     color: var(--ink-light);
-    margin-bottom: 10px;
+    margin-bottom: 22px;
   }
   .cert-title-en {
-    font-size: 12px;
+    font-family: var(--font-en);
+    font-size: 13px;
     color: var(--gold-deep);
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     letter-spacing: 0.02em;
   }
   .cert-title {
-    font-size: 32px;
+    font-family: var(--font-title);
+    font-size: 38px;
     font-weight: 900;
     color: var(--ink);
-    line-height: 1.1;
-    letter-spacing: 0.02em;
+    line-height: 1.15;
+    letter-spacing: 0.08em;
   }
   .cert-title-mark {
     display: block;
-    margin-top: 6px;
+    margin-top: 10px;
     color: var(--gold);
     font-size: 14px;
     letter-spacing: 0.5em;
@@ -145,100 +151,107 @@
   /* ============ RECIPIENT ============ */
   .cert-recipient {
     text-align: center;
+    padding: 6px 0 8px;
   }
   .cert-tzh {
-    font-size: 14px;
+    font-family: var(--font-title);
+    font-size: 15px;
     color: var(--ink-soft);
-    margin-bottom: 8px;
-    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+    letter-spacing: 0.4em;
+    padding-left: 0.4em;
   }
   .cert-name-wrap {
     display: inline-block;
-    padding: 8px 40px 6px;
+    padding: 12px 60px 10px;
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
-    min-width: 300px;
+    min-width: 380px;
   }
   .cert-name {
-    font-size: 30px;
+    font-family: var(--font-title);
+    font-size: 40px;
     font-weight: 700;
     color: var(--ink);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.15em;
+    padding-left: 0.15em;
     display: inline-block;
   }
   .cert-role-badge {
     display: inline-block;
-    margin-left: 8px;
-    padding: 2px 9px;
+    margin-left: 10px;
+    padding: 3px 10px;
     border-radius: 100px;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     background: var(--pink);
     color: #fff;
-    vertical-align: 6px;
+    vertical-align: 10px;
     letter-spacing: 0.05em;
+    font-family: var(--font-body);
   }
   .cert-school {
-    font-size: 13px;
+    font-family: var(--font-body);
+    font-size: 14px;
     color: var(--ink-light);
-    margin-top: 6px;
+    margin-top: 12px;
     letter-spacing: 0.05em;
   }
 
-  /* ============ BODY ============ */
-  .cert-body {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 20px;
-    align-items: start;
-  }
+  /* ============ STATEMENT + FACTS · portrait 堆疊 ============ */
   .cert-statement {
-    font-size: 13px;
-    line-height: 1.9;
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.95;
     color: var(--ink);
     text-align: justify;
+    padding: 0 12px;
   }
   .cert-statement strong { font-weight: 900; color: var(--pink-deep); }
+
   .cert-facts {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px 16px;
-    padding: 12px 16px;
+    gap: 10px 32px;
+    padding: 14px 20px;
     background: var(--paper-soft);
     border-left: 3px solid var(--gold);
   }
-  .cert-fact { display: flex; flex-direction: column; gap: 2px; }
+  .cert-fact { display: flex; flex-direction: column; gap: 3px; }
   .cert-fact-label {
-    font-size: 9px;
+    font-family: var(--font-en);
+    font-size: 10px;
     letter-spacing: 0.12em;
     color: var(--ink-light);
     font-weight: 700;
   }
   .cert-fact-value {
-    font-size: 13px;
+    font-family: var(--font-body);
+    font-size: 14px;
     color: var(--ink);
     font-weight: 700;
   }
   .cert-fact-value.mono {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: 13px;
     color: var(--gold-deep);
   }
 
-  /* ============ WITNESSES · 業界評審 ============ */
+  /* ============ WITNESSES ============ */
   .cert-witnesses {
     border-top: 1px solid var(--gold);
     border-bottom: 1px solid var(--gold);
-    padding: 8px 16px;
+    padding: 10px 16px;
     background: linear-gradient(180deg, transparent 0%, rgba(201, 169, 97, 0.04) 100%);
   }
   .cert-witnesses-label {
     text-align: center;
-    font-size: 9px;
+    font-family: var(--font-en);
+    font-size: 10px;
     letter-spacing: 0.2em;
     color: var(--gold-deep);
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
   .cert-witnesses-list {
     display: grid;
@@ -247,81 +260,86 @@
   }
   .cert-witness { text-align: center; }
   .cert-witness-name {
+    font-family: var(--font-body);
     font-weight: 700;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--ink);
-    line-height: 1.2;
-    margin-bottom: 2px;
+    line-height: 1.25;
+    margin-bottom: 3px;
   }
   .cert-witness-role {
-    font-size: 9px;
+    font-family: var(--font-body);
+    font-size: 10px;
     color: var(--ink-light);
-    line-height: 1.35;
+    line-height: 1.4;
   }
 
-  /* ============ SIGNATURES ============ */
+  /* ============ SIGNATURES + QR ============ */
   .cert-sigs {
     display: grid;
     grid-template-columns: 1fr 1fr auto;
     gap: 24px;
     align-items: flex-end;
-    padding-top: 4px;
+    padding: 4px 8px 0;
   }
   .cert-sig { text-align: center; }
   .cert-sig-image {
-    height: 48px;
-    max-width: 200px;
-    margin: 0 auto 4px;
+    height: 56px;
+    max-width: 220px;
+    margin: 0 auto 6px;
     object-fit: contain;
     display: block;
   }
-  .cert-sig-image.tigerai-logo { height: 42px; max-width: 180px; }
+  .cert-sig-image.tigerai-logo { height: 48px; max-width: 200px; }
   .cert-sig-line {
     height: 1.5px;
     background: var(--ink);
-    max-width: 200px;
-    margin: 0 auto 6px;
+    max-width: 220px;
+    margin: 0 auto 8px;
   }
   .cert-sig-role {
-    font-size: 10px;
+    font-family: var(--font-body);
+    font-size: 11px;
     color: var(--ink-light);
-    line-height: 1.5;
+    line-height: 1.55;
   }
-  .cert-sig-role strong { color: var(--ink); font-weight: 700; font-size: 11px; }
+  .cert-sig-role strong { color: var(--ink); font-weight: 700; font-size: 12px; }
 
-  /* QR + serial 塞在第 3 欄 */
   .cert-verify {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3px;
+    gap: 4px;
   }
   .cert-qr {
     background: #fff;
     padding: 3px;
     border: 1px solid var(--line);
   }
-  .cert-qr img { width: 72px; height: 72px; display: block; }
+  .cert-qr img { width: 82px; height: 82px; display: block; }
   .cert-qr-label {
-    font-size: 8px;
+    font-family: var(--font-en);
+    font-size: 9px;
     color: var(--ink-light);
     letter-spacing: 0.1em;
     font-weight: 600;
   }
 
-  /* ============ FOOTER STRIP · 序號 + 贊助 logo ============ */
+  /* ============ FOOTER STRIP · 序號 + 贊助 ============ */
   .cert-footstrip {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 16px;
-    align-items: center;
-    padding-top: 8px;
+    margin-top: auto;
+    padding-top: 10px;
     border-top: 1px dashed var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   .cert-meta {
-    font-size: 9px;
+    font-family: var(--font-body);
+    font-size: 10px;
     color: var(--ink-light);
-    line-height: 1.6;
+    line-height: 1.7;
+    text-align: center;
   }
   .cert-meta strong { color: var(--ink-soft); font-weight: 700; }
   .cert-meta code {
@@ -330,25 +348,21 @@
     padding: 1px 5px;
     border-radius: 3px;
     color: var(--gold-deep);
-    font-size: 9px;
+    font-size: 10px;
   }
   .cert-sponsors {
     display: flex;
     align-items: center;
-    gap: 18px;
+    justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
   }
   .cert-sponsors img {
-    height: 22px;
-    max-width: 80px;
+    height: 24px;
+    max-width: 90px;
     object-fit: contain;
     filter: grayscale(1) contrast(1.05);
     opacity: 0.72;
-  }
-
-  /* ============ 自適 · 小螢幕不擠壓 · 只等比縮 ============ */
-  @media (max-width: 1120px) {
-    body { padding: 16px 10px; }
-    .topbar { padding: 0 4px; }
   }
 
   /* ============ ACTIONS BAR ============ */
@@ -365,7 +379,7 @@
     border-radius: 10px;
     font-size: 13px;
     font-weight: 700;
-    font-family: var(--font);
+    font-family: var(--font-body);
     cursor: pointer;
     border: none;
     display: inline-flex;
@@ -389,6 +403,7 @@
     border-radius: 12px;
   }
   .resume-blurb h3 {
+    font-family: var(--font-body);
     font-size: 14px;
     margin-bottom: 10px;
     color: var(--ink);
@@ -408,6 +423,7 @@
     white-space: pre-wrap;
   }
   .resume-blurb-hint {
+    font-family: var(--font-body);
     font-size: 11px;
     color: var(--ink-light);
     margin-top: 8px;
@@ -426,13 +442,13 @@
   .loading svg { width: 40px; height: 40px; color: var(--pink); animation: spin 1s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .error svg { width: 48px; height: 48px; color: #d94a4a; margin-bottom: 12px; }
-  .error h2 { font-size: 22px; color: var(--ink); margin-bottom: 8px; }
+  .error h2 { font-family: var(--font-body); font-size: 22px; color: var(--ink); margin-bottom: 8px; }
   .error p { color: var(--ink-light); font-size: 14px; margin-bottom: 20px; }
   .error code { font-family: var(--font-mono); background: var(--paper-soft); padding: 2px 8px; border-radius: 4px; }
 
-  /* ============ PRINT · A4 landscape 一頁裝下 ============ */
+  /* ============ PRINT · A4 直式一頁裝下 ============ */
   @page {
-    size: A4 landscape;
+    size: A4 portrait;
     margin: 0;
   }
   @media print {
@@ -440,38 +456,36 @@
       background: #fff !important;
       padding: 0 !important;
       margin: 0 !important;
-      width: 297mm;
-      height: 210mm;
+      width: 210mm;
+      height: 297mm;
     }
     .topbar, .actions, .resume-blurb { display: none !important; }
     .cert-wrap { max-width: none !important; }
     .cert-scaler {
-      width: 297mm !important;
-      height: 210mm !important;
+      width: 210mm !important;
+      height: 297mm !important;
       transform: none !important;
     }
     .cert {
-      width: 297mm !important;
-      height: 210mm !important;
+      width: 210mm !important;
+      height: 297mm !important;
       box-shadow: none !important;
       page-break-after: avoid;
       page-break-inside: avoid;
     }
     .cert-inner {
-      padding: 12mm 16mm 10mm !important;
+      padding: 12mm 14mm 10mm !important;
     }
   }
 </style>
 </head>
 <body>
 
-<!-- Top bar -->
 <nav class="topbar" id="topbar">
   <a href="index.html"><i data-lucide="chevron-left"></i><span>回活動首頁</span></a>
   <a href="ai-review.html"><span>看 AI 評審團報告</span><i data-lucide="arrow-right"></i></a>
 </nav>
 
-<!-- Cert content mounts here -->
 <main id="app">
   <div class="loading">
     <i data-lucide="loader-2"></i>
@@ -481,8 +495,6 @@
 
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbxgSAroD9N2Bs3-kKj5WV2oyFuMpznthbyujiRa3Q9SV3qH2PfdwgP2mx3wEMFLjgj7TQ/exec';
-
-// 與 ai-review.html 同源 · 一改兩邊都要改
 const TEAM_STATS = {
   T001: { workflows: 3, nodes: 52 },  T002: { workflows: 2, nodes: 75 },
   T003: { workflows: 5, nodes: 29 },  T004: { workflows: 1, nodes: 23 },
@@ -523,8 +535,8 @@ function renderCert(cert) {
   const modeLabel = MODE_LABEL[cert.mode] || '現場出席';
   const certUrl = location.origin + location.pathname + '?id=' + cert.id;
   const aiReviewUrl = location.origin + '/ai-review.html';
-  const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=0&data=' + encodeURIComponent(certUrl);
-  const qrFallback = 'https://chart.googleapis.com/chart?cht=qr&chs=180x180&chld=M|0&chl=' + encodeURIComponent(certUrl);
+  const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=0&data=' + encodeURIComponent(certUrl);
+  const qrFallback = 'https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=M|0&chl=' + encodeURIComponent(certUrl);
 
   document.title = `${cert.recipientName} · 參賽證明書 · n8n Taiwan Open 2026`;
 
@@ -534,7 +546,6 @@ function renderCert(cert) {
         <article class="cert">
           <div class="cert-inner">
 
-            <!-- HEADER -->
             <header class="cert-header">
               <div class="cert-brand">n8n · TAIWAN OPEN HACKATHON</div>
               <div class="cert-brand-cn">2026 首屆 · 全台大專院校 n8n 自動化黑客松</div>
@@ -543,7 +554,6 @@ function renderCert(cert) {
               <span class="cert-title-mark">◆ ◆ ◆</span>
             </header>
 
-            <!-- RECIPIENT -->
             <section class="cert-recipient">
               <div class="cert-tzh">茲 證 明</div>
               <div class="cert-name-wrap">
@@ -553,37 +563,34 @@ function renderCert(cert) {
               ${cert.school ? `<div class="cert-school">${esc(cert.school)}</div>` : ''}
             </section>
 
-            <!-- BODY · 左 statement · 右 facts -->
-            <section class="cert-body">
-              <p class="cert-statement">
-                於 <strong>2026 年 8 月 7 日</strong> · 於 <strong>t.Hub Taipei 內科創新育成基地</strong> ·
-                參與 n8n Taiwan Open Hackathon 2026 首屆決賽 ·
-                所屬「<strong>${esc(cert.teamName)}</strong>」以《${esc(cert.workTitle)}》為題 ·
-                於 4.5 小時內完成 <strong>${stats.workflows}</strong> 支 workflow · 共 <strong>${stats.nodes}</strong> 個節點的 AI 自動化作品 ·
-                並通過主辦方 <strong>AI 評審團(Claude · Codex · Gemini)</strong>
-                四步驗證 · <strong>100% 實機驗證通過</strong> · 特此證明。
-              </p>
-              <div class="cert-facts">
-                <div class="cert-fact">
-                  <div class="cert-fact-label">題目類別 · CATEGORY</div>
-                  <div class="cert-fact-value">${esc(cert.themeLabel)}</div>
-                </div>
-                <div class="cert-fact">
-                  <div class="cert-fact-label">參賽方式 · MODE</div>
-                  <div class="cert-fact-value">${esc(modeLabel)}</div>
-                </div>
-                <div class="cert-fact">
-                  <div class="cert-fact-label">隊伍規模 · TEAM SIZE</div>
-                  <div class="cert-fact-value">${cert.memberCount} 人</div>
-                </div>
-                <div class="cert-fact">
-                  <div class="cert-fact-label">隊伍代號 · TEAM ID</div>
-                  <div class="cert-fact-value mono">${esc(cert.teamId)}</div>
-                </div>
-              </div>
-            </section>
+            <p class="cert-statement">
+              於 <strong>2026 年 8 月 7 日</strong> · 於 <strong>t.Hub Taipei 內科創新育成基地</strong> ·
+              參與 n8n Taiwan Open Hackathon 2026 首屆決賽 ·
+              所屬「<strong>${esc(cert.teamName)}</strong>」以《${esc(cert.workTitle)}》為題 ·
+              於 4.5 小時內完成 <strong>${stats.workflows}</strong> 支 workflow · 共 <strong>${stats.nodes}</strong> 個節點的 AI 自動化作品 ·
+              並通過主辦方 <strong>AI 評審團(Claude · Codex · Gemini)</strong>
+              四步驗證 · <strong>100% 實機驗證通過</strong> · 特此證明。
+            </p>
 
-            <!-- WITNESSES -->
+            <div class="cert-facts">
+              <div class="cert-fact">
+                <div class="cert-fact-label">題目類別 · CATEGORY</div>
+                <div class="cert-fact-value">${esc(cert.themeLabel)}</div>
+              </div>
+              <div class="cert-fact">
+                <div class="cert-fact-label">參賽方式 · MODE</div>
+                <div class="cert-fact-value">${esc(modeLabel)}</div>
+              </div>
+              <div class="cert-fact">
+                <div class="cert-fact-label">隊伍規模 · TEAM SIZE</div>
+                <div class="cert-fact-value">${cert.memberCount} 人</div>
+              </div>
+              <div class="cert-fact">
+                <div class="cert-fact-label">隊伍代號 · TEAM ID</div>
+                <div class="cert-fact-value mono">${esc(cert.teamId)}</div>
+              </div>
+            </div>
+
             <section class="cert-witnesses">
               <div class="cert-witnesses-label">業界評審共同見證 · CO-WITNESSED BY THE JUDGING PANEL</div>
               <div class="cert-witnesses-list">
@@ -610,7 +617,6 @@ function renderCert(cert) {
               </div>
             </section>
 
-            <!-- SIGNATURES + QR -->
             <section class="cert-sigs">
               <div class="cert-sig">
                 <img class="cert-sig-image" src="assets/signatures/morris.jpg" alt="Morris 盧業興 簽名">
@@ -630,7 +636,7 @@ function renderCert(cert) {
               </div>
               <div class="cert-verify">
                 <div class="cert-qr">
-                  <img id="qrImg" alt="Verify QR" width="72" height="72"
+                  <img id="qrImg" alt="Verify QR" width="82" height="82"
                        src="${qrSrc}"
                        onerror="this.onerror=null;this.src='${qrFallback}'">
                 </div>
@@ -638,13 +644,13 @@ function renderCert(cert) {
               </div>
             </section>
 
-            <!-- FOOTER STRIP · 序號 + 贊助 -->
             <section class="cert-footstrip">
               <div class="cert-meta">
-                <div><strong>證書序號</strong> · <code>${esc(cert.id)}</code> · <strong>頒發日期</strong> · 2026 年 8 月 8 日</div>
-                <div><strong>線上驗證</strong> · ${esc(certUrl)}</div>
+                <strong>證書序號</strong> · <code>${esc(cert.id)}</code> ·
+                <strong>頒發日期</strong> · 2026 年 8 月 8 日 ·
+                <strong>線上驗證</strong> · ${esc(certUrl)}
               </div>
-              <div class="cert-sponsors" title="共同主辦 · 技術 · 硬體 · 雲端 · 協辦">
+              <div class="cert-sponsors">
                 <img src="assets/logos/drmaster.png" alt="博碩文化">
                 <img src="assets/logos/ntust-incubator.png" alt="臺科大創新育成中心">
                 <img src="assets/logos/n8n.svg" alt="n8n">
@@ -661,10 +667,9 @@ function renderCert(cert) {
       </div>
     </div>
 
-    <!-- ACTIONS -->
     <div class="actions">
       <button type="button" class="btn btn-primary" onclick="window.print()">
-        <i data-lucide="printer"></i><span>列印 / 存 PDF · A4 橫式</span>
+        <i data-lucide="printer"></i><span>列印 / 存 PDF · A4 直式</span>
       </button>
       <button type="button" class="btn btn-ghost" onclick="copyLink()">
         <i data-lucide="link"></i><span>複製證書連結</span>
@@ -677,7 +682,6 @@ function renderCert(cert) {
       </a>
     </div>
 
-    <!-- RESUME BLURB -->
     <div class="resume-blurb">
       <h3><i data-lucide="clipboard-copy"></i>履歷可直接複製這段</h3>
       <div class="resume-blurb-body">2026 · n8n Taiwan Open Hackathon 決賽入圍(全台首屆 n8n 官方黑客松)
@@ -703,12 +707,11 @@ window.copyLink = async function() {
   }
 };
 
-// 小螢幕自動等比縮 · 不擠不變形
 function fitCert() {
   const scaler = document.getElementById('certScaler');
   if (!scaler) return;
-  const CERT_W = 1069;
-  const CERT_H = 756;
+  const CERT_W = 800;
+  const CERT_H = 1131;
   const MARGIN = 40;
   const avail = window.innerWidth - MARGIN;
   if (avail >= CERT_W) {
@@ -722,7 +725,6 @@ function fitCert() {
 }
 window.addEventListener('resize', fitCert);
 
-// ============ INIT ============
 const certId = getParam('id');
 if (!certId) {
   renderError('網址缺少 id 參數 · 應為 cert.html?id=2026-NTO-T00X-YY');
