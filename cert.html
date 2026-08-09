@@ -13,7 +13,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <style>
   :root {
     --pink: #F0648C;
@@ -295,7 +294,7 @@
     gap: 4px;
   }
   .cert-qr { background: #fff; padding: 4px; border: 1px solid var(--line); }
-  .cert-qr canvas { display: block; }
+  .cert-qr img { display: block; width: 96px; height: 96px; }
   .cert-qr-label {
     font-size: 9px;
     color: var(--ink-light);
@@ -668,7 +667,9 @@ function renderCert(cert) {
               <div style="margin-top:4px;">此證書由虎智科技 TigerAI 官方發放 · 掃碼即可驗證真偽</div>
             </div>
             <div class="cert-qr-box">
-              <div class="cert-qr" id="qrCanvas"></div>
+              <div class="cert-qr">
+                <img id="qrImg" alt="Verify QR" width="96" height="96">
+              </div>
               <div class="cert-qr-label">SCAN TO VERIFY</div>
             </div>
           </div>
@@ -736,11 +737,18 @@ function renderCert(cert) {
     </div>
   `;
 
-  // 生成 QR code
-  const qrDiv = document.getElementById('qrCanvas');
-  QRCode.toCanvas(certUrl, { width: 96, margin: 0, errorCorrectionLevel: 'M' }, (err, canvas) => {
-    if (!err && qrDiv) qrDiv.appendChild(canvas);
-  });
+  // QR code · 用純圖片 · 免任何 JS 依賴 · 主用 qrserver · 掛掉時 fallback 到 Google Charts
+  try {
+    const qrImg = document.getElementById('qrImg');
+    if (qrImg) {
+      const encoded = encodeURIComponent(certUrl);
+      qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=0&data=' + encoded;
+      qrImg.onerror = () => {
+        qrImg.onerror = null;
+        qrImg.src = 'https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=M|0&chl=' + encoded;
+      };
+    }
+  } catch (e) { console.warn('QR render failed', e); }
 
   if (window.lucide) lucide.createIcons();
 }
@@ -763,8 +771,12 @@ if (!certId) {
   fetch(GAS_URL + '?action=cert-lookup&id=' + encodeURIComponent(certId))
     .then(r => r.json())
     .then(data => {
-      if (data && data.ok && data.cert) renderCert(data.cert);
-      else renderError(data && data.message ? data.message : '無法讀取證書資料', certId);
+      if (data && data.ok && data.cert) {
+        try { renderCert(data.cert); }
+        catch (e) { console.error('render failed', e); renderError('證書顯示異常 · ' + e.message, certId); }
+      } else {
+        renderError(data && data.message ? data.message : '無法讀取證書資料', certId);
+      }
     })
     .catch(err => {
       console.error('cert lookup failed', err);
