@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>領取參賽證書 · n8n Taiwan Open Hackathon 2026</title>
+<meta name="description" content="n8n Taiwan Open Hackathon 2026 參賽證書 · 隊長輸入 email · 一次取得全隊所有證書網址">
+<meta property="og:title" content="領取參賽證書 · n8n Taiwan Open Hackathon 2026">
+<meta property="og:description" content="輸入隊長信箱 · 一次取得全隊每位成員的官方證書">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="https://unpkg.com/lucide@latest" onerror="window.lucideFailed=true"></script>
+<style>
+  :root {
+    --pink: #F0648C;
+    --pink-deep: #EA4B71;
+    --gold: #C9A961;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-light: #7a7a7a;
+    --paper: #FFFFFF;
+    --paper-soft: #FAFAF7;
+    --line: #E5E7EB;
+    --border: #E8E2D0;
+    --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial,
+                 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: var(--font-body); }
+  body {
+    background:
+      radial-gradient(ellipse 600px 400px at top left, rgba(240,100,140,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 500px 400px at bottom right, rgba(232,169,60,0.08) 0%, transparent 60%),
+      #F6F5F0;
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 24px 20px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .container { max-width: 720px; margin: 0 auto; }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px 20px;
+  }
+  .topbar a { color: var(--ink-soft); font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
+  .topbar a:hover { color: var(--pink-deep); }
+  .topbar svg { width: 14px; height: 14px; }
+
+  .hero {
+    text-align: center;
+    padding: 40px 20px 30px;
+  }
+  .hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(240,100,140,0.1);
+    border: 1px solid rgba(240,100,140,0.3);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--pink-deep);
+    margin-bottom: 16px;
+  }
+  .hero-kicker svg { width: 14px; height: 14px; }
+  .hero-title {
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+  .hero-sub {
+    color: var(--ink-light);
+    font-size: 15px;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+  }
+
+  .form-row { display: flex; flex-direction: column; gap: 10px; }
+  .form-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+  .form-hint {
+    font-size: 12px;
+    color: var(--ink-light);
+    margin-top: -6px;
+  }
+  .form-input-wrap {
+    display: flex;
+    gap: 10px;
+  }
+  .form-input {
+    flex: 1;
+    padding: 14px 16px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: var(--font-body);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  .form-input:focus { border-color: var(--pink); }
+  .form-input::placeholder { color: var(--ink-light); }
+
+  .btn {
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--font-body);
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.15s ease;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .btn svg { width: 16px; height: 16px; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-deep) 100%);
+    color: #fff;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(240,100,140,0.35); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-ghost { background: #fff; border: 1px solid var(--line); }
+  .btn-ghost:hover { background: var(--paper-soft); border-color: var(--gold); }
+
+  @media (max-width: 520px) {
+    .form-input-wrap { flex-direction: column; }
+  }
+
+  .msg {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    margin-top: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.6;
+  }
+  .msg svg { width: 16px; height: 16px; margin-top: 3px; flex-shrink: 0; }
+  .msg-err { background: #FEF2F2; color: #B91C1C; border: 1px solid #FCA5A5; }
+  .msg-info { background: #EFF6FF; color: #1E40AF; border: 1px solid #93C5FD; }
+
+  /* Result */
+  .result { margin-top: 24px; display: none; }
+  .result.show { display: block; }
+  .team-head {
+    padding: 20px 24px;
+    background: linear-gradient(135deg, rgba(240,100,140,0.06) 0%, rgba(232,169,60,0.05) 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+  .team-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    background: #fff;
+    color: var(--pink-deep);
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .team-name { font-size: 20px; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+  .team-work { font-size: 13.5px; color: var(--ink-light); }
+
+  .cert-list { display: flex; flex-direction: column; gap: 10px; }
+  .cert-row {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    transition: all 0.15s ease;
+  }
+  .cert-row:hover { border-color: var(--pink); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .cert-role {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-light);
+    text-align: center;
+    padding: 4px 8px;
+    background: var(--paper-soft);
+    border-radius: 6px;
+  }
+  .cert-role.leader { color: var(--pink-deep); background: rgba(240,100,140,0.08); }
+  .cert-name-block { min-width: 0; }
+  .cert-name-val { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .cert-serial { font-family: var(--font-mono); font-size: 11px; color: var(--ink-light); margin-top: 2px; }
+  .cert-actions { display: flex; gap: 8px; }
+  .cert-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+  .cert-btn svg { width: 13px; height: 13px; }
+  .cert-btn.open { background: linear-gradient(135deg, var(--pink) 0%, var(--pink-deep) 100%); color: #fff; }
+  .cert-btn.open:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(240,100,140,0.3); }
+  .cert-btn.copy { background: #fff; border: 1px solid var(--line); color: var(--ink-soft); }
+  .cert-btn.copy:hover { border-color: var(--gold); background: var(--paper-soft); }
+
+  @media (max-width: 640px) {
+    .cert-row { grid-template-columns: auto 1fr; }
+    .cert-actions { grid-column: 1 / -1; }
+  }
+
+  .advisor-block {
+    margin-top: 20px;
+    padding: 18px 20px;
+    background: linear-gradient(135deg, rgba(201,169,97,0.08) 0%, transparent 100%);
+    border: 1px solid rgba(201,169,97,0.4);
+    border-radius: 12px;
+  }
+  .advisor-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #7a5a20;
+    margin-bottom: 8px;
+  }
+  .advisor-title svg { width: 16px; height: 16px; }
+  .advisor-body {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  .advisor-body strong { color: #7a5a20; }
+
+  .footer-tips {
+    margin-top: 32px;
+    padding: 20px;
+    background: #F9F8F3;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+  .footer-tips h4 {
+    font-size: 13px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .footer-tips h4 svg { width: 15px; height: 15px; color: var(--pink); }
+  .footer-tips ul { list-style: none; padding: 0; }
+  .footer-tips li { position: relative; padding-left: 16px; }
+  .footer-tips li::before {
+    content: '';
+    position: absolute;
+    left: 6px; top: 12px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--pink);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <nav class="topbar">
+    <a href="index.html"><i data-lucide="chevron-left"></i><span>回活動首頁</span></a>
+    <a href="ai-review.html"><span>AI 評審團報告</span><i data-lucide="arrow-right"></i></a>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-kicker">
+      <i data-lucide="award"></i>
+      <span>領取參賽證書</span>
+    </div>
+    <h1 class="hero-title">輸入隊長信箱<br>取得全隊證書</h1>
+    <p class="hero-sub">
+      使用當初報名/上傳作品用的隊長 Email · 一次取得<strong>全隊每位成員</strong>的官方參賽證明書。
+    </p>
+  </header>
+
+  <div class="card">
+    <form id="lookupForm" class="form-row">
+      <label class="form-label" for="emailInput">隊長 Email</label>
+      <div class="form-hint">當初報名時填的信箱 · 大小寫不分</div>
+      <div class="form-input-wrap">
+        <input type="email" id="emailInput" class="form-input" placeholder="leader@example.com" autocomplete="email" required>
+        <button type="submit" id="submitBtn" class="btn btn-primary">
+          <i data-lucide="search"></i>
+          <span>查詢我的證書</span>
+        </button>
+      </div>
+      <div id="msg"></div>
+    </form>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <div class="footer-tips">
+    <h4><i data-lucide="lightbulb"></i>查不到?</h4>
+    <ul>
+      <li>Email 一定要跟決賽當天上傳作品時填的**隊長**信箱一致</li>
+      <li>只有隊長知道那個信箱 · 隊員請直接跟隊長要證書網址</li>
+      <li>還是有問題 · 聯絡 Robin · <a href="mailto:tiger.ai.tw2024@gmail.com" style="color:var(--pink-deep);">tiger.ai.tw2024@gmail.com</a> · 0911-436-467</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxgSAroD9N2Bs3-kKj5WV2oyFuMpznthbyujiRa3Q9SV3qH2PfdwgP2mx3wEMFLjgj7TQ/exec';
+
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function showMsg(text, type) {
+  const el = document.getElementById('msg');
+  const icon = type === 'err' ? 'alert-circle' : 'info';
+  el.innerHTML = `<div class="msg msg-${type}"><i data-lucide="${icon}"></i><span>${esc(text)}</span></div>`;
+  if (window.lucide) lucide.createIcons();
+}
+
+function clearMsg() { document.getElementById('msg').innerHTML = ''; }
+
+async function copyLink(url, btn) {
+  try {
+    await navigator.clipboard.writeText(url);
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i data-lucide="check"></i><span>已複製</span>';
+    if (window.lucide) lucide.createIcons();
+    setTimeout(() => { btn.innerHTML = orig; if (window.lucide) lucide.createIcons(); }, 1500);
+  } catch (e) {
+    prompt('請複製這個網址', url);
+  }
+}
+window.copyLink = copyLink;
+
+function renderTeam(team) {
+  const el = document.getElementById('result');
+  const certList = team.certs.map(c => `
+    <div class="cert-row">
+      <div class="cert-role ${c.role === '隊長' ? 'leader' : ''}">${esc(c.role)}</div>
+      <div class="cert-name-block">
+        <div class="cert-name-val">${esc(c.name)}</div>
+        <div class="cert-serial">${esc(c.certId)}</div>
+      </div>
+      <div class="cert-actions">
+        <a class="cert-btn open" href="${esc(c.url)}" target="_blank" rel="noopener">
+          <i data-lucide="external-link"></i><span>開啟</span>
+        </a>
+        <button type="button" class="cert-btn copy" onclick="copyLink('${esc(c.url).replace(/'/g, "\\'")}', this)">
+          <i data-lucide="copy"></i><span>複製連結</span>
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  const advisorBlock = team.advisorUrl ? `
+    <div class="advisor-block">
+      <div class="advisor-title">
+        <i data-lucide="user-check"></i>
+        <span>你們的指導老師也有一張</span>
+      </div>
+      <div class="advisor-body">
+        <strong>${esc(team.teacher)} 老師</strong> 的「指導教師肯定書」也已備妥 · 請幫我們轉發給老師 · 是他們一整學期的付出應得的肯定。
+      </div>
+      <a class="cert-btn open" href="${esc(team.advisorUrl)}" target="_blank" rel="noopener" style="display:inline-flex;">
+        <i data-lucide="award"></i><span>看老師的證書</span>
+      </a>
+    </div>
+  ` : '';
+
+  el.innerHTML = `
+    <div class="team-head">
+      <div class="team-badge">${esc(team.teamId)}</div>
+      <div class="team-name">${esc(team.teamName)}</div>
+      <div class="team-work">《${esc(team.workTitle)}》</div>
+    </div>
+    <div class="cert-list">${certList}</div>
+    ${advisorBlock}
+  `;
+  el.classList.add('show');
+  if (window.lucide) lucide.createIcons();
+}
+
+document.getElementById('lookupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  clearMsg();
+  document.getElementById('result').classList.remove('show');
+  const email = document.getElementById('emailInput').value.trim();
+  if (!email) { showMsg('請輸入 email', 'err'); return; }
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  const origBtn = btn.innerHTML;
+  btn.innerHTML = '<i data-lucide="loader-2" style="animation:spin 1s linear infinite;"></i><span>查詢中…</span>';
+  if (window.lucide) lucide.createIcons();
+
+  try {
+    const res = await fetch(GAS_URL + '?action=team-certs-by-email&email=' + encodeURIComponent(email));
+    const data = await res.json();
+    if (data && data.ok && data.team) {
+      renderTeam(data.team);
+    } else {
+      showMsg(data && data.message ? data.message : '查無資料', 'err');
+    }
+  } catch (err) {
+    showMsg('連線暫時有問題 · ' + err.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = origBtn;
+    if (window.lucide) lucide.createIcons();
+  }
+});
+
+// Preserve email from URL param if provided (e.g. cert-lookup.html?email=xxx)
+const urlEmail = new URLSearchParams(location.search).get('email');
+if (urlEmail) {
+  document.getElementById('emailInput').value = urlEmail;
+  document.getElementById('lookupForm').dispatchEvent(new Event('submit'));
+}
+
+if (window.lucide) lucide.createIcons();
+</script>
+
+<style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+
+</body>
+</html>
